@@ -1,6 +1,6 @@
 import { Router,Request,Response} from "express";
 
-class dashboard{
+class DashboardController{
     private router: Router;
 
     constructor(){
@@ -21,4 +21,4 @@ class dashboard{
         return this.router;
     }
 }
-export default dashboard;
+export default DashboardController;
