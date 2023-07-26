@@ -1,4 +1,4 @@
-export interface InterfacePostGenres{
+export interface InterfaceGenres{
     nameGenre:string,
     date:string,
 }
