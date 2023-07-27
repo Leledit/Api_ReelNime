@@ -3,12 +3,14 @@ import cors from "cors";
 import DashboardController from "./controller/dashboard.ts";
 import GenresController from "./controller/genres.controller.ts";
 import { FirebaseConfig } from "./config/firebaseConfig.ts";
+import AnimesController from "./controller/animes.controller.ts";
 
 class App {
   server: Express;
   port: number | string;
   dashboard: DashboardController;
   genres: GenresController;
+  animes: AnimesController;
 
   constructor() {
     this.server = express();
@@ -19,6 +21,7 @@ class App {
     //Criando instancias dos controladores das rotas
     this.dashboard = new DashboardController();
     this.genres = new GenresController();
+    this.animes = new AnimesController();
     //Configurando as rotas da aplicação
     this.routes();
   }
@@ -27,6 +30,7 @@ class App {
     this.server.use(cors());
     //aceita solicitações do tipo json
     this.server.use(express.json());
+    //this.server.use(express.urlencoded())
   }
   routes() {
     //criando rotas da api
@@ -36,6 +40,7 @@ class App {
     this.server.get("/api/v1/genres/", this.genres.getRouter());
     this.server.put("/api/v1/genres/:id", this.genres.getRouter());
     this.server.delete("/api/v1/genres/:id", this.genres.getRouter());
+    this.server.post("/api/v1/animes/",this.animes.getRouter());
   }
 }
 //intanciando a classe
