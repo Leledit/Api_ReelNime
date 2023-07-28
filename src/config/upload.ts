@@ -1,6 +1,7 @@
 import { fileURLToPath } from 'url';
 import path,{dirname} from 'path';
 import multer from 'multer';
+import { Router, Request, Response } from "express";
 export class UploadConfig{
     static uplodImgAnime(){
         const __filename = fileURLToPath(import.meta.url);
@@ -14,13 +15,17 @@ export class UploadConfig{
               cb(null, filename);
             }
         });
-        const uploadMulter = multer({ storage });
-        return uploadMulter.single('img');
+        return multer({ storage }).single('img');
     }
 }
 
-/*
+
   
 
+/**
+ * 
+ * 
+ * 
+ */
+
    
-*/

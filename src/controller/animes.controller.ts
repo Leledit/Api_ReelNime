@@ -6,6 +6,7 @@ import  path ,{ dirname, join } from 'path';
 import validationMiddleware from "../middleware/validationMiddleware.ts";
 import Utils from "../utils/utils.ts";
 import { UploadConfig } from "../config/upload.ts";
+import AnimesServices from "../services/animes.services.ts";
 
 
 
@@ -33,7 +34,29 @@ class AnimesController {
   }
  
   private async postAnimes(req: Request, res: Response) {
-    console.log("Aquivo enviado com sucesso!");
+    
+    try{
+      const dataRequest = {
+        date: Utils.returnCurrentDate(),
+        name: req.body.name,
+        alreadyAttended: req.body.alreadyAttended,
+        qtdEpisodes: req.body.qtdEpisodes,
+        dateLaunch: req.body.dateLaunch,
+        note: req.body.note,
+        status: req.body.status,
+        nextSeason: req.body.nextSeason,
+        prevSeason: req.body.prevSeason,
+        synopsis: req.body.synopsis,
+        urlImg:'/files/animes/'+req.file?.filename,
+      }
+      await AnimesServices.registerData(dataRequest);
+      res.status(201).json({ message: "Cadastro bem-sucedido!" });
+    }catch(error){
+      console.log("Um erro desconhecido aconteceu: "+error);
+    }
+    
+  
+
     res.send()
   }
   public getRouter(): Router {

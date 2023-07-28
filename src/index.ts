@@ -1,5 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
+import path,{dirname} from "path";
+import { fileURLToPath } from 'url';
 import DashboardController from "./controller/dashboard.ts";
 import GenresController from "./controller/genres.controller.ts";
 import { FirebaseConfig } from "./config/firebaseConfig.ts";
@@ -8,12 +10,16 @@ import AnimesController from "./controller/animes.controller.ts";
 class App {
   server: Express;
   port: number | string;
+  __filename;
+  __dirname;
   dashboard: DashboardController;
   genres: GenresController;
   animes: AnimesController;
 
   constructor() {
     this.server = express();
+    this.__filename = fileURLToPath(import.meta.url);
+    this.__dirname  = dirname(this.__filename);
     this.middlewares();
     this.port = process.env.PORT || 8080;
     //iniciando a configuração do firebase
@@ -30,7 +36,8 @@ class App {
     this.server.use(cors());
     //aceita solicitações do tipo json
     this.server.use(express.json());
-    //this.server.use(express.urlencoded())
+
+    this.server.use('/files/animes/',express.static(path.join(this.__dirname,'/uploadedFiles/animes')))
   }
   routes() {
     //criando rotas da api
