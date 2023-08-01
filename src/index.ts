@@ -40,14 +40,19 @@ class App {
     this.server.use('/files/animes/',express.static(path.join(this.__dirname,'/uploadedFiles/animes')))
   }
   routes() {
-    //criando rotas da api
+    //Rotas relacionadas com a dashboard.
     this.server.get("/api/v1/", this.dashboard.getRouter());
+
+    //Rota relacionadas com a parte de generos da aplicação.
     this.server.post("/api/v1/genres/", this.genres.getRouter());
     this.server.get("/api/v1/genres/search", this.genres.getRouter());
     this.server.get("/api/v1/genres/", this.genres.getRouter());
     this.server.put("/api/v1/genres/:id", this.genres.getRouter());
     this.server.delete("/api/v1/genres/:id", this.genres.getRouter());
+
+    //Rota relacionadas com a parte de animes da aplicação.
     this.server.post("/api/v1/animes/",this.animes.getRouter());
+    this.server.get("/api/v1/animes/",this.animes.getRouter());
   }
 }
 //intanciando a classe
