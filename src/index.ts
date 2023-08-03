@@ -53,6 +53,7 @@ class App {
     //Rota relacionadas com a parte de animes da aplicação.
     this.server.post("/api/v1/animes/",this.animes.getRouter());
     this.server.get("/api/v1/animes/",this.animes.getRouter());
+    this.server.get("/api/v1/animes/:id",this.animes.getRouter());
   }
 }
 //intanciando a classe

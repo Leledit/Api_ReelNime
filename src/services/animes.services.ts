@@ -4,6 +4,15 @@ import {
   getFirestore,
 } from "firebase-admin/firestore";
 class AnimesServices{
+    static async getOneRecord(idDoc:string):Promise<DocumentData | undefined> {
+      const db = getFirestore();
+      try{
+        const getData = await db.collection("animes").doc(idDoc).get();
+        return getData.data();
+      }catch(error){
+        throw new Error("erro ao recuperar um anime: " + error);
+      }
+    }
     static async getAllRecords():Promise<QueryDocumentSnapshot<DocumentData>[]> {
       const db = getFirestore();
       try {

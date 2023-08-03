@@ -26,6 +26,7 @@ class AnimesController {
     });
 
     const validation = new validationMiddleware(validationSchema);
+    const validationGetOneRecord = new validationMiddleware(Joi.object({id:Joi.string().required()}));
     this.router.post(
       "/api/v1/animes/",
       UploadConfig.uplodImgAnime(),
@@ -33,6 +34,20 @@ class AnimesController {
       this.postAnimes
     );
     this.router.get("/api/v1/animes/", this.getAllAnimes);
+    this.router.get("/api/v1/animes/:id",validationGetOneRecord.validatingTheRequestParams,this.getAnime);
+  }
+
+  private async getAnime(req:Request, res: Response){
+    try{
+      const resultRequest = await AnimesServices.getOneRecord(req.params.id);
+      if(resultRequest){
+        res.status(201).json(resultRequest);
+      }else{
+        res.status(201).json({message: "Nenhum anime encontrado!!"});
+      }
+    }catch(error){
+      console.log("Um erro desconhecido aconteceu ao buscar um anime: "+error)
+    }
   }
 
   private async getAllAnimes(req: Request, res: Response) {
