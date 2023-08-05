@@ -35,6 +35,23 @@ class AnimesController {
     );
     this.router.get("/api/v1/animes/", this.getAllAnimes);
     this.router.get("/api/v1/animes/:id",validationGetOneRecord.validatingTheRequestParams,this.getAnime);
+    this.router.delete("/api/v1/animes/:id",validationGetOneRecord.validatingTheRequestParams,this.deleteOneAnime);
+  }
+
+  private async deleteOneAnime(req:Request, res: Response){
+    try{
+      const registrySearchResult = await AnimesServices.getOneRecord(req.params.id);
+      if(registrySearchResult){
+        fs.unlink(registrySearchResult.urlImg,()=>{console.log("Imagen excluida com sucesso!")});
+        await AnimesServices.deleteOne(req.params.id);
+        res.status(201).json({message:'Anime excluido com sucesso'});
+      }else{
+        res.status(301).json({message:"Anime não encontrado, verifique o id"});
+      }
+    }catch(error){
+      res.status(500).json({message:'Problemas ao executar a ação, erro: '+error});
+      console.log('Um erro desconhecido aocnteceu ao excluir um anime: '+error);
+    }
   }
 
   private async getAnime(req:Request, res: Response){

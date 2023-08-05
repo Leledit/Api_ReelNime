@@ -1,9 +1,18 @@
 import {
   DocumentData,
   QueryDocumentSnapshot,
+  WriteResult,
   getFirestore,
 } from "firebase-admin/firestore";
 class AnimesServices{
+    static async deleteOne(idDoc:string){
+      const db = getFirestore();
+      try{
+        await db.collection('animes').doc(idDoc).delete();
+      }catch(error){
+        throw new Error("erro ao deletar um anime: " + error);
+      }
+    }
     static async getOneRecord(idDoc:string):Promise<DocumentData | undefined> {
       const db = getFirestore();
       try{
