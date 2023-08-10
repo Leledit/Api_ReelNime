@@ -1,10 +1,13 @@
 import { Router, Request, Response } from "express";
 import Joi from "joi";
 import fs from "fs";
+import path, { dirname } from "path";
 import validationMiddleware from "../middleware/validationMiddleware.ts";
 import Utils from "../utils/utils.ts";
-import { UploadConfig } from "../config/upload.ts";
+
 import AnimesServices from "../services/animes.services.ts";
+import { FileUpload } from "../utils/storage/fileUpload.ts";
+import { MulterConfig } from "../config/multer.ts";
 
 class AnimesController {
   private router: Router;
@@ -26,44 +29,66 @@ class AnimesController {
     });
 
     const validation = new validationMiddleware(validationSchema);
-    const validationGetOneRecord = new validationMiddleware(Joi.object({id:Joi.string().required()}));
+    const validationGetOneRecord = new validationMiddleware(
+      Joi.object({ id: Joi.string().required() })
+    );
     this.router.post(
       "/api/v1/animes/",
-      UploadConfig.uplodImgAnime(),
+      MulterConfig.getConfig().single('img'),
       validation.validatingTheRequestBody,
       this.postAnimes
     );
     this.router.get("/api/v1/animes/", this.getAllAnimes);
-    this.router.get("/api/v1/animes/:id",validationGetOneRecord.validatingTheRequestParams,this.getAnime);
-    this.router.delete("/api/v1/animes/:id",validationGetOneRecord.validatingTheRequestParams,this.deleteOneAnime);
+    this.router.get(
+      "/api/v1/animes/:id",
+      validationGetOneRecord.validatingTheRequestParams,
+      this.getAnime
+    );
+    this.router.delete(
+      "/api/v1/animes/:id",
+      validationGetOneRecord.validatingTheRequestParams,
+      this.deleteOneAnime
+    );
   }
 
-  private async deleteOneAnime(req:Request, res: Response){
-    try{
-      const registrySearchResult = await AnimesServices.getOneRecord(req.params.id);
-      if(registrySearchResult){
-        fs.unlink(registrySearchResult.urlImg,()=>{console.log("Imagen excluida com sucesso!")});
+  private async deleteOneAnime(req: Request, res: Response) {
+    try {
+      const registrySearchResult = await AnimesServices.getOneRecord(
+        req.params.id
+      );
+      if (registrySearchResult) {
+        fs.unlink(registrySearchResult.urlImg, () => {
+          console.log("Imagen excluida com sucesso!");
+        });
         await AnimesServices.deleteOne(req.params.id);
-        res.status(201).json({message:'Anime excluido com sucesso'});
-      }else{
-        res.status(301).json({message:"Anime não encontrado, verifique o id"});
+        res.status(201).json({ message: "Anime excluido com sucesso" });
+      } else {
+        res
+          .status(301)
+          .json({ message: "Anime não encontrado, verifique o id" });
       }
-    }catch(error){
-      res.status(500).json({message:'Problemas ao executar a ação, erro: '+error});
-      console.log('Um erro desconhecido aocnteceu ao excluir um anime: '+error);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Problemas ao executar a ação, erro: " + error });
+      console.log(
+        "Um erro desconhecido aocnteceu ao excluir um anime: " + error
+      );
     }
   }
 
-  private async getAnime(req:Request, res: Response){
-    try{
+  private async getAnime(req: Request, res: Response) {
+    try {
       const resultRequest = await AnimesServices.getOneRecord(req.params.id);
-      if(resultRequest){
+      if (resultRequest) {
         res.status(201).json(resultRequest);
-      }else{
-        res.status(201).json({message: "Nenhum anime encontrado!!"});
+      } else {
+        res.status(201).json({ message: "Nenhum anime encontrado!!" });
       }
-    }catch(error){
-      console.log("Um erro desconhecido aconteceu ao buscar um anime: "+error)
+    } catch (error) {
+      console.log(
+        "Um erro desconhecido aconteceu ao buscar um anime: " + error
+      );
     }
   }
 
@@ -71,18 +96,18 @@ class AnimesController {
     try {
       const resultRequest = await AnimesServices.getAllRecords();
       const valueComingFromDb: {
-        id: string,
-        name: string,
-        alreadyAttended: string,
-        qtdEpisodes: string,
-        dateLaunch: string,
-        note: string,
-        status: string,
-        nextSeason: string,
-        prevSeason: string,
-        synopsis: string,
-      }[] = []
-      resultRequest.map((doc)=>{
+        id: string;
+        name: string;
+        alreadyAttended: string;
+        qtdEpisodes: string;
+        dateLaunch: string;
+        note: string;
+        status: string;
+        nextSeason: string;
+        prevSeason: string;
+        synopsis: string;
+      }[] = [];
+      resultRequest.map((doc) => {
         const dataDoc = doc.data();
         valueComingFromDb.push({
           id: doc.id,
@@ -96,14 +121,14 @@ class AnimesController {
           prevSeason: dataDoc.prevSeason,
           synopsis: dataDoc.synopsis,
         });
-      })
+      });
       if (valueComingFromDb.length > 0) {
         res.json(valueComingFromDb);
       } else {
         res.status(200).json({ message: "Nenhum anime encontrado!!" });
       }
     } catch (error) {
-      console.log("Um erro desconhecido aconteceu!");
+      console.log("Um erro desconhecido aconteceu!: "+error);
     }
   }
 
@@ -113,21 +138,33 @@ class AnimesController {
         req.body.name
       );
       if (resultSearch) {
-        const dataRequest = {
-          date: Utils.returnCurrentDate(),
-          name: req.body.name,
-          alreadyAttended: req.body.alreadyAttended,
-          qtdEpisodes: req.body.qtdEpisodes,
-          dateLaunch: req.body.dateLaunch,
-          note: req.body.note,
-          status: req.body.status,
-          nextSeason: req.body.nextSeason,
-          prevSeason: req.body.prevSeason,
-          synopsis: req.body.synopsis,
-          urlImg: "/files/animes/" + req.file?.filename,
-        };
-        await AnimesServices.registerData(dataRequest);
-        res.status(201).json({ message: "Cadastro bem-sucedido!" });
+        if (req.file) {
+
+          const imageBuffer = req.file.buffer;
+          //Gerando nome unico do anime
+          const uniqueSuffix = Date.now() + Math.round(Math.random() * 1e9);
+          const filename = uniqueSuffix + path.extname(req.file.originalname);
+          const urlImgAnime = await FileUpload.uploadFile(imageBuffer, filename);
+  
+          const dataRequest = {
+            date: Utils.returnCurrentDate(),
+            name: req.body.name,
+            alreadyAttended: req.body.alreadyAttended,
+            qtdEpisodes: req.body.qtdEpisodes,
+            dateLaunch: req.body.dateLaunch,
+            note: req.body.note,
+            status: req.body.status,
+            nextSeason: req.body.nextSeason,
+            prevSeason: req.body.prevSeason,
+            synopsis: req.body.synopsis,
+            urlImg: urlImgAnime,
+          };
+          await AnimesServices.registerData(dataRequest);
+          res.status(201).json({ message: "Cadastro bem-sucedido!" });
+        } else {
+          console.log(req.file);
+          console.log("Problemas ao carregar a imagem do anime!!");
+        }
       } else {
         //Excluindo arquivo
         fs.unlink(

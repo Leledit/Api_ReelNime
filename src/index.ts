@@ -6,6 +6,7 @@ import DashboardController from "./controller/dashboard.ts";
 import GenresController from "./controller/genres.controller.ts";
 import { FirebaseConfig } from "./config/firebaseConfig.ts";
 import AnimesController from "./controller/animes.controller.ts";
+import bodyParser from "body-parser";
 
 class App {
   server: Express;
@@ -36,8 +37,7 @@ class App {
     this.server.use(cors());
     //aceita solicitações do tipo json
     this.server.use(express.json());
-
-    this.server.use('/files/animes/',express.static(path.join(this.__dirname,'/uploadedFiles/animes')))
+    this.server.use(bodyParser.urlencoded({ extended: true }));
   }
   routes() {
     //Rotas relacionadas com a dashboard.

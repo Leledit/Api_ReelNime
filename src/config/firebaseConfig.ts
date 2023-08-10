@@ -1,13 +1,20 @@
-import { initializeApp } from "firebase-admin/app";
+import { initializeApp, cert } from 'firebase-admin/app';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url)
 
 export class FirebaseConfig {
-  private static initialized = false;
+  private static app: any;
 
-  static initializeConfig(): void {
-    if (!FirebaseConfig.initialized) {
-      initializeApp();
-      FirebaseConfig.initialized = true;
+  static async initializeConfig(): Promise<void> {
+    const serviceAccount = require("../../key.json")
+    
+    if (!FirebaseConfig.app) {
+      FirebaseConfig.app = initializeApp({
+        credential: cert(serviceAccount),
+        storageBucket: 'site-de-animes.appspot.com'
+      });
     }
   }
-  // Adicione outros métodos para inicializar outros serviços do Firebase, se necessário
 }
+/**   credential: cert(serviceAccount),
+        storageBucket: 'site-de-animes.appspot.com' */
