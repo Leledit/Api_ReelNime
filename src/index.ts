@@ -55,6 +55,7 @@ class App {
     this.server.get("/api/v1/animes/",this.animes.getRouter());
     this.server.get("/api/v1/animes/:id",this.animes.getRouter());
     this.server.delete("/api/v1/animes/:id",this.animes.getRouter());
+    this.server.put("/api/v1/animes/",this.animes.getRouter());
   }
 }
 //intanciando a classe

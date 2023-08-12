@@ -5,6 +5,7 @@ import {
   getFirestore,
 } from "firebase-admin/firestore";
 class GenresServices {
+  
   static async deleteARecord(idDoc: string) {
     const db = getFirestore();
     try {

@@ -1,14 +1,13 @@
 import { Router, Request, Response } from "express";
 import Joi from "joi";
-import fs from "fs";
-import path, { dirname } from "path";
+import path from "path";
 import validationMiddleware from "../middleware/validationMiddleware.ts";
 import Utils from "../utils/utils.ts";
-
 import AnimesServices from "../services/animes.services.ts";
 import { StorageFirebase } from "../utils/storage/StorageFirebase.ts";
 import { MulterConfig } from "../config/multer.ts";
 import { returnImageNameBasedOnUrl } from "../utils/storage/returnImageNameBasedOnUrl.ts";
+import { interfaceAnimes } from "../models/animes.model.ts";
 
 class AnimesController {
   private router: Router;
@@ -17,7 +16,7 @@ class AnimesController {
     this.setupRouter();
   }
   private setupRouter() {
-    const validationSchema = Joi.object({
+    const validationSchemaPost = Joi.object({
       name: Joi.string().required(),
       alreadyAttended: Joi.string().required(),
       qtdEpisodes: Joi.string().required(),
@@ -29,14 +28,29 @@ class AnimesController {
       synopsis: Joi.string().required(),
     });
 
-    const validation = new validationMiddleware(validationSchema);
+    const validationSchemaPut = Joi.object({
+      id: Joi.string().required(),
+      name: Joi.string().required(),
+      alreadyAttended: Joi.string().required(),
+      qtdEpisodes: Joi.string().required(),
+      dateLaunch: Joi.string().required(),
+      note: Joi.string().required(),
+      status: Joi.string().required(),
+      nextSeason: Joi.string().required(),
+      prevSeason: Joi.string().required(),
+      synopsis: Joi.string().required(),
+      oldImageUrl: Joi.string().optional(),
+    });
+
+    const validationPost = new validationMiddleware(validationSchemaPost);
+    const validationPut = new validationMiddleware(validationSchemaPut);
     const validationGetOneRecord = new validationMiddleware(
       Joi.object({ id: Joi.string().required() })
     );
     this.router.post(
       "/api/v1/animes/",
-      MulterConfig.getConfig().single('img'),
-      validation.validatingTheRequestBody,
+      MulterConfig.getConfig().single("img"),
+      validationPost.validatingTheRequestBody,
       this.postAnimes
     );
     this.router.get("/api/v1/animes/", this.getAllAnimes);
@@ -50,6 +64,71 @@ class AnimesController {
       validationGetOneRecord.validatingTheRequestParams,
       this.deleteOneAnime
     );
+    this.router.put(
+      "/api/v1/animes/",
+      MulterConfig.getConfig().single("img"),
+      validationPut.validatingTheRequestBody,
+      this.alterAnime
+    );
+  }
+
+  private async alterAnime(req: Request, res: Response) {
+    try {
+      //Obtendo as informaçoes da imagen(certas de vir na requisição)
+      let requestData: interfaceAnimes = {
+        date: Utils.returnCurrentDate(),
+        name: req.body.name,
+        alreadyAttended: req.body.alreadyAttended,
+        qtdEpisodes: req.body.qtdEpisodes,
+        dateLaunch: req.body.dateLaunch,
+        note: req.body.note,
+        status: req.body.status,
+        nextSeason: req.body.nextSeason,
+        prevSeason: req.body.prevSeason,
+        synopsis: req.body.synopsis,
+        id:req.body.id,
+      };
+      let newImg = false;
+      if (req.file) {
+        newImg = true;
+        //Caso tenha imagem, vamos apagar a antiga
+        const urlImg = req.body.oldImageUrl || "";
+        if (urlImg) {
+          //Execluindo a imagem antiga(para adicionar a nova)
+          //Obtendo o nome da imagem
+          const nameImg = returnImageNameBasedOnUrl.nameImg(urlImg);
+          //Deletando a imagem do anime
+          const resultOfDeletingTheImg = await StorageFirebase.deleteImg(nameImg);
+          if(!resultOfDeletingTheImg){
+            res.status(400).json({message: "Problemas ao excluir a imagem antiga"});
+          }
+        }
+        //Cadastrando a imagem no storage
+        const imageBuffer = req.file.buffer;   
+        const uniqueSuffix = Date.now() + Math.round(Math.random() * 1e9);
+        const filename = uniqueSuffix + path.extname(req.file.originalname);
+        const urlImgAnime = await StorageFirebase.uploadFile(
+          imageBuffer,
+          filename
+        );
+        requestData = {
+          ...requestData,
+          urlImg: urlImgAnime,
+        };
+      } 
+      //Alterando as informaçoes do anime
+      const resultRequest = await AnimesServices.alterOneRecord(requestData,newImg);
+      if(resultRequest){
+        res.status(201).json({ message: "Anime alterado com sucesso" });
+      }else{
+        res.status(400).json({message: "Problemas ao alterar o anime"});
+      }
+      
+      
+    } catch (error) {
+      console.log("Um erro desconhecido aconteceu: " + error);
+      res.status(400).json({message: "Problemas ao alterar o anime"});
+    }
   }
 
   private async deleteOneAnime(req: Request, res: Response) {
@@ -59,7 +138,9 @@ class AnimesController {
       );
       if (registrySearchResult) {
         //Obtendo o nome da imagem
-        const nameImg = returnImageNameBasedOnUrl.nameImg(registrySearchResult.urlImg)
+        const nameImg = returnImageNameBasedOnUrl.nameImg(
+          registrySearchResult.urlImg
+        );
         //Deletando a imagem do anime
         await StorageFirebase.deleteImg(nameImg);
         //Apagando o anime no firebase
@@ -75,7 +156,7 @@ class AnimesController {
         .status(500)
         .json({ message: "Problemas ao executar a ação, erro: " + error });
       console.log(
-        "Um erro desconhecido aocnteceu ao excluir um anime: " + error
+        "Um erro desconhecido aconteceu ao excluir um anime: " + error
       );
     }
   }
@@ -131,7 +212,7 @@ class AnimesController {
         res.status(200).json({ message: "Nenhum anime encontrado!!" });
       }
     } catch (error) {
-      console.log("Um erro desconhecido aconteceu!: "+error);
+      console.log("Um erro desconhecido aconteceu!: " + error);
     }
   }
 
@@ -142,12 +223,14 @@ class AnimesController {
       );
       if (resultSearch) {
         if (req.file) {
-
           const imageBuffer = req.file.buffer;
           //Gerando nome unico do anime
           const uniqueSuffix = Date.now() + Math.round(Math.random() * 1e9);
           const filename = uniqueSuffix + path.extname(req.file.originalname);
-          const urlImgAnime = await StorageFirebase.uploadFile(imageBuffer, filename);
+          const urlImgAnime = await StorageFirebase.uploadFile(
+            imageBuffer,
+            filename
+          );
           const dataRequest = {
             date: Utils.returnCurrentDate(),
             name: req.body.name,
@@ -164,7 +247,6 @@ class AnimesController {
           await AnimesServices.registerData(dataRequest);
           res.status(201).json({ message: "Cadastro bem-sucedido!" });
         } else {
-          console.log(req.file);
           console.log("Problemas ao carregar a imagem do anime!!");
         }
       }

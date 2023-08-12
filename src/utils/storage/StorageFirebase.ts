@@ -24,9 +24,11 @@ export class StorageFirebase {
       const storage = getStorage();
 
       await storage.bucket().file(`animes/${nameImg}`).delete();
+      return true;
     } catch (error) {
       console.error("Erro ao deletar a image:", error);
-      throw error;
+      return false;
+      //throw error;
     }
   }
 }
