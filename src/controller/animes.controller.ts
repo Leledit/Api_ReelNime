@@ -42,8 +42,14 @@ class AnimesController {
       oldImageUrl: Joi.string().optional(),
     });
 
+    const validationSchemaGetPage = Joi.object({
+      page: Joi.string().required(),
+      limit: Joi.string().required(),
+    });
+
     const validationPost = new validationMiddleware(validationSchemaPost);
     const validationPut = new validationMiddleware(validationSchemaPut);
+    const validationPage = new validationMiddleware(validationSchemaGetPage);
     const validationGetOneRecord = new validationMiddleware(
       Joi.object({ id: Joi.string().required() })
     );
@@ -52,12 +58,6 @@ class AnimesController {
       MulterConfig.getConfig().single("img"),
       validationPost.validatingTheRequestBody,
       this.postAnimes
-    );
-    this.router.get("/api/v1/animes/", this.getAllAnimes);
-    this.router.get(
-      "/api/v1/animes/:id",
-      validationGetOneRecord.validatingTheRequestParams,
-      this.getAnime
     );
     this.router.delete(
       "/api/v1/animes/:id",
@@ -70,6 +70,75 @@ class AnimesController {
       validationPut.validatingTheRequestBody,
       this.alterAnime
     );
+    this.router.get("/api/v1/animes/page/", this.getPageAnime);
+    this.router.get("/api/v1/animes/", this.getAllAnimes);
+    this.router.get(
+      "/api/v1/animes/:id",
+      validationGetOneRecord.validatingTheRequestParams,
+      this.getAnime
+    );
+  }
+
+  private async getPageAnime(req: Request, res: Response) {
+    try {
+      const page = req.body.page;
+      const limit = req.body.limit;
+
+      const resultRequest = await AnimesServices.getAllRecords();
+      const valueComingFromDb: interfaceAnimes[] = [];
+      resultRequest.map((doc) => {
+        const dataDoc = doc.data();
+        valueComingFromDb.push({
+          id: doc.id,
+          date: dataDoc.date,
+          name: dataDoc.name,
+          alreadyAttended: dataDoc.alreadyAttended,
+          qtdEpisodes: dataDoc.qtdEpisodes,
+          dateLaunch: dataDoc.dateLaunch,
+          note: dataDoc.note,
+          status: dataDoc.status,
+          nextSeason: dataDoc.nextSeason,
+          prevSeason: dataDoc.prevSeason,
+          synopsis: dataDoc.synopsis,
+          urlImg: dataDoc.urlImg,
+        });
+      });
+      let finalValue = page * limit;
+      let initialValue = finalValue - limit;
+      if (page === 1) {
+        initialValue = 0;
+        finalValue = limit;
+      }
+      
+      const valuesToBeReturned: interfaceAnimes[] = [];
+
+      resultRequest.map((doc,index) => {
+        const dataDoc = doc.data();
+        if(index >= initialValue && index < finalValue){
+          valuesToBeReturned.push({
+            id: doc.id,
+            date: dataDoc.date,
+            name: dataDoc.name,
+            alreadyAttended: dataDoc.alreadyAttended,
+            qtdEpisodes: dataDoc.qtdEpisodes,
+            dateLaunch: dataDoc.dateLaunch,
+            note: dataDoc.note,
+            status: dataDoc.status,
+            nextSeason: dataDoc.nextSeason,
+            prevSeason: dataDoc.prevSeason,
+            synopsis: dataDoc.synopsis,
+            urlImg: dataDoc.urlImg,
+          });
+        }
+      })
+      if(valuesToBeReturned.length>0){
+        res.status(201).json(valuesToBeReturned);
+      }else{  
+        res.status(401).json({ message: "Nenhum anime encontrado" });
+      }
+    } catch (error) {
+      console.log("Erro desconhecido ao buscar os animes(paginação)");
+    }
   }
 
   private async alterAnime(req: Request, res: Response) {
@@ -86,7 +155,7 @@ class AnimesController {
         nextSeason: req.body.nextSeason,
         prevSeason: req.body.prevSeason,
         synopsis: req.body.synopsis,
-        id:req.body.id,
+        id: req.body.id,
       };
       let newImg = false;
       if (req.file) {
@@ -98,13 +167,17 @@ class AnimesController {
           //Obtendo o nome da imagem
           const nameImg = returnImageNameBasedOnUrl.nameImg(urlImg);
           //Deletando a imagem do anime
-          const resultOfDeletingTheImg = await StorageFirebase.deleteImg(nameImg);
-          if(!resultOfDeletingTheImg){
-            res.status(400).json({message: "Problemas ao excluir a imagem antiga"});
+          const resultOfDeletingTheImg = await StorageFirebase.deleteImg(
+            nameImg
+          );
+          if (!resultOfDeletingTheImg) {
+            res
+              .status(400)
+              .json({ message: "Problemas ao excluir a imagem antiga" });
           }
         }
         //Cadastrando a imagem no storage
-        const imageBuffer = req.file.buffer;   
+        const imageBuffer = req.file.buffer;
         const uniqueSuffix = Date.now() + Math.round(Math.random() * 1e9);
         const filename = uniqueSuffix + path.extname(req.file.originalname);
         const urlImgAnime = await StorageFirebase.uploadFile(
@@ -115,19 +188,20 @@ class AnimesController {
           ...requestData,
           urlImg: urlImgAnime,
         };
-      } 
-      //Alterando as informaçoes do anime
-      const resultRequest = await AnimesServices.alterOneRecord(requestData,newImg);
-      if(resultRequest){
-        res.status(201).json({ message: "Anime alterado com sucesso" });
-      }else{
-        res.status(400).json({message: "Problemas ao alterar o anime"});
       }
-      
-      
+      //Alterando as informaçoes do anime
+      const resultRequest = await AnimesServices.alterOneRecord(
+        requestData,
+        newImg
+      );
+      if (resultRequest) {
+        res.status(201).json({ message: "Anime alterado com sucesso" });
+      } else {
+        res.status(400).json({ message: "Problemas ao alterar o anime" });
+      }
     } catch (error) {
       console.log("Um erro desconhecido aconteceu: " + error);
-      res.status(400).json({message: "Problemas ao alterar o anime"});
+      res.status(400).json({ message: "Problemas ao alterar o anime" });
     }
   }
 
@@ -190,6 +264,7 @@ class AnimesController {
         nextSeason: string;
         prevSeason: string;
         synopsis: string;
+        urlImg: string;
       }[] = [];
       resultRequest.map((doc) => {
         const dataDoc = doc.data();
@@ -204,6 +279,7 @@ class AnimesController {
           nextSeason: dataDoc.nextSeason,
           prevSeason: dataDoc.prevSeason,
           synopsis: dataDoc.synopsis,
+          urlImg: dataDoc.urlImg,
         });
       });
       if (valueComingFromDb.length > 0) {

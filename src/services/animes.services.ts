@@ -6,11 +6,11 @@ import {
 } from "firebase-admin/firestore";
 import { interfaceAnimes } from "../models/animes.model";
 class AnimesServices {
-  static async alterOneRecord(data:interfaceAnimes,newImg:boolean) {
+  static async alterOneRecord(data: interfaceAnimes, newImg: boolean) {
     const db = getFirestore();
-    try{
-      if(data.id){
-        if(newImg){
+    try {
+      if (data.id) {
+        if (newImg) {
           await db.collection("animes").doc(data.id).update({
             date: data.date,
             name: data.name,
@@ -23,8 +23,8 @@ class AnimesServices {
             prevSeason: data.prevSeason,
             synopsis: data.synopsis,
             urlImg: data.urlImg,
-          })
-        }else{
+          });
+        } else {
           await db.collection("animes").doc(data.id).update({
             date: data.date,
             name: data.name,
@@ -37,13 +37,12 @@ class AnimesServices {
             prevSeason: data.prevSeason,
             synopsis: data.synopsis,
             urlImg: data.urlImg,
-          })
+          });
         }
-        return true
-      }else{
+        return true;
+      } else {
         return false;
       }
-  
     } catch (error) {
       throw new Error("erro ao atualizar um anime: " + error);
     }
