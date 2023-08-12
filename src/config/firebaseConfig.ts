@@ -16,5 +16,3 @@ export class FirebaseConfig {
     }
   }
 }
-/**   credential: cert(serviceAccount),
-        storageBucket: 'site-de-animes.appspot.com' */

@@ -6,8 +6,9 @@ import validationMiddleware from "../middleware/validationMiddleware.ts";
 import Utils from "../utils/utils.ts";
 
 import AnimesServices from "../services/animes.services.ts";
-import { FileUpload } from "../utils/storage/fileUpload.ts";
+import { StorageFirebase } from "../utils/storage/StorageFirebase.ts";
 import { MulterConfig } from "../config/multer.ts";
+import { returnImageNameBasedOnUrl } from "../utils/storage/returnImageNameBasedOnUrl.ts";
 
 class AnimesController {
   private router: Router;
@@ -57,9 +58,11 @@ class AnimesController {
         req.params.id
       );
       if (registrySearchResult) {
-        fs.unlink(registrySearchResult.urlImg, () => {
-          console.log("Imagen excluida com sucesso!");
-        });
+        //Obtendo o nome da imagem
+        const nameImg = returnImageNameBasedOnUrl.nameImg(registrySearchResult.urlImg)
+        //Deletando a imagem do anime
+        await StorageFirebase.deleteImg(nameImg);
+        //Apagando o anime no firebase
         await AnimesServices.deleteOne(req.params.id);
         res.status(201).json({ message: "Anime excluido com sucesso" });
       } else {
@@ -144,8 +147,7 @@ class AnimesController {
           //Gerando nome unico do anime
           const uniqueSuffix = Date.now() + Math.round(Math.random() * 1e9);
           const filename = uniqueSuffix + path.extname(req.file.originalname);
-          const urlImgAnime = await FileUpload.uploadFile(imageBuffer, filename);
-  
+          const urlImgAnime = await StorageFirebase.uploadFile(imageBuffer, filename);
           const dataRequest = {
             date: Utils.returnCurrentDate(),
             name: req.body.name,
@@ -165,21 +167,13 @@ class AnimesController {
           console.log(req.file);
           console.log("Problemas ao carregar a imagem do anime!!");
         }
-      } else {
-        //Excluindo arquivo
-        fs.unlink(
-          `${Utils.returnApplicationPath("../uploadedFiles/animes")}/${
-            req.file?.filename
-          }`,
-          () => {}
-        );
-        res.status(301).json({ message: "Anime ja cadastrado" });
       }
     } catch (error) {
       console.log("Um erro desconhecido aconteceu: " + error);
     }
     res.send();
   }
+
   public getRouter(): Router {
     return this.router;
   }
