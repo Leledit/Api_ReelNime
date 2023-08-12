@@ -7,6 +7,7 @@ import GenresController from "./controller/genres.controller.ts";
 import { FirebaseConfig } from "./config/firebaseConfig.ts";
 import AnimesController from "./controller/animes.controller.ts";
 import bodyParser from "body-parser";
+import FilmeController from "./controller/filmes.controller.ts";
 
 class App {
   server: Express;
@@ -16,6 +17,7 @@ class App {
   dashboard: DashboardController;
   genres: GenresController;
   animes: AnimesController;
+  filmes: FilmeController;
 
   constructor() {
     this.server = express();
@@ -29,6 +31,7 @@ class App {
     this.dashboard = new DashboardController();
     this.genres = new GenresController();
     this.animes = new AnimesController();
+    this.filmes = new FilmeController();
     //Configurando as rotas da aplicação
     this.routes();
   }
@@ -57,6 +60,9 @@ class App {
     this.server.delete("/api/v1/animes/:id",this.animes.getRouter());
     this.server.put("/api/v1/animes/",this.animes.getRouter());
     this.server.get("/api/v1/animes/page/",this.animes.getRouter());
+
+    //Rotas relacionadas aos filmes
+    this.server.post("/api/v1/filmes/",this.filmes.getRouter());
   }
 }
 //intanciando a classe

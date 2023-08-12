@@ -15,6 +15,7 @@ class AnimesController {
     this.router = Router();
     this.setupRouter();
   }
+
   private setupRouter() {
     const validationSchemaPost = Joi.object({
       name: Joi.string().required(),
@@ -43,8 +44,8 @@ class AnimesController {
     });
 
     const validationSchemaGetPage = Joi.object({
-      page: Joi.string().required(),
-      limit: Joi.string().required(),
+      page: Joi.number().required(),
+      limit: Joi.number().required(),
     });
 
     const validationPost = new validationMiddleware(validationSchemaPost);
@@ -70,7 +71,7 @@ class AnimesController {
       validationPut.validatingTheRequestBody,
       this.alterAnime
     );
-    this.router.get("/api/v1/animes/page/", this.getPageAnime);
+    this.router.get("/api/v1/animes/page/",validationPage.validatingTheRequestBody, this.getPageAnime);
     this.router.get("/api/v1/animes/", this.getAllAnimes);
     this.router.get(
       "/api/v1/animes/:id",
@@ -81,6 +82,7 @@ class AnimesController {
 
   private async getPageAnime(req: Request, res: Response) {
     try {
+
       const page = req.body.page;
       const limit = req.body.limit;
 
@@ -109,12 +111,12 @@ class AnimesController {
         initialValue = 0;
         finalValue = limit;
       }
-      
+
       const valuesToBeReturned: interfaceAnimes[] = [];
 
-      resultRequest.map((doc,index) => {
+      resultRequest.map((doc, index) => {
         const dataDoc = doc.data();
-        if(index >= initialValue && index < finalValue){
+        if (index >= initialValue && index < finalValue) {
           valuesToBeReturned.push({
             id: doc.id,
             date: dataDoc.date,
@@ -130,12 +132,14 @@ class AnimesController {
             urlImg: dataDoc.urlImg,
           });
         }
-      })
-      if(valuesToBeReturned.length>0){
+      });
+      if (valuesToBeReturned.length > 0) {
         res.status(201).json(valuesToBeReturned);
-      }else{  
+      } else {
         res.status(401).json({ message: "Nenhum anime encontrado" });
       }
+
+      res.status(401).json({ message: "Aplicando teste" });
     } catch (error) {
       console.log("Erro desconhecido ao buscar os animes(paginação)");
     }
@@ -325,6 +329,8 @@ class AnimesController {
         } else {
           console.log("Problemas ao carregar a imagem do anime!!");
         }
+      }else{
+        res.status(301).json({ message: "Anime ja cadastrado!!" });
       }
     } catch (error) {
       console.log("Um erro desconhecido aconteceu: " + error);
