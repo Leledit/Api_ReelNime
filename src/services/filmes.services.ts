@@ -7,13 +7,32 @@ import {
 import { interfaceFilme } from "../models/filmes.model";
 class FilmesService {
 
+  static async getOneRecord(idDoc: string): Promise<DocumentData | undefined> {
+    const db = getFirestore();
+    try {
+      const getData = await db.collection("filmes").doc(idDoc).get();
+      return getData.data();
+    } catch (error) {
+      throw new Error("erro ao recuperar um filme: " + error);
+    }
+  }
+
+  static async deleteOne(idDoc: string) {
+    const db = getFirestore();
+    try {
+      await db.collection("filmes").doc(idDoc).delete();
+    } catch (error) {
+      throw new Error("erro ao deletar um filme: " + error);
+    }
+  }
+
   static async getAllRecords(): Promise<QueryDocumentSnapshot<DocumentData>[]> {
     const db = getFirestore();
     try {
       const getData = await db.collection("filmes").get();
       return getData.docs;
     } catch (error) {
-      throw new Error("Falha ao obter todos os animes: " + error);
+      throw new Error("Falha ao obter todos os filmes: " + error);
     }
   }
 
