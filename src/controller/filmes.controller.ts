@@ -6,6 +6,7 @@ import { MulterConfig } from "../config/multer.ts";
 import path from "path";
 import { StorageFirebase } from "../utils/storage/StorageFirebase.ts";
 import FilmesService from "../services/filmes.services.ts";
+import { interfaceFilme } from "../models/filmes.model.ts";
 class FilmeController {
   private router: Router;
   constructor() {
@@ -31,6 +32,31 @@ class FilmeController {
       validationPost.validatingTheRequestBody,
       this.postFilmes
     );
+    this.router.get("/api/v1/filmes/",this.getAllFilmes);
+  }
+
+  private async getAllFilmes(req: Request, res: Response) {
+    try {
+      const dataRequest = await FilmesService.getAllRecords();
+      let dataComingFromTheDb:interfaceFilme[] = []
+      dataRequest.map((doc)=>{
+        const data = doc.data()
+        dataComingFromTheDb.push({
+          id:doc.id,
+          name:data.name,
+          visa:data.visa,
+          duration:data.duration,
+          lauch:data.lauch,
+          note:data.note,
+          synopsis:data.synopsis,
+          img:data.imgUrl,
+          date:data.date,
+        })
+      })
+      res.status(201).json(dataComingFromTheDb);
+    } catch (error) {
+      console.log("Um erro desconhecido aconteceu: " + error);
+    }
   }
 
   private async postFilmes(req: Request, res: Response) {
@@ -46,7 +72,8 @@ class FilmeController {
           const filename = uniqueSuffix + path.extname(req.file.originalname);
           const urlImgAnime = await StorageFirebase.uploadFile(
             imageBuffer,
-            filename
+            filename,
+            "filmes/"
           );
           const dataRequest = {
             date: Utils.returnCurrentDate(),

@@ -186,7 +186,8 @@ class AnimesController {
         const filename = uniqueSuffix + path.extname(req.file.originalname);
         const urlImgAnime = await StorageFirebase.uploadFile(
           imageBuffer,
-          filename
+          filename,
+          "animes/"
         );
         requestData = {
           ...requestData,
@@ -309,7 +310,8 @@ class AnimesController {
           const filename = uniqueSuffix + path.extname(req.file.originalname);
           const urlImgAnime = await StorageFirebase.uploadFile(
             imageBuffer,
-            filename
+            filename,
+            "animes/"
           );
           const dataRequest = {
             date: Utils.returnCurrentDate(),

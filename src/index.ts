@@ -63,6 +63,7 @@ class App {
 
     //Rotas relacionadas aos filmes
     this.server.post("/api/v1/filmes/",this.filmes.getRouter());
+    this.server.get("/api/v1/filmes/",this.filmes.getRouter());
   }
 }
 //intanciando a classe

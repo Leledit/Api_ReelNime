@@ -6,6 +6,17 @@ import {
 } from "firebase-admin/firestore";
 import { interfaceFilme } from "../models/filmes.model";
 class FilmesService {
+
+  static async getAllRecords(): Promise<QueryDocumentSnapshot<DocumentData>[]> {
+    const db = getFirestore();
+    try {
+      const getData = await db.collection("filmes").get();
+      return getData.docs;
+    } catch (error) {
+      throw new Error("Falha ao obter todos os animes: " + error);
+    }
+  }
+
   static async postFilmes(data: interfaceFilme): Promise<string> {
     const db = getFirestore();
     try {

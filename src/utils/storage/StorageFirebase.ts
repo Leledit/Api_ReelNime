@@ -1,11 +1,11 @@
 import { getStorage } from "firebase-admin/storage";
 
 export class StorageFirebase {
-  static async uploadFile(imageBuffer: Buffer, fileName: string) {
+  static async uploadFile(imageBuffer: Buffer, fileName: string,folder:string) {
     try {
       const storage = getStorage();
       const bucket = storage.bucket();
-      const file = bucket.file("animes/" + fileName);
+      const file = bucket.file(folder + fileName);
       await file.save(imageBuffer);
       await file.makePublic();
       const downloadURL = await file.getSignedUrl({
