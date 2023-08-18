@@ -172,7 +172,8 @@ class AnimesController {
           const nameImg = returnImageNameBasedOnUrl.nameImg(urlImg);
           //Deletando a imagem do anime
           const resultOfDeletingTheImg = await StorageFirebase.deleteImg(
-            nameImg
+            nameImg,
+            'animes/'
           );
           if (!resultOfDeletingTheImg) {
             res
@@ -221,7 +222,7 @@ class AnimesController {
           registrySearchResult.urlImg
         );
         //Deletando a imagem do anime
-        await StorageFirebase.deleteImg(nameImg);
+        await StorageFirebase.deleteImg(nameImg,'animes/');
         //Apagando o anime no firebase
         await AnimesServices.deleteOne(req.params.id);
         res.status(201).json({ message: "Anime excluido com sucesso" });

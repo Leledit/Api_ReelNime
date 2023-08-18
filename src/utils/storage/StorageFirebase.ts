@@ -18,12 +18,12 @@ export class StorageFirebase {
       throw error;
     }
   }
-  static async deleteImg(nameImg: string) {
+  static async deleteImg(nameImg: string,folder:string) {
     try {
       //Intanciando uma instancia de storage
       const storage = getStorage();
 
-      await storage.bucket().file(`animes/${nameImg}`).delete();
+      await storage.bucket().file(folder + nameImg).delete();
       return true;
     } catch (error) {
       console.error("Erro ao deletar a image:", error);

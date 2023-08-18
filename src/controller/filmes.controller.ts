@@ -25,11 +25,23 @@ class FilmeController {
       note: Joi.string().required(),
       synopsis: Joi.string().required(),
     });
+    const validationSchemaPut = Joi.object({
+      id: Joi.string().required(),
+      name: Joi.string().required(),
+      visa: Joi.string().required(),
+      duration: Joi.string().required(),
+      lauch: Joi.string().required(),
+      note: Joi.string().required(),
+      synopsis: Joi.string().required(),
+      oldImageUrl: Joi.string().optional(),
+    });
+
     const validationSchemaId = Joi.object({
       id: Joi.string().required(),
     });
     const validationPost = new validationMiddleware(validationSchemaPost);
     const validationId = new validationMiddleware(validationSchemaId);
+    const validationPut = new validationMiddleware(validationSchemaPut);
     //Definindo as rotas relacionadas a esse segmento
     this.router.post(
       "/api/v1/filmes/",
@@ -43,7 +55,78 @@ class FilmeController {
       validationId.validatingTheRequestParams,
       this.deleteOneFilme
     );
-    this.router.get("/api/v1/filmes/:id",validationId.validatingTheRequestParams,this.getOneAnime)
+    this.router.get(
+      "/api/v1/filmes/:id",
+      validationId.validatingTheRequestParams,
+      this.getOneAnime
+    );
+    this.router.put(
+      "/api/v1/filmes/",
+      MulterConfig.getConfig().single("img"),
+      validationPut.validatingTheRequestBody,
+      this.putOneAnime
+    );
+  }
+
+  private async putOneAnime(req: Request, res: Response) {
+    try {
+      let requestBody: interfaceFilme = {
+        id: req.body.id,
+        date: Utils.returnCurrentDate(),
+        name: req.body.name,
+        visa: req.body.visa,
+        duration: req.body.duration,
+        lauch: req.body.lauch,
+        note: req.body.note,
+        synopsis: req.body.synopsis,
+        oldImageUrl: req.body.oldImageUrl,
+        img: req.body.oldImageUrl,
+      };
+      if (req.file) {
+        //Caso tenha imagem, vamos apagar a antiga
+        const urlImg = req.body.oldImageUrl || "";
+
+        if (urlImg) {
+          //Execluindo a imagem antiga(para adicionar a nova)
+          //Obtendo o nome da imagem
+          const nameImg = returnImageNameBasedOnUrl.nameImg(urlImg);
+          //Deletando a imagem do anime
+          const resultOfDeletingTheImg = await StorageFirebase.deleteImg(
+            nameImg,
+            "filmes/"
+          );
+          if (!resultOfDeletingTheImg) {
+            res
+              .status(400)
+              .json({ message: "Problemas ao excluir a imagem antiga(filme)" });
+          } else {
+            //Cadastrando a imagem no storage
+            const imageBuffer = req.file.buffer;
+            const uniqueSuffix = Date.now() + Math.round(Math.random() * 1e9);
+            const filename = uniqueSuffix + path.extname(req.file.originalname);
+            const urlImgAnime = await StorageFirebase.uploadFile(
+              imageBuffer,
+              filename,
+              "filmes/"
+            );
+            requestBody = {
+              ...requestBody,
+              img: urlImgAnime,
+            };
+          }
+        }
+      }
+      const resultRequest = await FilmesService.alterOneRecord(requestBody);
+      console.log(requestBody)
+      if (resultRequest) {
+        res.status(201).json({ message: "Filme alterado com sucesso" });
+      } else {
+        res.status(400).json({ message: "Problemas ao alterar o filme" });
+      }
+      //res.status(201).json({ message: "Anime alterado com sucesso" });
+    } catch (error) {
+      console.log("Um erro desconhecido aconteceu: " + error);
+    }
   }
 
   private async getOneAnime(req: Request, res: Response) {
@@ -52,7 +135,7 @@ class FilmeController {
         req.params.id
       );
       res.status(201).json(registrySearchResult);
-    }catch (error) {
+    } catch (error) {
       console.log("Um erro desconhecido aconteceu: " + error);
     }
   }
@@ -68,7 +151,7 @@ class FilmeController {
           registrySearchResult.imgUrl
         );
         //Deletando a imagem do anime
-        await StorageFirebase.deleteImg(nameImg);
+        await StorageFirebase.deleteImg(nameImg, "filmes/");
         //Apagando o anime no firebase
         await FilmesService.deleteOne(req.params.id);
         res.status(201).json({ message: "Filme excluido com sucesso" });

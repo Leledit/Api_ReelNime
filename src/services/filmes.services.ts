@@ -7,6 +7,30 @@ import {
 import { interfaceFilme } from "../models/filmes.model";
 class FilmesService {
 
+  static async alterOneRecord(data: interfaceFilme) {
+    const db = getFirestore();
+    try {
+      if (data.id) {
+        console.log(data);
+          await db.collection("filmes").doc(data.id).update({
+            date: data.date,
+            name: data.name,
+            visa: data.visa,
+            duration: data.duration,
+            lauch: data.lauch,
+            note: data.note,
+            synopsis: data.synopsis,
+            imgUrl: data.img,
+          });
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      throw new Error("erro ao atualizar um filme: " + error);
+    }
+  }
+
   static async getOneRecord(idDoc: string): Promise<DocumentData | undefined> {
     const db = getFirestore();
     try {

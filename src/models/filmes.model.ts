@@ -7,5 +7,6 @@ export interface interfaceFilme{
     note:string,
     synopsis:string,
     img?:string,
+    oldImageUrl?:string,
     date:string,
 }
