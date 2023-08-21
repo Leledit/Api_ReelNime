@@ -2,12 +2,15 @@ import { Router, Request, Response } from "express";
 import Joi from "joi";
 import validationMiddleware from "../middleware/validationMiddleware.ts";
 import Utils from "../utils/utils.ts";
-import GenresServices from "../services/genres.services.ts";
 import { InterfaceGenres } from "../models/genres.model.ts";
+import GenresServices from "../services/genres.services.ts";
 
 class GenresController {
+  private genresServices: GenresServices;
   private router: Router;
+
   constructor() {
+    this.genresServices = new GenresServices();
     this.router = Router();
     this.setupRouter();
   }
@@ -30,6 +33,7 @@ class GenresController {
       validation.validatingTheRequestBody,
       this.postgenres
     );
+
     this.router.get(
       "/api/v1/genres/search",
       validationSearch.validatingTheRequestQuery,
@@ -44,25 +48,27 @@ class GenresController {
     this.router.delete("/api/v1/genres/:id", this.deleteARecord);
   }
 
-  private async deleteARecord(req: Request, res: Response) {
+  private async postgenres(req: Request, res: Response) {
     try {
-      await GenresServices.deleteARecord(req.params.id);
-      res.status(200).json({ message: "Registro deletado com sucesso" });
+      const existingRecord = await GenresServices.checkRecordExistence(
+        req.body.nameGenre
+      );
+      if (!existingRecord) {
+        const data: InterfaceGenres = {
+          nameGenre: req.body.nameGenre,
+          date: Utils.returnCurrentDate(),
+        };
+        const resultRequest = await GenresServices.registerData(data);
+        if (resultRequest.acknowledged === true) {
+          res.status(201).json({ message: "Cadastro bem-sucedido!" });
+        } else {
+          res.status(401).json({ message: "Problemas ao realizar o cadastro" });
+        }
+      } else {
+        res.status(300).json({ error: "Gênero ja cadastrado no sistemas!." });
+      }
     } catch (error) {
-      console.log("Um erro desconhecido aconteceu: " + error);
-    }
-  }
-
-  private async putUpdateRecord(req: Request, res: Response) {
-    try {
-      const dataReq: InterfaceGenres = {
-        nameGenre: req.query.nameGenre as string,
-        date: Utils.returnCurrentDate(),
-      };
-      await GenresServices.putUpdateRecord(req.params.id, dataReq);
-      res.status(200).json({ message: "Registro atualizado com sucesso" });
-    } catch (error) {
-      console.log("Um erro desconhecido aconteceu: " + error);
+      console.log(error);
     }
   }
 
@@ -75,9 +81,9 @@ class GenresController {
       }[] = [];
       dataRequest.map((doc: any) => {
         valueComingFromDb.push({
-          id: doc.id,
-          name: doc.data().nameGenre,
-        });
+          id: doc._id,
+          name: doc.nameGenre,
+        })
       });
       if (valueComingFromDb.length > 0) {
         res.json(valueComingFromDb);
@@ -89,19 +95,50 @@ class GenresController {
     }
   }
 
+  private async deleteARecord(req: Request, res: Response) {
+    try {
+      const resultRequest = await GenresServices.deleteARecord(req.params.id);
+      if(resultRequest.deletedCount>0){
+        res.status(200).json({ message: "Registro deletado com sucesso" });
+      }else{
+        res.status(400).json({ message: "Problemas ao excluir o resgitros" });
+      }
+    } catch (error) {
+      console.log("Um erro desconhecido aconteceu: " + error);
+    }
+  }
+
+  private async putUpdateRecord(req: Request, res: Response) {
+    try {
+      const dataReq: InterfaceGenres = {
+        nameGenre: req.query.nameGenre as string,
+        date: Utils.returnCurrentDate(),
+      };
+      const resultRequest = await GenresServices.putUpdateRecord(req.params.id, dataReq);
+      if(resultRequest.modifiedCount>=1){
+        res.status(200).json({ message: "Registro atualizado com sucesso" });
+      }else{
+        res.status(400).json({ message: "Problemas ao atualizar o registro" });
+      }
+    } catch (error) {
+      console.log("Um erro desconhecido aconteceu: " + error);
+    }
+  }
+
   private async getSearch(req: Request, res: Response) {
     try {
       const dataRequest = await GenresServices.search(
         req.query.query as string
       );
+      console.log(dataRequest);
       let valueComingFromDb: {
         id: string;
         name: string;
       }[] = [];
       dataRequest.map((doc: any) => {
         valueComingFromDb.push({
-          id: doc.id,
-          name: doc.data().nameGenre,
+          id: doc._id,
+          name: doc.nameGenre,
         });
       });
       if (valueComingFromDb.length > 0) {
@@ -111,26 +148,6 @@ class GenresController {
       }
     } catch (error) {
       console.log("Um erro desconhecido aconteceu: " + error);
-    }
-  }
-
-  private async postgenres(req: Request, res: Response) {
-    try {
-      const existingRecord = await GenresServices.checkRecordExistence(
-        req.body.nameGenre
-      );
-      if (existingRecord) {
-        const data: InterfaceGenres = {
-          nameGenre: req.body.nameGenre,
-          date: Utils.returnCurrentDate(),
-        };
-        await GenresServices.registerData(data);
-        res.status(201).json({ message: "Cadastro bem-sucedido!" });
-      } else {
-        res.status(300).json({ error: "Gênero ja cadastrado no sistemas!." });
-      }
-    } catch (error) {
-      console.log(error);
     }
   }
 

@@ -7,11 +7,20 @@ import {
 import { interfaceFilme } from "../models/filmes.model";
 class FilmesService {
 
+  static async getSearchFilme(param:string){
+    const db = getFirestore();
+    try {
+      const resultData = await db.collection("filmes").where('name','array-contains',`${param}`).get();
+      return resultData.docs;
+    } catch (error) {
+      throw new Error("Erro ao realizar uma busca de um anime: " + error);
+    }
+  }
+
   static async alterOneRecord(data: interfaceFilme) {
     const db = getFirestore();
     try {
       if (data.id) {
-        console.log(data);
           await db.collection("filmes").doc(data.id).update({
             date: data.date,
             name: data.name,

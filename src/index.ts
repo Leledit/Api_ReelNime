@@ -67,6 +67,7 @@ class App {
     this.server.delete("/api/v1/filmes/:id",this.filmes.getRouter());
     this.server.get("/api/v1/filmes/:id",this.filmes.getRouter());
     this.server.put("/api/v1/filmes/",this.filmes.getRouter());
+    this.server.get("/api/v1/filmes/search/:param",this.filmes.getRouter());
   }
 }
 //intanciando a classe

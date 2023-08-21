@@ -35,13 +35,17 @@ class FilmeController {
       synopsis: Joi.string().required(),
       oldImageUrl: Joi.string().optional(),
     });
-
     const validationSchemaId = Joi.object({
       id: Joi.string().required(),
     });
+    const validationSchemaSearch = Joi.object({
+      param: Joi.string().required(),
+    })
+  
     const validationPost = new validationMiddleware(validationSchemaPost);
     const validationId = new validationMiddleware(validationSchemaId);
     const validationPut = new validationMiddleware(validationSchemaPut);
+    const valitationSearch = new validationMiddleware(validationSchemaSearch);
     //Definindo as rotas relacionadas a esse segmento
     this.router.post(
       "/api/v1/filmes/",
@@ -66,6 +70,21 @@ class FilmeController {
       validationPut.validatingTheRequestBody,
       this.putOneAnime
     );
+    this.router.get("/api/v1/filmes/search/:param",valitationSearch.validatingTheRequestParams,this.getSearchFilme);
+  }
+
+  private async getSearchFilme(req: Request, res: Response) {
+    try{
+      const requestParam =  req.params.param;
+      const resultRequest =  await FilmesService.getSearchFilme(requestParam);
+      resultRequest.map((doc)=>{
+        console.log(doc.data());
+      })
+      console.log(resultRequest);
+      res.status(201).json({ message: "Estou buscando os filmes e tals" });
+    }catch(error){
+      console.log("Um erro desconhecido aconteceu: " + error);
+    }
   }
 
   private async putOneAnime(req: Request, res: Response) {

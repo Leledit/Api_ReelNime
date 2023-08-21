@@ -80,6 +80,8 @@ class AnimesController {
     );
   }
 
+  
+
   private async getPageAnime(req: Request, res: Response) {
     try {
 
