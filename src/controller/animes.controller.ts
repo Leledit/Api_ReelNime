@@ -7,7 +7,7 @@ import AnimesServices from "../services/animes.services.ts";
 import { StorageFirebase } from "../utils/storage/StorageFirebase.ts";
 import { MulterConfig } from "../config/multer.ts";
 import { returnImageNameBasedOnUrl } from "../utils/storage/returnImageNameBasedOnUrl.ts";
-import { interfaceAnimes } from "../models/animes.model.ts";
+import { interfaceAnimes, interfaceAnimesGet } from "../models/animes.model.ts";
 
 class AnimesController {
   private router: Router;
@@ -71,7 +71,11 @@ class AnimesController {
       validationPut.validatingTheRequestBody,
       this.alterAnime
     );
-    this.router.get("/api/v1/animes/page/",validationPage.validatingTheRequestBody, this.getPageAnime);
+    this.router.get(
+      "/api/v1/animes/page/",
+      validationPage.validatingTheRequestBody,
+      this.getPageAnime
+    );
     this.router.get("/api/v1/animes/", this.getAllAnimes);
     this.router.get(
       "/api/v1/animes/:id",
@@ -80,71 +84,28 @@ class AnimesController {
     );
   }
 
-  
-
   private async getPageAnime(req: Request, res: Response) {
     try {
-
       const page = req.body.page;
       const limit = req.body.limit;
-
-      const resultRequest = await AnimesServices.getAllRecords();
-      const valueComingFromDb: interfaceAnimes[] = [];
-      resultRequest.map((doc) => {
-        const dataDoc = doc.data();
-        valueComingFromDb.push({
-          id: doc.id,
-          date: dataDoc.date,
-          name: dataDoc.name,
-          alreadyAttended: dataDoc.alreadyAttended,
-          qtdEpisodes: dataDoc.qtdEpisodes,
-          dateLaunch: dataDoc.dateLaunch,
-          note: dataDoc.note,
-          status: dataDoc.status,
-          nextSeason: dataDoc.nextSeason,
-          prevSeason: dataDoc.prevSeason,
-          synopsis: dataDoc.synopsis,
-          urlImg: dataDoc.urlImg,
-        });
-      });
+      
       let finalValue = page * limit;
       let initialValue = finalValue - limit;
       if (page === 1) {
         initialValue = 0;
-        finalValue = limit;
+        finalValue = limit; 
       }
 
-      const valuesToBeReturned: interfaceAnimes[] = [];
-
-      resultRequest.map((doc, index) => {
-        const dataDoc = doc.data();
-        if (index >= initialValue && index < finalValue) {
-          valuesToBeReturned.push({
-            id: doc.id,
-            date: dataDoc.date,
-            name: dataDoc.name,
-            alreadyAttended: dataDoc.alreadyAttended,
-            qtdEpisodes: dataDoc.qtdEpisodes,
-            dateLaunch: dataDoc.dateLaunch,
-            note: dataDoc.note,
-            status: dataDoc.status,
-            nextSeason: dataDoc.nextSeason,
-            prevSeason: dataDoc.prevSeason,
-            synopsis: dataDoc.synopsis,
-            urlImg: dataDoc.urlImg,
-          });
-        }
-      });
-      if (valuesToBeReturned.length > 0) {
-        res.status(201).json(valuesToBeReturned);
+      const resultRequest = await AnimesServices.returnPaginationValues(initialValue,finalValue);
+      if (resultRequest.length > 0) {
+        res.status(201).json(resultRequest);
       } else {
         res.status(401).json({ message: "Nenhum anime encontrado" });
       }
-
-      res.status(401).json({ message: "Aplicando teste" });
     } catch (error) {
       console.log("Erro desconhecido ao buscar os animes(paginação)");
     }
+  
   }
 
   private async alterAnime(req: Request, res: Response) {
@@ -161,11 +122,8 @@ class AnimesController {
         nextSeason: req.body.nextSeason,
         prevSeason: req.body.prevSeason,
         synopsis: req.body.synopsis,
-        id: req.body.id,
       };
-      let newImg = false;
       if (req.file) {
-        newImg = true;
         //Caso tenha imagem, vamos apagar a antiga
         const urlImg = req.body.oldImageUrl || "";
         if (urlImg) {
@@ -175,7 +133,7 @@ class AnimesController {
           //Deletando a imagem do anime
           const resultOfDeletingTheImg = await StorageFirebase.deleteImg(
             nameImg,
-            'animes/'
+            "animes/"
           );
           if (!resultOfDeletingTheImg) {
             res
@@ -200,9 +158,9 @@ class AnimesController {
       //Alterando as informaçoes do anime
       const resultRequest = await AnimesServices.alterOneRecord(
         requestData,
-        newImg
+        req.body.id,
       );
-      if (resultRequest) {
+      if (resultRequest.matchedCount>=1) {
         res.status(201).json({ message: "Anime alterado com sucesso" });
       } else {
         res.status(400).json({ message: "Problemas ao alterar o anime" });
@@ -218,16 +176,20 @@ class AnimesController {
       const registrySearchResult = await AnimesServices.getOneRecord(
         req.params.id
       );
-      if (registrySearchResult) {
+      if (registrySearchResult?.urlImg) {
         //Obtendo o nome da imagem
         const nameImg = returnImageNameBasedOnUrl.nameImg(
           registrySearchResult.urlImg
         );
         //Deletando a imagem do anime
-        await StorageFirebase.deleteImg(nameImg,'animes/');
+        await StorageFirebase.deleteImg(nameImg, "animes/");
         //Apagando o anime no firebase
-        await AnimesServices.deleteOne(req.params.id);
-        res.status(201).json({ message: "Anime excluido com sucesso" });
+        const resultRequest = await AnimesServices.deleteOne(req.params.id);
+        if(resultRequest.deletedCount>=1){
+          res.status(201).json({ message: "Anime excluido com sucesso" });
+        }else{
+          res.status(400).json({ message: "Problemas ao excluir um anime" });
+        }
       } else {
         res
           .status(301)
@@ -261,33 +223,20 @@ class AnimesController {
   private async getAllAnimes(req: Request, res: Response) {
     try {
       const resultRequest = await AnimesServices.getAllRecords();
-      const valueComingFromDb: {
-        id: string;
-        name: string;
-        alreadyAttended: string;
-        qtdEpisodes: string;
-        dateLaunch: string;
-        note: string;
-        status: string;
-        nextSeason: string;
-        prevSeason: string;
-        synopsis: string;
-        urlImg: string;
-      }[] = [];
+      const valueComingFromDb:interfaceAnimesGet[] = [];
       resultRequest.map((doc) => {
-        const dataDoc = doc.data();
         valueComingFromDb.push({
-          id: doc.id,
-          name: dataDoc.name,
-          alreadyAttended: dataDoc.alreadyAttended,
-          qtdEpisodes: dataDoc.qtdEpisodes,
-          dateLaunch: dataDoc.dateLaunch,
-          note: dataDoc.note,
-          status: dataDoc.status,
-          nextSeason: dataDoc.nextSeason,
-          prevSeason: dataDoc.prevSeason,
-          synopsis: dataDoc.synopsis,
-          urlImg: dataDoc.urlImg,
+          _id: doc._id,
+          name: doc.name,
+          alreadyAttended: doc.alreadyAttended,
+          qtdEpisodes: doc.qtdEpisodes,
+          dateLaunch: doc.dateLaunch,
+          note: doc.note,
+          status: doc.status,
+          nextSeason: doc.nextSeason,
+          prevSeason: doc.prevSeason,
+          synopsis: doc.synopsis,
+          urlImg: doc.urlImg || '',
         });
       });
       if (valueComingFromDb.length > 0) {
@@ -300,12 +249,13 @@ class AnimesController {
     }
   }
 
+
   private async postAnimes(req: Request, res: Response) {
     try {
       const resultSearch = await AnimesServices.checkRecordExistence(
         req.body.name
       );
-      if (resultSearch) {
+      if (!resultSearch) {
         if (req.file) {
           const imageBuffer = req.file.buffer;
           //Gerando nome unico do anime
@@ -329,12 +279,18 @@ class AnimesController {
             synopsis: req.body.synopsis,
             urlImg: urlImgAnime,
           };
-          await AnimesServices.registerData(dataRequest);
-          res.status(201).json({ message: "Cadastro bem-sucedido!" });
+          const resultRequest = await AnimesServices.registerData(dataRequest);
+          if (resultRequest.acknowledged == true) {
+            res.status(201).json({ message: "Cadastro bem-sucedido!" });
+          } else {
+            res
+              .status(201)
+              .json({ message: "Problemas ao realizar o cadastro" });
+          }
         } else {
           console.log("Problemas ao carregar a imagem do anime!!");
         }
-      }else{
+      } else {
         res.status(301).json({ message: "Anime ja cadastrado!!" });
       }
     } catch (error) {
