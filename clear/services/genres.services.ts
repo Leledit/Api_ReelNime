@@ -4,7 +4,7 @@ import {
   QueryDocumentSnapshot,
   getFirestore,
 } from "firebase-admin/firestore";
-import clienteDbMongo from "../config/mongoDbConfig.ts";
+import clienteDbMongo from "../config/mongoDbConfig";
 import { ObjectId } from "mongodb";
 
 class GenresServices {

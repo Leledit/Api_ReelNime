@@ -5,7 +5,14 @@ export class RegisterGenresUseCase {
   constructor(private genresRepository: IGenreRepository) {}
   async execute(data: IGenresRequestDTO) {
     const genre = new Genre(data);
-    console.log(genre)
-    await this.genresRepository.save(genre);
+    
+    const returnedGenre = await this.genresRepository.findByName(genre);
+
+    if(returnedGenre.name === ''){
+       await this.genresRepository.save(genre);
+    }else{
+
+      throw new Error("Genero ja cadastrado");
+    }
   }
 }
