@@ -1,6 +1,6 @@
-import { Genre } from "../../../entities/Genre.ts";
-import { IGenreRepository } from "../../../repositories/IGenreRepository.ts";
-import { IGenresRequestDTO } from "./RegisterDTO.ts";
+import { Genre } from "../../../entities/Genre.js";
+import { IGenreRepository } from "../../../repositories/IGenreRepository.js";
+import { IGenresRequestDTO } from "./RegisterDTO.js";
 export class RegisterGenresUseCase {
   constructor(private genresRepository: IGenreRepository) {}
   async execute(data: IGenresRequestDTO) {

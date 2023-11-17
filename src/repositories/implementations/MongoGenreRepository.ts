@@ -33,4 +33,23 @@ export class MongoGenreRepository implements IGenreRepository {
       throw new Error("Falha ao validar a existencia de um genero");
     }
   }
+
+
+  async findAll(): Promise<Genre[]> {
+    try {
+      const refDb = clienteDbMongo();
+      const collectionGenres = refDb.collection("genres");
+      const resultRequest = await collectionGenres
+        .find({})
+        .toArray();
+      
+      let genre:Genre[] = [];
+      resultRequest.map((item)=>{
+          genre.push({name:item.name,id:item.id,registrationDate:item.registrationDate});
+      })
+      return genre
+    } catch (error) {
+      throw new Error("Falha ao obter todos os generos: " + error);
+    }
+  }
 }

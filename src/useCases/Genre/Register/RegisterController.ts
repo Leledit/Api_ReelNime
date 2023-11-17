@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { RegisterGenresUseCase } from "./Register.ts";
-import { genreScheme } from "./scheme.ts";
+import { RegisterGenresUseCase } from "./Register.js";
+import { genreScheme } from "./scheme.js";
 
 export class RegisterGenreController {
   constructor(private registerGenresUseCase: RegisterGenresUseCase) {}
