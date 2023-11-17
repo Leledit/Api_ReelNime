@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { RegisterGenresUseCase } from "./Register.js";
-import { genreScheme } from "./scheme.js";
+import { registerGenreScheme } from "./scheme.js";
 
 export class RegisterGenreController {
   constructor(private registerGenresUseCase: RegisterGenresUseCase) {}
 
   async handle(request: Request, response: Response): Promise<Response> {
-    const { error } = genreScheme.validate(request.body);
+    const { error } = registerGenreScheme.validate(request.body);
 
     if (error) {
       return response.status(400).send(error.message);

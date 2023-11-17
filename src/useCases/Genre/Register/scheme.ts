@@ -1,5 +1,5 @@
 import Joi from "joi";
 
-export const genreScheme = Joi.object({
+export const registerGenreScheme = Joi.object({
     name: Joi.string().required(),
 });
