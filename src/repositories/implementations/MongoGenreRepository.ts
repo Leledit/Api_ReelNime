@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import clienteDbMongo from "../../database/mongoDbConfig.ts";
 import { Genre } from "../../entities/Genre.ts";
 import { IGenreRepository } from "../IGenreRepository";
@@ -7,9 +8,9 @@ export class MongoGenreRepository implements IGenreRepository {
     try {
       const refDb = clienteDbMongo();
       const collectionGenres = refDb.collection("genres");
-      const resultRequest = await collectionGenres.insertOne(genre);
-    } catch (error) {
-      throw new Error("Falha ao cadastrar um genero: " + error);
+      await collectionGenres.insertOne(genre);
+    } catch (error:any) {
+      throw new Error("Falha ao cadastrar um genero: " + error.message);
     }
   }
 
@@ -29,27 +30,51 @@ export class MongoGenreRepository implements IGenreRepository {
       } else {
         return new Genre({ name: "" });
       }
-    } catch (error) {
-      throw new Error("Falha ao validar a existencia de um genero");
+    } catch (error:any) {
+      throw new Error("Falha ao validar a existencia de um genero: "+error.message);
     }
   }
-
 
   async findAll(): Promise<Genre[]> {
     try {
       const refDb = clienteDbMongo();
       const collectionGenres = refDb.collection("genres");
-      const resultRequest = await collectionGenres
-        .find({})
-        .toArray();
-      
-      let genre:Genre[] = [];
-      resultRequest.map((item)=>{
-          genre.push({name:item.name,id:item.id,registrationDate:item.registrationDate});
-      })
-      return genre
-    } catch (error) {
-      throw new Error("Falha ao obter todos os generos: " + error);
+      const resultRequest = await collectionGenres.find({}).toArray();
+
+      let genre: Genre[] = [];
+      resultRequest.map((item) => {
+        genre.push({
+          name: item.name,
+          id: item.id,
+          registrationDate: item.registrationDate,
+        });
+      });
+      return genre;
+    } catch (error:any) {
+      throw new Error("Falha ao obter todos os generos: " + error.message);
+    }
+  }
+
+  async changing(genre: Genre): Promise<void> {
+    try {
+      const refDb = clienteDbMongo();
+      const collectionGenres = refDb.collection("genres");
+
+      const resultRequest = await collectionGenres.updateOne(
+        { id: genre.id },
+        {
+          $set: {
+            name: genre.name,
+          },
+        }
+      );
+
+      if(resultRequest.matchedCount==0){
+        throw new Error("Id invalido");
+      }
+
+    } catch (error:any) {
+      throw new Error("Falha ao editar o genero, " + error.message);
     }
   }
 }

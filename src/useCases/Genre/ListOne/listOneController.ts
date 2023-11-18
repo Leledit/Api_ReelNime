@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { ListOneGenresUseCase } from "./listOne.ts";
-import { searchGenreScheme } from "./shceme.ts";
+import { ListOneGenresUseCase } from "./listOne.js";
+import { searchGenreScheme } from "./shceme.js";
 
 export class ListOneGenreController{
     constructor(private listOneGenresUseCase:ListOneGenresUseCase){}
