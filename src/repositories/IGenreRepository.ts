@@ -5,4 +5,5 @@ export interface IGenreRepository{
     findByName(genre:Genre):Promise<Genre>
     findAll():Promise<Genre[]>
     changing(genre:Genre):Promise<void>;
+    delete(genre:Genre):Promise<void>;
 }

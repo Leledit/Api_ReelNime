@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 import clienteDbMongo from "../../database/mongoDbConfig.ts";
 import { Genre } from "../../entities/Genre.ts";
 import { IGenreRepository } from "../IGenreRepository";
@@ -9,7 +8,7 @@ export class MongoGenreRepository implements IGenreRepository {
       const refDb = clienteDbMongo();
       const collectionGenres = refDb.collection("genres");
       await collectionGenres.insertOne(genre);
-    } catch (error:any) {
+    } catch (error: any) {
       throw new Error("Falha ao cadastrar um genero: " + error.message);
     }
   }
@@ -30,8 +29,10 @@ export class MongoGenreRepository implements IGenreRepository {
       } else {
         return new Genre({ name: "" });
       }
-    } catch (error:any) {
-      throw new Error("Falha ao validar a existencia de um genero: "+error.message);
+    } catch (error: any) {
+      throw new Error(
+        "Falha ao validar a existencia de um genero: " + error.message
+      );
     }
   }
 
@@ -50,7 +51,7 @@ export class MongoGenreRepository implements IGenreRepository {
         });
       });
       return genre;
-    } catch (error:any) {
+    } catch (error: any) {
       throw new Error("Falha ao obter todos os generos: " + error.message);
     }
   }
@@ -69,12 +70,25 @@ export class MongoGenreRepository implements IGenreRepository {
         }
       );
 
-      if(resultRequest.matchedCount==0){
+      if (resultRequest.matchedCount === 0) {
         throw new Error("Id invalido");
       }
-
-    } catch (error:any) {
+    } catch (error: any) {
       throw new Error("Falha ao editar o genero, " + error.message);
+    }
+  }
+
+  async delete(genre: Genre): Promise<void> {
+    try {
+      const refDb = clienteDbMongo();
+      const collectionGenres = refDb.collection("genres");
+      const resultRequest = await collectionGenres.deleteOne({ id: genre.id });
+
+      if (resultRequest.deletedCount === 0) {
+        throw new Error("Id invalido");
+      }
+    } catch (error: any) {
+      throw new Error("Falha ao excluir um genero, " + error.message);
     }
   }
 }
