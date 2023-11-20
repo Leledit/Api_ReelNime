@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { RegisterAnimesUseCase } from "./Register.ts";
 import multer from "multer";
 import { registerAnimeSchema } from "./scheme.ts";
-import { IAnimesRequestDTO } from "./RegisterDTO.ts";
 
 const storage = multer.memoryStorage(); // Configuração de armazenamento do Multer
 
@@ -18,47 +17,37 @@ export class RegisterAnimeController {
     }
 
     try {
-      const {
-        name,
-        qtdEpisodes,
-        releaseYear,
-        note,
-        watched,
-        nextSeason,
-        previousSeason,
-        synopsis,
-        status,
-        genres,
-      } = request.body;
+      await new Promise<void>((resolve, reject) => {
+        const {
+          name,
+          qtdEpisodes,
+          releaseYear,
+          note,
+          watched,
+          nextSeason,
+          previousSeason,
+          synopsis,
+          status,
+          genres,
+        } = request.body;
 
-      //If you have it, register with it
-      upload.single("file")(request, response, (err: any) => {
-        const file = request.file;
+        //If you have it, register with it
+        upload.single("file")(request, response, async (err: any) => {
+          const file = request.file;
 
-        if (file) {
-          const dataANime: IAnimesRequestDTO = {
-            name,
-            nextSeason,
-            note,
-            genres,
-            previousSeason,
-            qtdEpisodes,
-            releaseYear,
-            synopsis,
-            watched,
-            status,
-            dataImg: {
+          let dataImg;
+
+          if (file) {
+            dataImg = {
               buffer: file?.buffer,
               fieldname: file.fieldname,
               mimetype: file.mimetype,
               originalname: file.originalname,
               size: file.size,
-            },
-          };
+            };
+          } 
 
-          this.registerAnimesUseCase.execute(dataANime);
-        } else {
-          const dataANime: IAnimesRequestDTO = {
+          const result = await this.registerAnimesUseCase.execute({
             name,
             nextSeason,
             note,
@@ -69,15 +58,19 @@ export class RegisterAnimeController {
             synopsis,
             watched,
             status,
-          };
+            dataImg:dataImg
+          });
 
-          this.registerAnimesUseCase.execute(dataANime);
-        }
+          if(!result){
+            reject(new Error("Anime ja cadastrado"));
+          }
+
+          resolve();
+        });
       });
+      return response.status(201).send("Anime cadastrado com sucesso!");
     } catch (err: any) {
       return response.status(400).json("Erro na solicitação: " + err.message);
     }
-
-    return response.status(201).send("Anime cadastrado com sucesso!");
   }
 }

@@ -12,6 +12,26 @@ export class MongoAnimeRepository implements IAnimeRepository {
       throw new Error("Falha ao cadastrar um anime: " + error.message);
     }
   }
+
+  async findByName(name: string): Promise<boolean> {
+    try {
+      const refDb = clienteDbMongo();
+      const collectionAnime = refDb.collection("animes");
+      const resultRequest = await collectionAnime.findOne({
+        name: name
+      });
+
+      if (resultRequest) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error: any) {
+      throw new Error(
+        "Falha ao validar a existencia de um genero: " + error.message
+      );
+    }
+  }
   
   async listOne(id: string): Promise<Anime|null> {
     try {
