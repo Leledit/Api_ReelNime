@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-    //iniciando a configuração do firebase
+//iniciando a configuração do firebase
 FirebaseConfig.initializeConfig();
 
 app.use(router);

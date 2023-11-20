@@ -6,6 +6,7 @@ import { changingGenerController } from "./useCases/Genre/Changing/index.ts";
 import { deleteGenreController } from "./useCases/Genre/Delete/index.ts";
 import { registerAnimeController } from "./useCases/Anime/Register/index.ts";
 import multer from "multer";
+import { listOneAnimesController } from "./useCases/Anime/ListOne/index.ts";
 
 const router = Router();
 
@@ -40,8 +41,12 @@ router.delete("/api/v1/genres/:id", (request, response) => {
 
 //Routes related to the "anime" segment
 
-router.post("/api/v1/animes/",upload.single('img') ,(request, response) => {
+router.post("/api/v1/animes/", upload.single("img"), (request, response) => {
   return registerAnimeController.handle(request, response);
+});
+
+router.get("/api/v1/animes/:id", (request, response) => {
+  return listOneAnimesController.handle(request, response);
 });
 
 //Routes related to the "films" segment
