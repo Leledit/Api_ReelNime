@@ -22,8 +22,6 @@ export class ListOneAnimeController{
 
         }catch(err:any){
             return response.status(400).json("Erro na solicitação: " + err.message);
-        }
-
-    
+        }    
     }
 }
