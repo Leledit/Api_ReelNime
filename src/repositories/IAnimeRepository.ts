@@ -5,4 +5,5 @@ export interface IAnimeRepository {
   listOne(id: string): Promise<Anime | null>;
   findByName(name: string): Promise<boolean>;
   findAll(): Promise<Anime[] | null>;
+  delete(id:string): Promise<void>;
 }

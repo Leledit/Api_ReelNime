@@ -95,4 +95,18 @@ export class MongoAnimeRepository implements IAnimeRepository {
       throw new Error("Falha ao obter todos os animes: " + error);
     }
   }
+  async delete(id: string): Promise<void> {
+    try {
+      const refDb = clienteDbMongo();
+      const collectionAnimes = refDb.collection("animes");
+      const resultRequest = await collectionAnimes.deleteOne({ id: id });
+      
+      if(resultRequest.deletedCount===0){
+        throw new Error("id invalido");
+      }
+
+    } catch (error:any) {
+      throw new Error("erro ao deletar um anime, " + error.message);
+    }
+  }
 }

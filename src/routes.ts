@@ -8,6 +8,7 @@ import { registerAnimeController } from "./useCases/Anime/Register/index.ts";
 import multer from "multer";
 import { listOneAnimesController } from "./useCases/Anime/ListOne/index.ts";
 import { listAllAnimesController } from "./useCases/Anime/ListAll/index.ts";
+import { deleteAnimeController } from "./useCases/Anime/Delete/index.ts";
 
 const router = Router();
 
@@ -53,6 +54,10 @@ router.get("/api/v1/animes/:id", (request, response) => {
 router.get("/api/v1/animes/", (request, response) => {
   return listAllAnimesController.handle(request, response);
 });
+
+router.delete("/api/v1/animes/:id",(request, response) => {
+  return deleteAnimeController.handle(request, response);
+})
 
 //Routes related to the "films" segment
 
