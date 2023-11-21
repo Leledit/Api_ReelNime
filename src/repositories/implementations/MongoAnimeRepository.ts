@@ -109,4 +109,39 @@ export class MongoAnimeRepository implements IAnimeRepository {
       throw new Error("erro ao deletar um anime, " + error.message);
     }
   }
+  async paginationList(initialValue: number, finalValue: number): Promise<Anime[] | null> {
+    try{
+      const refDb = clienteDbMongo();
+      const collectionAnimes = refDb.collection("animes");
+      const resultRequest = await collectionAnimes.find().skip(initialValue).limit(finalValue).toArray();
+     
+      if (resultRequest.length !== 0) {
+        let dataAnimes: Anime[] = [];
+        resultRequest.map((item) => {
+          dataAnimes.push(
+            new Anime({
+              name: item.name,
+              genres: item.genres,
+              nextSeason: item.nextSeason,
+              previousSeason: item.previousSeason,
+              note: item.note,
+              qtdEpisodes: item.qtdEpisodes,
+              releaseYear: item.releaseYear,
+              status: item.status,
+              synopsis: item.synopsis,
+              watched: item.watched,
+              urlImg: item.urlImg,
+            })
+          );
+        });
+
+        return dataAnimes;
+      } else {
+        return null;
+      }
+
+    }catch (error) {
+      throw new Error("erro ao buscar animes(paginação): " + error);
+    }
+  }
 }

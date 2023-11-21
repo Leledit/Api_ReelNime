@@ -1,6 +1,6 @@
 import { Anime } from "../../../entities/Anime.ts";
 import { IAnimeRepository } from "../../../repositories/IAnimeRepository.ts";
-import { StorageFirebase } from "../../../utils/storage/StorageFirebase.ts";
+import { StorageFirebase } from "../../../providers/IStorageFirebase.ts";
 import { IAnimesRequestDTO } from "./RegisterDTO.ts";
 import path from "path";
 
