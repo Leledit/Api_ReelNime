@@ -7,4 +7,5 @@ export interface IAnimeRepository {
   findAll(): Promise<Anime[] | null>;
   delete(id:string): Promise<void>;
   paginationList(initialValue:number,finalValue:number):Promise<Anime[] | null>;
+  changing(anime: Anime): Promise<void>;
 }
