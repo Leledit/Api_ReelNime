@@ -12,6 +12,7 @@ import { deleteAnimeController } from "./useCases/Anime/Delete/index.ts";
 import { paginationAnimeController } from "./useCases/Anime/Pagination/index.ts";
 import { changingAnimeControler } from "./useCases/Anime/Changing/index.ts";
 import { registerFilmeController } from "./useCases/Filme/Register/index.ts";
+import { changingFilmeController } from "./useCases/Filme/Changing/index.ts";
 
 const router = Router();
 
@@ -73,5 +74,10 @@ router.delete("/api/v1/animes/:id", (request, response) => {
 router.post("/api/v1/filmes/", upload.single("img"),(request, response) => {
   return registerFilmeController.handle(request,response);
 })
+
+router.put("/api/v1/filmes/", upload.single("img"),(request, response) => {
+  return changingFilmeController.handle(request,response);
+})
+
 
 export { router };
