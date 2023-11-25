@@ -79,4 +79,37 @@ export class MongoFilmeRepository implements IFilmeRepository {
       throw new Error("erro ao atualizar um anime: " + error);
     }
   }
+  async findAll(): Promise<Filme[] | null> {
+    try {
+      const refDb = clienteDbMongo();
+      const resultRequest =  await refDb.collection("filmes").find({}).toArray();
+
+      if (resultRequest.length !== 0) {
+        let dataFilmes: Filme[] = [];
+        resultRequest.map((item) => {
+          let id = item.id;
+          dataFilmes.push(
+            new Filme(
+              {
+                name: item.name,
+                duration: item.duration,
+                lauch: item.lauch,
+                note: item.note,
+                synopsis: item.synopsis,
+                visa: item.visa,
+                urlImg: item.urlImg
+              },
+              id
+            )
+          );
+        });
+
+        return dataFilmes;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      throw new Error("Falha ao obter todos os animes: " + error);
+    }
+  }
 }

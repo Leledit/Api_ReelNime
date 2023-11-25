@@ -13,6 +13,8 @@ import { paginationAnimeController } from "./useCases/Anime/Pagination/index.ts"
 import { changingAnimeControler } from "./useCases/Anime/Changing/index.ts";
 import { registerFilmeController } from "./useCases/Filme/Register/index.ts";
 import { changingFilmeController } from "./useCases/Filme/Changing/index.ts";
+import { listOneFilmesController } from "./useCases/Filme/ListOne/index.ts";
+import { listAllFilmeController } from "./useCases/Filme/ListAll/index.ts";
 
 const router = Router();
 
@@ -47,7 +49,6 @@ router.post("/api/v1/animes/", upload.single("img"), (request, response) => {
   return registerAnimeController.handle(request, response);
 });
 
-
 router.put("/api/v1/animes/", upload.single("img"), (request, response) => {
   return changingAnimeControler.handle(request, response);
 });
@@ -68,16 +69,22 @@ router.delete("/api/v1/animes/:id", (request, response) => {
   return deleteAnimeController.handle(request, response);
 });
 
-
 //Routes related to the "films" segment
 
-router.post("/api/v1/filmes/", upload.single("img"),(request, response) => {
-  return registerFilmeController.handle(request,response);
-})
+router.post("/api/v1/filmes/", upload.single("img"), (request, response) => {
+  return registerFilmeController.handle(request, response);
+});
 
-router.put("/api/v1/filmes/", upload.single("img"),(request, response) => {
-  return changingFilmeController.handle(request,response);
-})
+router.put("/api/v1/filmes/", upload.single("img"), (request, response) => {
+  return changingFilmeController.handle(request, response);
+});
 
+router.get("/api/v1/filmes/:id", (request, response) => {
+  return listOneFilmesController.handle(request, response);
+});
+
+router.get("/api/v1/filmes/", (request, response) => {
+  return listAllFilmeController.handle(request, response);
+});
 
 export { router };
