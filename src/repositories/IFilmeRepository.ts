@@ -7,4 +7,5 @@ export interface IFilmeRepository{
     changing(filme: Filme): Promise<void>;
     findAll(): Promise<Filme[] | null>;
     paginationList(initialValue:number,finalValue:number):Promise<Filme[] | null>;
+    delete(id:string): Promise<void>;
 }

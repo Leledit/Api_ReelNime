@@ -128,15 +128,18 @@ export class MongoFilmeRepository implements IFilmeRepository {
         let dataFilmes: Filme[] = [];
         resultRequest.map((item) => {
           dataFilmes.push(
-            new Filme({
-              name: item.name,
-              duration: item.duration,
-              lauch: item.lauch,
-              note: item.note,
-              synopsis: item.synopsis,
-              visa: item.visa,
-              urlImg: item.urlImg,
-            },item.id)
+            new Filme(
+              {
+                name: item.name,
+                duration: item.duration,
+                lauch: item.lauch,
+                note: item.note,
+                synopsis: item.synopsis,
+                visa: item.visa,
+                urlImg: item.urlImg,
+              },
+              item.id
+            )
           );
         });
 
@@ -146,6 +149,19 @@ export class MongoFilmeRepository implements IFilmeRepository {
       }
     } catch (error) {
       throw new Error("erro ao buscar Filmes(paginação): " + error);
+    }
+  }
+  async delete(id: string): Promise<void> {
+    try {
+      const refDb = clienteDbMongo();
+      const collectionFilme = refDb.collection("filmes");
+      const resultRequest = await collectionFilme.deleteOne({ id: id });
+
+      if (resultRequest.deletedCount === 0) {
+        throw new Error("id invalido");
+      }
+    } catch (error: any) {
+      throw new Error("erro ao deletar um Filme, " + error.message);
     }
   }
 }

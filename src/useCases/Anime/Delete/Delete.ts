@@ -1,6 +1,6 @@
 import { StorageFirebase } from "../../../providers/IStorageFirebase.ts";
 import { IAnimeRepository } from "../../../repositories/IAnimeRepository.ts";
-import { IAnimesRequestDTO } from "./ListOneDTO.ts";
+import { IAnimesRequestDTO } from "./DeleteDTO.ts";
 
 export class DeleteAnimeUseCase {
   constructor(private animeRepository: IAnimeRepository) {}
