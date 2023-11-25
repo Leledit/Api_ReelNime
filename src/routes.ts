@@ -1,4 +1,4 @@
-import { Router, request, response } from "express";
+import { Router } from "express";
 import { registerGenreController } from "./useCases/Genre/Register/index.ts";
 import { listAllGenresController } from "./useCases/Genre/ListAll/index.ts";
 import { listOneGenreController } from "./useCases/Genre/ListOne/index.ts";
@@ -15,6 +15,8 @@ import { registerFilmeController } from "./useCases/Filme/Register/index.ts";
 import { changingFilmeController } from "./useCases/Filme/Changing/index.ts";
 import { listOneFilmesController } from "./useCases/Filme/ListOne/index.ts";
 import { listAllFilmeController } from "./useCases/Filme/ListAll/index.ts";
+import { PaginationFilmeController } from "./useCases/Filme/Pagination/PaginationController.ts";
+import { paginationFilmeController } from "./useCases/Filme/Pagination/index.ts";
 
 const router = Router();
 
@@ -78,6 +80,18 @@ router.post("/api/v1/filmes/", upload.single("img"), (request, response) => {
 router.put("/api/v1/filmes/", upload.single("img"),(request, response) => {
   return changingFilmeController.handle(request,response);
 })
+
+router.get("/api/v1/filmes/page/",(request, response) => {
+  return paginationFilmeController.handle(request, response);
+})
+
+router.get("/api/v1/filmes/:id", (request, response) => {
+  return listOneFilmesController.handle(request, response);
+});
+
+router.get("/api/v1/filmes/", (request, response) => {
+  return listAllFilmeController.handle(request, response);
+});
 
 
 export { router };

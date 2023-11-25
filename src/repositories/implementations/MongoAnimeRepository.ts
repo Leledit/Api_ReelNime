@@ -176,7 +176,7 @@ export class MongoAnimeRepository implements IAnimeRepository {
               synopsis: item.synopsis,
               watched: item.watched,
               urlImg: item.urlImg,
-            })
+            },item.id)
           );
         });
 

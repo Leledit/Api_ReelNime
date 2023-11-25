@@ -6,4 +6,5 @@ export interface IFilmeRepository{
     listOne(id: string): Promise<Filme | null>;
     changing(filme: Filme): Promise<void>;
     findAll(): Promise<Filme[] | null>;
+    paginationList(initialValue:number,finalValue:number):Promise<Filme[] | null>;
 }

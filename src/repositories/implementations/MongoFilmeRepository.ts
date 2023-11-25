@@ -82,7 +82,7 @@ export class MongoFilmeRepository implements IFilmeRepository {
   async findAll(): Promise<Filme[] | null> {
     try {
       const refDb = clienteDbMongo();
-      const resultRequest =  await refDb.collection("filmes").find({}).toArray();
+      const resultRequest = await refDb.collection("filmes").find({}).toArray();
 
       if (resultRequest.length !== 0) {
         let dataFilmes: Filme[] = [];
@@ -97,7 +97,7 @@ export class MongoFilmeRepository implements IFilmeRepository {
                 note: item.note,
                 synopsis: item.synopsis,
                 visa: item.visa,
-                urlImg: item.urlImg
+                urlImg: item.urlImg,
               },
               id
             )
@@ -110,6 +110,42 @@ export class MongoFilmeRepository implements IFilmeRepository {
       }
     } catch (error) {
       throw new Error("Falha ao obter todos os animes: " + error);
+    }
+  }
+  async paginationList(
+    initialValue: number,
+    finalValue: number
+  ): Promise<Filme[] | null> {
+    try {
+      const refDb = clienteDbMongo();
+      const collectionFilmes = refDb.collection("filmes");
+      const resultRequest = await collectionFilmes
+        .find()
+        .skip(initialValue)
+        .limit(finalValue)
+        .toArray();
+      if (resultRequest.length !== 0) {
+        let dataFilmes: Filme[] = [];
+        resultRequest.map((item) => {
+          dataFilmes.push(
+            new Filme({
+              name: item.name,
+              duration: item.duration,
+              lauch: item.lauch,
+              note: item.note,
+              synopsis: item.synopsis,
+              visa: item.visa,
+              urlImg: item.urlImg,
+            },item.id)
+          );
+        });
+
+        return dataFilmes;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      throw new Error("erro ao buscar Filmes(paginação): " + error);
     }
   }
 }

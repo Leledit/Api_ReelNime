@@ -1,5 +1,5 @@
 import { IAnimeRepository } from "../../../repositories/IAnimeRepository.ts";
-import { IAnimesRequestDTO } from "./ListOneDTO.ts";
+import { IAnimesRequestDTO } from "./PaginationDTO.ts";
 
 export class PaginationAnimeUseCase {
   constructor(private animeRepository: IAnimeRepository) {}
