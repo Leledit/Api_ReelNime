@@ -11,6 +11,7 @@ import { listAllAnimesController } from "./useCases/Anime/ListAll/index.ts";
 import { deleteAnimeController } from "./useCases/Anime/Delete/index.ts";
 import { paginationAnimeController } from "./useCases/Anime/Pagination/index.ts";
 import { changingAnimeControler } from "./useCases/Anime/Changing/index.ts";
+import { registerFilmeController } from "./useCases/Filme/Register/index.ts";
 
 const router = Router();
 
@@ -68,5 +69,9 @@ router.delete("/api/v1/animes/:id", (request, response) => {
 
 
 //Routes related to the "films" segment
+
+router.post("/api/v1/filmes/", upload.single("img"),(request, response) => {
+  return registerFilmeController.handle(request,response);
+})
 
 export { router };
