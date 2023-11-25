@@ -75,16 +75,9 @@ router.post("/api/v1/filmes/", upload.single("img"), (request, response) => {
   return registerFilmeController.handle(request, response);
 });
 
-router.put("/api/v1/filmes/", upload.single("img"), (request, response) => {
-  return changingFilmeController.handle(request, response);
-});
+router.put("/api/v1/filmes/", upload.single("img"),(request, response) => {
+  return changingFilmeController.handle(request,response);
+})
 
-router.get("/api/v1/filmes/:id", (request, response) => {
-  return listOneFilmesController.handle(request, response);
-});
-
-router.get("/api/v1/filmes/", (request, response) => {
-  return listAllFilmeController.handle(request, response);
-});
 
 export { router };
