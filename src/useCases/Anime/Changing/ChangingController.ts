@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { ChangingAnimeUseCase } from "./Changing.ts";
 import { changingAnimeSchema } from "./scheme.ts";
 import multer from "multer";
@@ -9,14 +9,24 @@ const upload = multer({ storage: storage });
 
 export class ChangingAnimeController {
   constructor(private changingAnimeUseCase: ChangingAnimeUseCase) {}
-  async handle(request: Request, response: Response): Promise<Response> {
-    const { error } = changingAnimeSchema.validate(request.body);
+
+  private validateRequest = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { error } = changingAnimeSchema.validate(req.body);
 
     if (error) {
-      return response.status(400).send(error.message);
+      return res.status(400).send(error.message);
     }
 
+    next();
+  };
+
+  async handle(req: Request, res: Response): Promise<Response> {
     try {
+      this.validateRequest(req, res, () => {});
       const {
         name,
         watched,
@@ -29,11 +39,10 @@ export class ChangingAnimeController {
         synopsis,
         genres,
         id,
-        img,
-      } = request.body;
+      } = req.body;
 
-      upload.single("file")(request, response, async (err: any) => {
-        const file = request.file;
+      upload.single("file")(req, res, async (err: any) => {
+        const file = req.file;
 
         let dataImg;
 
@@ -45,7 +54,7 @@ export class ChangingAnimeController {
             originalname: file.originalname,
             size: file.size,
           };
-        } 
+        }
 
         await this.changingAnimeUseCase.execute({
           name,
@@ -61,11 +70,11 @@ export class ChangingAnimeController {
           watched,
           dataImg: dataImg,
         });
-      })
+      });
 
-      return response.status(201).send("Anime editado com sucesso");
+      return res.status(201).send("Anime editado com sucesso");
     } catch (err: any) {
-      return response.status(400).json("Erro na solicitação: " + err.message);
+      return res.status(400).json("Erro na solicitação: " + err.message);
     }
   }
 }

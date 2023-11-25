@@ -1,3 +1,3 @@
-export interface IAnimesRequestDTO{
-    id:string,
+export interface IAnimesRequestDTO {
+  id: string;
 }

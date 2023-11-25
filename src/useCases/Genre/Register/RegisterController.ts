@@ -1,25 +1,33 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { RegisterGenresUseCase } from "./Register.js";
 import { registerGenreScheme } from "./scheme.js";
 
 export class RegisterGenreController {
   constructor(private registerGenresUseCase: RegisterGenresUseCase) {}
 
-  async handle(request: Request, response: Response): Promise<Response> {
-    const { error } = registerGenreScheme.validate(request.body);
+  private validateRequest = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { error } = registerGenreScheme.validate(req.body);
 
     if (error) {
-      return response.status(400).send(error.message);
+      return res.status(400).send(error.message);
     }
+    next();
+  };
 
-    const { name } = request.body;
-
+  async handle(req: Request, res: Response): Promise<Response> {
     try {
+      this.validateRequest(req, res, () => {});
+      const { name } = req.body;
+
       await this.registerGenresUseCase.execute({ name });
 
-      return response.status(201).send("Genero cadastrado com sucesso!");
+      return res.status(201).send("Genero cadastrado com sucesso!");
     } catch (err: any) {
-      return response.status(400).json("Erro na solicitação: " + err.message);
+      return res.status(400).json("Erro na solicitação: " + err.message);
     }
   }
 }

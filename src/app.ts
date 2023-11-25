@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import { router } from "./routes.ts";
 import bodyParser from "body-parser";
-import multer from "multer";
 import { FirebaseConfig } from "./database/firebaseConfig.ts";
 const app = express();
 

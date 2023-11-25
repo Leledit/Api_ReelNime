@@ -1,3 +1,3 @@
-export interface IFilmeRequestDTO{
-    id:string,
+export interface IFilmeRequestDTO {
+  id: string;
 }

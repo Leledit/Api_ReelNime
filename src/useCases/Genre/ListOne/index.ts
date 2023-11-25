@@ -8,4 +8,4 @@ const listOneGenresUseCase = new ListOneGenresUseCase(mongoGenreRepository);
 
 const listOneGenreController = new ListOneGenreController(listOneGenresUseCase);
 
-export {listOneGenresUseCase,listOneGenreController}
+export { listOneGenresUseCase, listOneGenreController };

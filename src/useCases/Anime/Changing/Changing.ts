@@ -9,14 +9,14 @@ export class ChangingAnimeUseCase {
   async execute(data: IAnimesRequestDTO) {
     try {
       const oldAnimeData = await this.animesRepository.listOne(data.id);
-      if(oldAnimeData?.urlImg && data.dataImg){
+      if (oldAnimeData?.urlImg && data.dataImg) {
         //apagando a imagen antiga para dar lugar a nova
         await StorageFirebase.deleteImg(oldAnimeData?.urlImg, "animes/");
       }
-      
-      let urlImg = '';
 
-      if(data.dataImg){
+      let urlImg = "";
+
+      if (data.dataImg) {
         const uniqueSuffix = Date.now() + Math.round(Math.random() * 1e9);
         const filename = uniqueSuffix + path.extname(data.dataImg.originalname);
 
@@ -26,27 +26,30 @@ export class ChangingAnimeUseCase {
           "animes/"
         );
         urlImg = urlImgAnime;
-      }else{
-        if(oldAnimeData?.urlImg){
-            urlImg = oldAnimeData?.urlImg;
+      } else {
+        if (oldAnimeData?.urlImg) {
+          urlImg = oldAnimeData?.urlImg;
         }
       }
 
-      const anime = new Anime({
-        name: data.name,
-        nextSeason: data.nextSeason,
-        note: data.note,
-        previousSeason: data.previousSeason,
-        qtdEpisodes: data.qtdEpisodes,
-        releaseYear: data.releaseYear,
-        status: data.status,
-        synopsis: data.synopsis,
-        watched: data.watched,
-        genres: data.genres,
-        urlImg: urlImg,
-      },data.id);
+      const anime = new Anime(
+        {
+          name: data.name,
+          nextSeason: data.nextSeason,
+          note: data.note,
+          previousSeason: data.previousSeason,
+          qtdEpisodes: data.qtdEpisodes,
+          releaseYear: data.releaseYear,
+          status: data.status,
+          synopsis: data.synopsis,
+          watched: data.watched,
+          genres: data.genres,
+          urlImg: urlImg,
+        },
+        data.id
+      );
 
-      await this.animesRepository.changing(anime);  
+      await this.animesRepository.changing(anime);
     } catch (err: any) {}
   }
 }

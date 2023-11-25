@@ -6,4 +6,4 @@ const mongoFilmeRepository = new MongoFilmeRepository();
 const listAllFilmeUseCase = new ListAllFilmeUseCase(mongoFilmeRepository);
 const listAllFilmeController = new ListAllFilmeController(listAllFilmeUseCase);
 
-export {listAllFilmeUseCase, listAllFilmeController}
+export { listAllFilmeUseCase, listAllFilmeController };

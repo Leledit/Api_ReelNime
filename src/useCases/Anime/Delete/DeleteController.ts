@@ -3,12 +3,12 @@ import { DeleteAnimeUseCase } from "./Delete.ts";
 
 export class DeleteAnimeController {
   constructor(private deleteAnimeUseCase: DeleteAnimeUseCase) {}
-  async handle(request: Request, response: Response): Promise<Response> {
+  async handle(req: Request, res: Response): Promise<Response> {
     try {
-      await this.deleteAnimeUseCase.execute({ id: request.params.id });
-      return response.status(201).send("Anime deletado com sucesso!");
+      await this.deleteAnimeUseCase.execute({ id: req.params.id });
+      return res.status(201).send("Anime deletado com sucesso!");
     } catch (err: any) {
-      return response.status(400).json("Erro na solicitação: " + err.message);
+      return res.status(400).json("Erro na solicitação: " + err.message);
     }
   }
 }

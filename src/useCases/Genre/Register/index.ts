@@ -6,6 +6,8 @@ const mongoGenreRepository = new MongoGenreRepository();
 
 const registerGenresUseCase = new RegisterGenresUseCase(mongoGenreRepository);
 
-const registerGenreController = new RegisterGenreController(registerGenresUseCase);
+const registerGenreController = new RegisterGenreController(
+  registerGenresUseCase
+);
 
-export {registerGenresUseCase,registerGenreController}
+export { registerGenresUseCase, registerGenreController };

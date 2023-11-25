@@ -6,4 +6,4 @@ const mongoFilmeRepository = new MongoFilmeRepository();
 const deleteFilmeUseCase = new DeleteFilmeUseCase(mongoFilmeRepository);
 const deleteFilmeController = new DeleteFilmeController(deleteFilmeUseCase);
 
-export {deleteFilmeUseCase,deleteFilmeController};
+export { deleteFilmeUseCase, deleteFilmeController };

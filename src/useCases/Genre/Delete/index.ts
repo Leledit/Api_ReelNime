@@ -8,4 +8,4 @@ const deleteGenresUseCase = new DeleteGenresUseCase(mongoGenreRepository);
 
 const deleteGenreController = new DeleteGenreController(deleteGenresUseCase);
 
-export {deleteGenresUseCase,deleteGenreController}
+export { deleteGenresUseCase, deleteGenreController };

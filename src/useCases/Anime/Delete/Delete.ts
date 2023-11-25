@@ -17,7 +17,6 @@ export class DeleteAnimeUseCase {
       }
 
       await this.animeRepository.delete(data.id);
-
     } catch (err: any) {
       throw new Error(err.message);
     }

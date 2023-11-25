@@ -6,4 +6,4 @@ const mongoAnimeRepository = new MongoAnimeRepository();
 const deleteAnimeUseCase = new DeleteAnimeUseCase(mongoAnimeRepository);
 const deleteAnimeController = new DeleteAnimeController(deleteAnimeUseCase);
 
-export {deleteAnimeUseCase,deleteAnimeController};
+export { deleteAnimeUseCase, deleteAnimeController };

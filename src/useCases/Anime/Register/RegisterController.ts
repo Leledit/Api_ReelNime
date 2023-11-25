@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { RegisterAnimesUseCase } from "./Register.ts";
 import multer from "multer";
 import { registerAnimeSchema } from "./scheme.ts";
@@ -9,14 +9,23 @@ const upload = multer({ storage: storage });
 
 export class RegisterAnimeController {
   constructor(private registerAnimesUseCase: RegisterAnimesUseCase) {}
-  async handle(request: Request, response: Response): Promise<Response> {
-    const { error } = registerAnimeSchema.validate(request.body);
 
+  private validateRequest = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { error } = registerAnimeSchema.validate(req.body);
     if (error) {
-      return response.status(400).send(error.message);
+      return res.status(400).send(error.message);
     }
+    next();
+  };
 
+  async handle(req: Request, res: Response): Promise<Response> {
     try {
+      this.validateRequest(req, res, () => {});
+
       await new Promise<void>((resolve, reject) => {
         const {
           name,
@@ -29,11 +38,11 @@ export class RegisterAnimeController {
           synopsis,
           status,
           genres,
-        } = request.body;
+        } = req.body;
 
         //If you have it, register with it
-        upload.single("file")(request, response, async (err: any) => {
-          const file = request.file;
+        upload.single("file")(req, res, async (err: any) => {
+          const file = req.file;
 
           let dataImg;
 
@@ -45,7 +54,7 @@ export class RegisterAnimeController {
               originalname: file.originalname,
               size: file.size,
             };
-          } 
+          }
 
           const result = await this.registerAnimesUseCase.execute({
             name,
@@ -58,19 +67,19 @@ export class RegisterAnimeController {
             synopsis,
             watched,
             status,
-            dataImg:dataImg
+            dataImg: dataImg,
           });
 
-          if(!result){
+          if (!result) {
             reject(new Error("Anime ja cadastrado"));
           }
 
           resolve();
         });
       });
-      return response.status(201).send("Anime cadastrado com sucesso!");
+      return res.status(201).send("Anime cadastrado com sucesso!");
     } catch (err: any) {
-      return response.status(400).json("Erro na solicitação: " + err.message);
+      return res.status(400).json("Erro na solicitação: " + err.message);
     }
   }
 }

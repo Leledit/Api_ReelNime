@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import multer from "multer";
 import { RegisterFilmeUseCase } from "./Register.ts";
 import { registerFilmeSchema } from "./scheme.ts";
@@ -9,19 +9,30 @@ const upload = multer({ storage: storage });
 
 export class RegisterFilmeController {
   constructor(private registerFilmeUseCase: RegisterFilmeUseCase) {}
-  async handle(request: Request, response: Response): Promise<Response> {
-    const { error } = registerFilmeSchema.validate(request.body);
+
+  private validateRequest = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { error } = registerFilmeSchema.validate(req.body);
 
     if (error) {
-      return response.status(400).send(error.message);
+      return res.status(400).send(error.message);
     }
 
-    try {
-      await new Promise<void>((resolve, reject) => {
-        const { name, visa, duration, lauch, note, synopsis } = request.body;
+    next();
+  };
 
-        upload.single("file")(request, response, async (err: any) => {
-          const file = request.file;
+  async handle(req: Request, res: Response): Promise<Response> {
+    try {
+      this.validateRequest(req, res, () => {});
+
+      await new Promise<void>((resolve, reject) => {
+        const { name, visa, duration, lauch, note, synopsis } = req.body;
+
+        upload.single("file")(req, res, async (err: any) => {
+          const file = req.file;
           let dataImg;
           if (file) {
             dataImg = {
@@ -48,9 +59,9 @@ export class RegisterFilmeController {
           resolve();
         });
       });
-      return response.status(201).send("filme cadastrado com sucesso!");
+      return res.status(201).send("filme cadastrado com sucesso!");
     } catch (err: any) {
-      return response.status(400).json("Erro na solicitação: " + err.message);
+      return res.status(400).json("Erro na solicitação: " + err.message);
     }
   }
 }

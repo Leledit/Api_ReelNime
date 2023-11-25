@@ -4,6 +4,8 @@ import { RegisterFilmeController } from "./RegisterController.ts";
 
 const mongoFilmeRepository = new MongoFilmeRepository();
 const registerFilmeUseCase = new RegisterFilmeUseCase(mongoFilmeRepository);
-const registerFilmeController = new RegisterFilmeController(registerFilmeUseCase);
+const registerFilmeController = new RegisterFilmeController(
+  registerFilmeUseCase
+);
 
-export {registerFilmeUseCase, registerFilmeController};
+export { registerFilmeUseCase, registerFilmeController };

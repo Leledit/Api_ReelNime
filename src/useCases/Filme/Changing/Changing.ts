@@ -32,20 +32,23 @@ export class ChangingFilmeUseCase {
         }
       }
 
-      const filme = new Filme({
-        duration: data.duration,
-        lauch: data.lauch,
-        name: data.name,
-        note: data.note,
-        synopsis: data.synopsis,
-        visa: data.visa,
-        urlImg: urlImg,
-      },data.id);
+      const filme = new Filme(
+        {
+          duration: data.duration,
+          lauch: data.lauch,
+          name: data.name,
+          note: data.note,
+          synopsis: data.synopsis,
+          visa: data.visa,
+          urlImg: urlImg,
+        },
+        data.id
+      );
 
       await this.filmeRepository.changing(filme);
     } catch (err: any) {
-        console.log("---");
-        console.log(err);
+      console.log("---");
+      console.log(err);
     }
   }
 }

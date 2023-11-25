@@ -1,4 +1,4 @@
-export interface IFilmesRequestDTO{
-    page:number,
-    limit:number,
+export interface IFilmesRequestDTO {
+  page: number;
+  limit: number;
 }

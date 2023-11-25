@@ -1,4 +1,4 @@
-export interface IAnimesRequestDTO{
-    page:number,
-    limit:number,
+export interface IAnimesRequestDTO {
+  page: number;
+  limit: number;
 }

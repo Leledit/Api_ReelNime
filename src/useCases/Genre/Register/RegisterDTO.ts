@@ -1,4 +1,4 @@
-export interface IGenresRequestDTO{
-    name:string,
-    id?:string,
+export interface IGenresRequestDTO {
+  name: string;
+  id?: string;
 }

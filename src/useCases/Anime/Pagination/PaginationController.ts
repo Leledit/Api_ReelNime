@@ -1,26 +1,36 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { PaginationAnimeUseCase } from "./Pagination.ts";
 import { paginationAnimeScheme } from "./scheme.ts";
 
 export class PaginationAnimeController {
   constructor(private paginationAnimeUseCase: PaginationAnimeUseCase) {}
-  async handle(request: Request, response: Response): Promise<Response> {
-    const { error } = paginationAnimeScheme.validate(request.body);
+
+  private validateRequest = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { error } = paginationAnimeScheme.validate(req.body);
 
     if (error) {
-      return response.status(400).send(error.message);
+      return res.status(400).send(error.message);
     }
 
-    const { page, limit } = request.body;
+    next();
+  };
 
+  async handle(req: Request, res: Response): Promise<Response> {
     try {
+      this.validateRequest(req, res, () => {});
+      const { page, limit } = req.body;
+
       const dataAnimes = await this.paginationAnimeUseCase.execute({
         page,
         limit,
       });
-      return response.status(201).json(dataAnimes);
+      return res.status(201).json(dataAnimes);
     } catch (err: any) {
-      return response.status(400).json("Erro na solicitação: " + err.message);
+      return res.status(400).json("Erro na solicitação: " + err.message);
     }
   }
 }

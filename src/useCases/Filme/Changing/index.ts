@@ -2,9 +2,10 @@ import { MongoFilmeRepository } from "../../../repositories/implementations/Mong
 import { ChangingFilmeUseCase } from "./Changing.ts";
 import { ChangingFilmeController } from "./ChangingController.ts";
 
-
 const mongoFilmeRepository = new MongoFilmeRepository();
 const changingFilmeUseCase = new ChangingFilmeUseCase(mongoFilmeRepository);
-const changingFilmeController = new ChangingFilmeController(changingFilmeUseCase);
+const changingFilmeController = new ChangingFilmeController(
+  changingFilmeUseCase
+);
 
-export {changingFilmeUseCase, changingFilmeController};
+export { changingFilmeUseCase, changingFilmeController };

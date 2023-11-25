@@ -1,27 +1,38 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { listOneFilmeSchema } from "./scheme.ts";
 import { ListOneFilmeUseCase } from "./ListOne.ts";
 
-export class ListOneFilmeController{
-    constructor(private listOneFilmeUseCase: ListOneFilmeUseCase){}
-    async handle(request: Request, response: Response): Promise<Response> {
-        const {error} = listOneFilmeSchema.validate(request.params);
+export class ListOneFilmeController {
+  constructor(private listOneFilmeUseCase: ListOneFilmeUseCase) {}
 
-        if (error) {
-            return response.status(400).send(error.message);
-        }
-        
-        try{
-            const idFilme = request.params.id;
-            const dataFilme = await this.listOneFilmeUseCase.execute({id:idFilme});
+  private validateRequest = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { error } = listOneFilmeSchema.validate(req.params);
 
-            if(dataFilme === null){
-                throw new Error("Filme  não encontrado");
-            }else{
-                return response.status(201).json(dataFilme);
-            }
-        }catch(err:any){
-            return response.status(400).json("Erro na solicitação: " + err.message);
-        }
+    if (error) {
+      return res.status(400).send(error.message);
     }
+
+    next();
+  };
+
+  async handle(req: Request, res: Response): Promise<Response> {
+    try {
+      this.validateRequest(req, res, () => {});
+
+      const idFilme = req.params.id;
+      const dataFilme = await this.listOneFilmeUseCase.execute({ id: idFilme });
+
+      if (dataFilme === null) {
+        throw new Error("Filme  não encontrado");
+      } else {
+        return res.status(201).json(dataFilme);
+      }
+    } catch (err: any) {
+      return res.status(400).json("Erro na solicitação: " + err.message);
+    }
+  }
 }

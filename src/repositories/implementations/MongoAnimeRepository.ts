@@ -35,7 +35,7 @@ export class MongoAnimeRepository implements IAnimeRepository {
           },
         }
       );
-    
+
       if (resultRequest.matchedCount === 0) {
         throw new Error("Id invalido");
       }
@@ -164,19 +164,22 @@ export class MongoAnimeRepository implements IAnimeRepository {
         let dataAnimes: Anime[] = [];
         resultRequest.map((item) => {
           dataAnimes.push(
-            new Anime({
-              name: item.name,
-              genres: item.genres,
-              nextSeason: item.nextSeason,
-              previousSeason: item.previousSeason,
-              note: item.note,
-              qtdEpisodes: item.qtdEpisodes,
-              releaseYear: item.releaseYear,
-              status: item.status,
-              synopsis: item.synopsis,
-              watched: item.watched,
-              urlImg: item.urlImg,
-            },item.id)
+            new Anime(
+              {
+                name: item.name,
+                genres: item.genres,
+                nextSeason: item.nextSeason,
+                previousSeason: item.previousSeason,
+                note: item.note,
+                qtdEpisodes: item.qtdEpisodes,
+                releaseYear: item.releaseYear,
+                status: item.status,
+                synopsis: item.synopsis,
+                watched: item.watched,
+                urlImg: item.urlImg,
+              },
+              item.id
+            )
           );
         });
 
