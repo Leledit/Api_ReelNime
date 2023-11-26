@@ -1,0 +1,98 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Api de manipulação de animes/filmes",
+        "description": "Esta api tem como objetivo manipular dados referentes a filmes e animes.",
+        "termsOfService": "",
+        "contact": {
+            "email": "profile.caixeta99@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080/api/v1",
+            "description": "Api de uso local"
+        }
+    ],
+    "paths": {
+        "/genres/": {
+            "post": {
+                "summary": "Cadastro de genero",
+                "description": "Rota responsavel por realizar o cadastro de um novo genero na aplicação",
+                "tags": [
+                    "genres"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "#ref": "#/components/schemas/Genres"
+                            },
+                            "examples": {
+                                "genres": {
+                                    "value": {
+                                        "name": "Ação"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Problemas com a solicitação!"
+                    },
+                    "401": {
+                        "description": "Genero ja cadastrado!"
+                    },
+                    "201": {
+                        "description": "Genero cadastrado com sucesso!"
+                    }
+                }
+            }
+        },
+        "/genres/search/": {
+            "get": {
+                "summary": "Buscando um unico genero",
+                "description": "Rota responsavel por realizar a busca de um genero na aplicação, sendo necessario informar o 'name' do mesmo",
+                "tags": [
+                    "genres"
+                ],
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Nome de um genero cadastrado no banco de dados",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "#ref": "#/components/schemas/Genres"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Genres": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

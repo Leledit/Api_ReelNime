@@ -5,22 +5,26 @@ import { registerGenreScheme } from "./scheme.js";
 export class RegisterGenreController {
   constructor(private registerGenresUseCase: RegisterGenresUseCase) {}
 
-  private validateRequest = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
+  validateRequest = async (req: Request, res: Response,next:NextFunction) => {
     const { error } = registerGenreScheme.validate(req.body);
 
     if (error) {
       return res.status(400).send(error.message);
     }
+
+    const { name } = req.body;
+
+    const alreadyRegistered = await this.registerGenresUseCase.validateIfTheDataIsAlreadyRegistered({name});
+    
+    if (alreadyRegistered) {
+      return res.status(401).send("Gênero já cadastrado.");
+    }
+
     next();
   };
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      this.validateRequest(req, res, () => {});
       const { name } = req.body;
 
       await this.registerGenresUseCase.execute({ name });

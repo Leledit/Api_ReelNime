@@ -6,12 +6,15 @@ export class RegisterGenresUseCase {
   async execute(data: IGenresRequestDTO) {
     const genre = new Genre(data);
 
-    const returnedGenre = await this.genresRepository.findByName(genre);
+    await this.genresRepository.save(genre);
+  }
 
-    if (returnedGenre.name === "") {
-      await this.genresRepository.save(genre);
-    } else {
-      throw new Error("Genero ja cadastrado");
+  async validateIfTheDataIsAlreadyRegistered(data: IGenresRequestDTO){
+    const returnedGenre = await this.genresRepository.findByName(data);
+    if(returnedGenre.name === ""){
+      return false
+    }else{
+      return true;
     }
   }
 }

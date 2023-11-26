@@ -11,7 +11,7 @@ export class ListOneGenresUseCase {
     if (searchResult.name !== "") {
       return searchResult;
     } else {
-      throw new Error("Genero não encontrado");
+      return undefined;
     }
   }
 }

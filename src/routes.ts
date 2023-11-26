@@ -26,75 +26,75 @@ const upload = multer({ storage: storage });
 
 //Routes related to the "genre" segment
 
-router.post("/api/v1/genres/", (request, response) => {
+router.post("/genres/", registerGenreController.validateRequest, (request, response) => {
   return registerGenreController.handle(request, response);
 });
 
-router.get("/api/v1/genres/", (request, response) => {
+router.get("/genres/", (request, response) => {
   return listAllGenresController.handle(request, response);
 });
 
-router.get("/api/v1/genres/search", (request, response) => {
+router.get("/genres/search", listOneGenreController.validateRequest, (request, response) => {
   return listOneGenreController.handle(request, response);
 });
 
-router.put("/api/v1/genres/:id", (request, response) => {
+router.put("/genres/:id", (request, response) => {
   return changingGenerController.handle(request, response);
 });
 
-router.delete("/api/v1/genres/:id", (request, response) => {
+router.delete("/genres/:id", (request, response) => {
   return deleteGenreController.handle(request, response);
 });
 
 //Routes related to the "anime" segment
 
-router.post("/api/v1/animes/", upload.single("img"), (request, response) => {
+router.post("/animes/", upload.single("img"), (request, response) => {
   return registerAnimeController.handle(request, response);
 });
 
-router.put("/api/v1/animes/", upload.single("img"), (request, response) => {
+router.put("/animes/", upload.single("img"), (request, response) => {
   return changingAnimeControler.handle(request, response);
 });
 
-router.get("/api/v1/animes/page/", (request, response) => {
+router.get("/animes/page/", (request, response) => {
   return paginationAnimeController.handle(request, response);
 });
 
-router.get("/api/v1/animes/:id", (request, response) => {
+router.get("/animes/:id", (request, response) => {
   return listOneAnimesController.handle(request, response);
 });
 
-router.get("/api/v1/animes/", (request, response) => {
+router.get("/animes/", (request, response) => {
   return listAllAnimesController.handle(request, response);
 });
 
-router.delete("/api/v1/animes/:id", (request, response) => {
+router.delete("/animes/:id", (request, response) => {
   return deleteAnimeController.handle(request, response);
 });
 
 //Routes related to the "films" segment
 
-router.post("/api/v1/filmes/", upload.single("img"), (request, response) => {
+router.post("/filmes/", upload.single("img"), (request, response) => {
   return registerFilmeController.handle(request, response);
 });
 
-router.put("/api/v1/filmes/", upload.single("img"), (request, response) => {
+router.put("/filmes/", upload.single("img"), (request, response) => {
   return changingFilmeController.handle(request, response);
 });
 
-router.get("/api/v1/filmes/page/", (request, response) => {
+router.get("/filmes/page/", (request, response) => {
   return paginationFilmeController.handle(request, response);
 });
 
-router.get("/api/v1/filmes/:id", (request, response) => {
+router.get("/filmes/:id", (request, response) => {
   return listOneFilmesController.handle(request, response);
 });
 
-router.get("/api/v1/filmes/", (request, response) => {
+router.get("/filmes/", (request, response) => {
   return listAllFilmeController.handle(request, response);
 });
 
-router.delete("/api/v1/filmes/:id", (request, response) => {
+router.delete("/filmes/:id", (request, response) => {
   return deleteFilmeController.handle(request, response);
 });
 
