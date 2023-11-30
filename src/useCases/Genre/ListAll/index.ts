@@ -1,6 +1,6 @@
-import { MongoGenreRepository } from "../../../repositories/implementations/MongoGenreRepository.ts";
-import { ListAllGenresUseCase } from "./listAll.ts";
-import { ListAllGenreController } from "./listAllController.ts";
+import { MongoGenreRepository } from "../../../repositories/implementations/MongoGenreRepository.js";
+import { ListAllGenresUseCase } from "./ListAll.js";
+import { ListAllGenreController } from "./ListAllController.js";
 
 const mongoGenreRepository = new MongoGenreRepository();
 

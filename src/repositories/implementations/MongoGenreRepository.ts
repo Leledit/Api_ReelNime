@@ -12,6 +12,26 @@ export class MongoGenreRepository implements IGenreRepository {
       throw new Error("Falha ao cadastrar um genero: " + error.message);
     }
   }
+  async listOne(id: string): Promise<Genre | null> {
+    try {
+      const refDb = clienteDbMongo();
+      const collectionGenres = refDb.collection("genres");
+      const resultRequest = await collectionGenres.findOne({ id: id });
+      if (resultRequest) {
+        let id = resultRequest.id;
+        const dataGenre: Genre = {
+          name: resultRequest.name,
+          id: id,
+          registrationDate: resultRequest.registrationDate,
+        };
+        return dataGenre;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      throw new Error("Problemas ao buscar um genero: " + error);
+    }
+  }
 
   async findByName(genre: Genre): Promise<Genre> {
     try {
@@ -78,11 +98,11 @@ export class MongoGenreRepository implements IGenreRepository {
     }
   }
 
-  async delete(genre: Genre): Promise<void> {
+  async delete(idGenre: string): Promise<void> {
     try {
       const refDb = clienteDbMongo();
       const collectionGenres = refDb.collection("genres");
-      const resultRequest = await collectionGenres.deleteOne({ id: genre.id });
+      const resultRequest = await collectionGenres.deleteOne({ id: idGenre });
 
       if (resultRequest.deletedCount === 0) {
         throw new Error("Id invalido");

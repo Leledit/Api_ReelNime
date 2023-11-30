@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { RegisterGenresUseCase } from "./Register.js";
-import { registerGenreScheme } from "./scheme.js";
+import { registerGenreScheme } from "./Scheme.js";
 
 export class RegisterGenreController {
   constructor(private registerGenresUseCase: RegisterGenresUseCase) {}

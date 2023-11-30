@@ -1,4 +1,4 @@
-import { IGenreRepository } from "../../../repositories/IGenreRepository.ts";
+import { IGenreRepository } from "../../../repositories/IGenreRepository.js";
 
 export class ListAllGenresUseCase {
   constructor(private genresRepository: IGenreRepository) {}

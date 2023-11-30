@@ -1,6 +1,6 @@
 import { MongoGenreRepository } from "../../../repositories/implementations/MongoGenreRepository.ts";
-import { ListOneGenresUseCase } from "./listOne.ts";
-import { ListOneGenreController } from "./listOneController.ts";
+import { ListOneGenresUseCase } from "./ListOne.ts";
+import { ListOneGenreController } from "./ListOneController.ts";
 
 const mongoGenreRepository = new MongoGenreRepository();
 

@@ -18,6 +18,7 @@ import { listAllFilmeController } from "./useCases/Filme/ListAll/index.ts";
 import { PaginationFilmeController } from "./useCases/Filme/Pagination/PaginationController.ts";
 import { paginationFilmeController } from "./useCases/Filme/Pagination/index.ts";
 import { deleteFilmeController } from "./useCases/Filme/Delete/index.ts";
+import { searchGenreController } from "./useCases/Genre/Search/index.ts";
 
 const router = Router();
 
@@ -26,25 +27,45 @@ const upload = multer({ storage: storage });
 
 //Routes related to the "genre" segment
 
-router.post("/genres/", registerGenreController.validateRequest, (request, response) => {
-  return registerGenreController.handle(request, response);
-}); 
+router.post(
+  "/genres/",
+  registerGenreController.validateRequest,
+  (request, response) => {
+    return registerGenreController.handle(request, response);
+  }
+);
 
 router.get("/genres/", (request, response) => {
   return listAllGenresController.handle(request, response);
 });
 
-router.get("/genres/search", listOneGenreController.validateRequest, (request, response) => {
-  return listOneGenreController.handle(request, response);
-});
+router.get(
+  "/genres/search",
+  searchGenreController.validateRequest,
+  (request, response) => {
+    return searchGenreController.handle(request, response);
+  }
+);
+
+router.get(
+  "/genres/:id",
+  listOneGenreController.validateRequest,
+  (request, response) => {
+    return listOneGenreController.handle(request, response);
+  }
+);
 
 router.put("/genres/:id", (request, response) => {
   return changingGenerController.handle(request, response);
 });
 
-router.delete("/genres/:id", deleteGenreController.validateRequest, (request, response) => {
-  return deleteGenreController.handle(request, response);
-});
+router.delete(
+  "/genres/:id",
+  deleteGenreController.validateRequest,
+  (request, response) => {
+    return deleteGenreController.handle(request, response);
+  }
+);
 
 //Routes related to the "anime" segment
 

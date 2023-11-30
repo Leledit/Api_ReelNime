@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ChangingGenresUseCase } from "./Changing.ts";
-import { changingGenreScheme } from "./scheme.ts";
+import { changingGenreScheme } from "./Scheme.ts";
 
 export class ChangingGenerController {
   constructor(private changingGenresUseCase: ChangingGenresUseCase) {}

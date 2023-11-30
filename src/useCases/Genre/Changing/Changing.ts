@@ -1,6 +1,6 @@
 import { Genre } from "../../../entities/Genre.ts";
 import { IGenreRepository } from "../../../repositories/IGenreRepository.ts";
-import { IGenresRequestDTO } from "../Register/RegisterDTO.ts";
+import { IGenresRequestDTO } from "./ChangingDTO.ts";
 
 export class ChangingGenresUseCase {
   constructor(private gereRepository: IGenreRepository) {}

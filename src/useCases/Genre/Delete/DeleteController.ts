@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { DeleteGenresUseCase } from "./Delete.ts";
-import { deleteGenreScheme } from "./scheme.ts";
+import { deleteGenreScheme } from "./Scheme.ts";
 
 export class DeleteGenreController {
   constructor(private DeleteGenresUseCase: DeleteGenresUseCase) {}
@@ -20,7 +20,6 @@ export class DeleteGenreController {
   async handle(req: Request, res: Response): Promise<Response> {
     try {
       await this.DeleteGenresUseCase.execute({
-        name: "",
         id: req.params.id,
       });
       return res.status(200).send("Exclusão realizada com sucesso");

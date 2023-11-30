@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from "express";
-import { ListOneGenresUseCase } from "./listOne.js";
-import { searchGenreScheme } from "./shceme.js";
+import { ListOneGenresUseCase } from "./ListOne.js";
+import { listOneGenreScheme } from "./Shceme.js";
 
 export class ListOneGenreController {
   constructor(private listOneGenresUseCase: ListOneGenresUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = searchGenreScheme.validate(req.query);
-
+    const { error } = listOneGenreScheme.validate(req.params);
+    
     if (error) {
       return res.status(400).json({
         error: "Requisição inválida",
@@ -18,10 +18,10 @@ export class ListOneGenreController {
   };
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const query = req.query.query as string;
+      const idGenre = req.params.id as string;
 
       const dataGenre = await this.listOneGenresUseCase.execute({
-        name: query,
+        id: idGenre,
       });
 
       if (dataGenre) {
@@ -30,7 +30,7 @@ export class ListOneGenreController {
         return res.status(400).json({
           error: "Requisição inválida",
           details:
-            "Deve ser informado o nome de um genero, cadastrado no sistema",
+            "Deve ser informado o id de um genero, cadastrado no sistema",
         });
       }
     } catch (err: any) {

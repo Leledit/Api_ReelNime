@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ListAllGenresUseCase } from "./listAll.ts";
+import { ListAllGenresUseCase } from "./ListAll.js";
 
 export class ListAllGenreController {
   constructor(private listAllGenreUseCase: ListAllGenresUseCase) {}

@@ -1,13 +1,10 @@
-import { Genre } from "../../../entities/Genre.ts";
 import { IGenreRepository } from "../../../repositories/IGenreRepository.ts";
-import { IGenresRequestDTO } from "../Register/RegisterDTO.ts";
+import { IGenresRequestDTO } from "./DeleteDTO.ts";
 
 export class DeleteGenresUseCase {
   constructor(private deleteRepository: IGenreRepository) {}
 
   async execute(data: IGenresRequestDTO) {
-    const genre = new Genre(data, data.id);
-
-    await this.deleteRepository.delete(data);
+    await this.deleteRepository.delete(data.id);
   }
 }
