@@ -13,7 +13,10 @@ export class ChangingGenerController {
     const { error } = changingGenreScheme.validate(req.body);
 
     if (error) {
-      return res.status(400).send(error.message);
+      return res.status(400).json({
+        error: "Requisição inválida",
+        details: error.message,
+      });
     }
 
     next();
@@ -26,9 +29,15 @@ export class ChangingGenerController {
       const { name } = req.body;
 
       await this.changingGenresUseCase.execute({ name: name, id: id });
-      return res.status(201).send("Genero editado com sucesso!");
+      return res.status(200).json({
+        error: "Edição realizada com sucesso",
+        details: "O genero sofreu alterações nos seus dados",
+      });
     } catch (err: any) {
-      return res.status(400).json("Erro na solicitação: " + err.message);
+      return res.status(400).json({
+        error: "Requisição inválida",
+        details: err.message,
+      });
     }
   }
 }

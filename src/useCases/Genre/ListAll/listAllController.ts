@@ -10,7 +10,10 @@ export class ListAllGenreController {
 
       return res.status(200).json(dataGenres);
     } catch (err: any) {
-      return res.status(400).json("Erro na solicitação: " + err.message);
+      return res.status(404).json({
+        error: "Requisição inválida",
+        details: err.message,
+      });
     }
   }
 }

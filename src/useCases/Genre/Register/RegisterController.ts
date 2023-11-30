@@ -9,7 +9,10 @@ export class RegisterGenreController {
     const { error } = registerGenreScheme.validate(req.body);
 
     if (error) {
-      return res.status(400).send(error.message);
+      return res.status(400).json({
+        error: "Requisição inválida",
+        details: error.message,
+      });
     }
 
     const { name } = req.body;
@@ -17,7 +20,11 @@ export class RegisterGenreController {
     const alreadyRegistered = await this.registerGenresUseCase.validateIfTheDataIsAlreadyRegistered({name});
     
     if (alreadyRegistered) {
-      return res.status(401).send("Gênero já cadastrado.");
+      return res.status(409).json({
+        error: "Conflito com outro registro no sistemas",
+        details:
+          "Foi encontrado um genero com o mesmo nome, que foi informado na requsição",
+      });
     }
 
     next();
@@ -29,9 +36,16 @@ export class RegisterGenreController {
 
       await this.registerGenresUseCase.execute({ name });
 
-      return res.status(201).send("Genero cadastrado com sucesso!");
+      return res.status(201).json({
+        error: "Cadastro efetuado com sucesso!",
+        details:
+          "O genero foi incluindo na base de dados do sistema",
+      });
     } catch (err: any) {
-      return res.status(400).json("Erro na solicitação: " + err.message);
+      return res.status(404).json({
+        error: "Requisição inválida",
+        details: err.message,
+      });
     }
   }
 }

@@ -27,27 +27,76 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "#ref": "#/components/schemas/Genres"
+                                "$ref": "#/components/schemas/Genres"
                             },
-                            "examples": {
-                                "genres": {
-                                    "value": {
-                                        "name": "Ação"
-                                    }
-                                }
+                            "example": {
+                                "name": "Ação"
                             }
                         }
                     }
                 },
                 "responses": {
-                    "400": {
-                        "description": "Problemas com a solicitação!"
-                    },
-                    "401": {
-                        "description": "Genero ja cadastrado!"
-                    },
                     "201": {
-                        "description": "Genero cadastrado com sucesso!"
+                        "description": "Cadastro efetuado com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O genero foi incluindo na base de dados do sistema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflito com outro registro no sistemas",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Foi encontrado um genero com o mesmo nome, que foi informado na requsição"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Buscando todos os generos cadastrados",
+                "description": "Rota responsavel por realizar a busca de todos os generos cadastrados na aplicação",
+                "tags": [
+                    "genres"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Genres"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -73,8 +122,115 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "#ref": "#/components/schemas/Genres"
+                                    "$ref": "#/components/schemas/Genres"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Deve ser informado o nome de um genero, cadastrado no sistema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/genres/{id}": {
+            "put": {
+                "summary": "Alterando os dados de um genero",
+                "description": "Rota responsavel por realizar a alteração das informações referente a um genero",
+                "tags": [
+                    "genres"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do genero",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Genres"
+                            },
+                            "example": {
+                                "name": "Ação 2"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Edição realizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O genero sofreu alterações nos seus dados"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Deve ser informado o id de um genero, cadastrado no sistema"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletando os dados de um genero",
+                "description": "Rota responsavel por deletar os dados referentes a um genero",
+                "tags": [
+                    "genres"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do genero",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exclusão realizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O genero foi excluido da nossa base de dados"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Problemas ao tentar excluir um genero"
                                 }
                             }
                         }

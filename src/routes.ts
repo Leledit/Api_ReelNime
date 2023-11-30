@@ -28,7 +28,7 @@ const upload = multer({ storage: storage });
 
 router.post("/genres/", registerGenreController.validateRequest, (request, response) => {
   return registerGenreController.handle(request, response);
-});
+}); 
 
 router.get("/genres/", (request, response) => {
   return listAllGenresController.handle(request, response);
@@ -42,7 +42,7 @@ router.put("/genres/:id", (request, response) => {
   return changingGenerController.handle(request, response);
 });
 
-router.delete("/genres/:id", (request, response) => {
+router.delete("/genres/:id", deleteGenreController.validateRequest, (request, response) => {
   return deleteGenreController.handle(request, response);
 });
 
