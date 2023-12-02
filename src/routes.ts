@@ -5,7 +5,6 @@ import { listOneGenreController } from "./useCases/Genre/ListOne/index.ts";
 import { changingGenerController } from "./useCases/Genre/Changing/index.ts";
 import { deleteGenreController } from "./useCases/Genre/Delete/index.ts";
 import { registerAnimeController } from "./useCases/Anime/Register/index.ts";
-import multer from "multer";
 import { listOneAnimesController } from "./useCases/Anime/ListOne/index.ts";
 import { listAllAnimesController } from "./useCases/Anime/ListAll/index.ts";
 import { deleteAnimeController } from "./useCases/Anime/Delete/index.ts";
@@ -15,16 +14,12 @@ import { registerFilmeController } from "./useCases/Filme/Register/index.ts";
 import { changingFilmeController } from "./useCases/Filme/Changing/index.ts";
 import { listOneFilmesController } from "./useCases/Filme/ListOne/index.ts";
 import { listAllFilmeController } from "./useCases/Filme/ListAll/index.ts";
-import { PaginationFilmeController } from "./useCases/Filme/Pagination/PaginationController.ts";
 import { paginationFilmeController } from "./useCases/Filme/Pagination/index.ts";
 import { deleteFilmeController } from "./useCases/Filme/Delete/index.ts";
 import { searchGenreController } from "./useCases/Genre/Search/index.ts";
 import { singleFileUpload } from "./providers/MulterImage.ts";
 
 const router = Router();
-
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
 
 //Routes related to the "genre" segment
 
@@ -70,21 +65,39 @@ router.delete(
 
 //Routes related to the "anime" segment
 
-router.post("/animes/", upload.single("img"), (request, response) => {
-  return registerAnimeController.handle(request, response);
-});
+router.post(
+  "/animes/",
+  singleFileUpload("img"),
+  registerAnimeController.validateRequest,
+  (request, response) => {
+    return registerAnimeController.handle(request, response);
+  }
+);
 
-router.put("/animes/", upload.single("img"), (request, response) => {
-  return changingAnimeControler.handle(request, response);
-});
+router.put(
+  "/animes/:id",
+  singleFileUpload("img"),
+  changingAnimeControler.validateRequest,
+  (request, response) => {
+    return changingAnimeControler.handle(request, response);
+  }
+);
 
-router.get("/animes/page/", (request, response) => {
-  return paginationAnimeController.handle(request, response);
-});
+router.get(
+  "/animes/page/",
+  paginationAnimeController.validateRequest,
+  (request, response) => {
+    return paginationAnimeController.handle(request, response);
+  }
+);
 
-router.get("/animes/:id", (request, response) => {
-  return listOneAnimesController.handle(request, response);
-});
+router.get(
+  "/animes/:id",
+  listOneAnimesController.validateRequest,
+  (request, response) => {
+    return listOneAnimesController.handle(request, response);
+  }
+);
 
 router.get("/animes/", (request, response) => {
   return listAllAnimesController.handle(request, response);

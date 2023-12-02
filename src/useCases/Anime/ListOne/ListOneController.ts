@@ -5,7 +5,7 @@ import { listOneAnimeSchema } from "./scheme.ts";
 export class ListOneAnimeController {
   constructor(private listOneAnimesUseCase: ListOneAnimesUseCase) {}
 
-  private validateRequest = (
+   validateRequest = (
     req: Request,
     res: Response,
     next: NextFunction
@@ -13,7 +13,10 @@ export class ListOneAnimeController {
     const { error } = listOneAnimeSchema.validate(req.params);
 
     if (error) {
-      return res.status(400).send(error.message);
+      return res.status(400).json({
+        error: "Requisição inválida",
+        details: error.message,
+      });
     }
 
     next();
@@ -21,19 +24,25 @@ export class ListOneAnimeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      this.validateRequest(req, res, () => {});
+     
       const idAnime = req.params.id;
       const dataAnime = await this.listOneAnimesUseCase.execute({
         id: idAnime,
       });
 
       if (dataAnime === null) {
-        throw new Error("Anime não encontrado");
+        return res.status(404).json({
+          error: "Nenhum registro foi encontrado",
+          details: "Nunhum anime foi encontrado no nosso sistema",
+        });
       } else {
-        return res.status(201).json(dataAnime);
+        return res.status(200).json(dataAnime);
       }
     } catch (err: any) {
-      return res.status(400).json("Erro na solicitação: " + err.message);
+      return res.status(500).json({
+        error: "Recurso não encontrado",
+        details: err.message,
+      });
     }
   }
 }

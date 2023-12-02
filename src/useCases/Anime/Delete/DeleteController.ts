@@ -8,7 +8,10 @@ export class DeleteAnimeController {
       await this.deleteAnimeUseCase.execute({ id: req.params.id });
       return res.status(201).send("Anime deletado com sucesso!");
     } catch (err: any) {
-      return res.status(400).json("Erro na solicitação: " + err.message);
+      return res.status(500).json({
+        error: "Recurso não encontrado",
+        details: err.message,
+      });
     }
   }
 }

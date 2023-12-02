@@ -367,7 +367,7 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "mensagem": "Foi encontrado um genero com o mesmo nome, que foi informado na requsição"
+                                    "mensagem": "Foi encontrado um filme com o mesmo nome, que foi informado na requsição"
                                 }
                             }
                         }
@@ -509,7 +509,7 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "mensagem": "Deve ser informado o id de um genero, cadastrado no sistema"
+                                    "mensagem": "Deve ser informado o id de um filme, cadastrado no sistema"
                                 }
                             }
                         }
@@ -639,6 +639,328 @@
                     }
                 }
             }
+        },
+        "/animes/": {
+            "post": {
+                "summary": "Cadastro de anime",
+                "description": "Rota responsavel por realizar o cadastro de um novo anime na aplicação",
+                "tags": [
+                    "Animes"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Anime"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cadastro efetuado com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O anime foi incluindo na base de dados do sistema"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Problemas com as validações de dados"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflito com outro registro no sistemas",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Foi encontrado um anime com o mesmo nome, que foi informado na requsição"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Buscando todos os animes cadastrados",
+                "description": "Rota responsavel por realizar a busca de todos os animes cadastrados na aplicação",
+                "tags": [
+                    "Animes"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Anime"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/animes/page/": {
+            "get": {
+                "summary": "Buscando uma determinada quantidade de dados",
+                "description": "Rota responsavel por retornar uma certa quantidade de dados(paginação)",
+                "tags": [
+                    "Animes"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero da pagina",
+                        "required": true
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limite de registros retornados",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Anime"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Problemas com as validações de dados"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum registro foi encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Nenhum anime foi encontrado no nosso sistema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/animes/{id}": {
+            "get": {
+                "summary": "Buscando os dados de um anime",
+                "description": "Rota responsavel por retornar um anim, que corresponde ao id informado",
+                "tags": [
+                    "Animes"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do anime",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Anime"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Deve ser informado o id de um anime, cadastrado no sistema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum registro foi encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Nunhum anime foi encontrado no nosso sistema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletando os dados de um animes",
+                "description": "Rota responsavel por deletar os dados referentes a um anime",
+                "tags": [
+                    "Animes"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do anime",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exclusão realizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O anime foi excluido da nossa base de dados"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Problemas com as validações de dados"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Problemas ao tentar excluir um filme"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Alterando os dados de um anime",
+                "description": "Rota responsavel por realizar a alteração das informações referente a um anime",
+                "tags": [
+                    "Animes"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do anime",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Anime"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Edição realizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O anime sofreu alterações nos seus dados"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Problemas com as validações de dados"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -679,6 +1001,58 @@
                         "type": "number"
                     },
                     "synopsis": {
+                        "type": "string"
+                    },
+                    "img": {
+                        "type": "string",
+                        "format": "binary"
+                    }
+                }
+            },
+            "Anime": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "watched",
+                    "qtdEpisodes",
+                    "releaseYear",
+                    "note",
+                    "status",
+                    "nextSeason",
+                    "previousSeason",
+                    "synopsis",
+                    "genres[]",
+                    "img"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "watched": {
+                        "type": "boolean"
+                    },
+                    "qtdEpisodes": {
+                        "type": "number"
+                    },
+                    "releaseYear": {
+                        "type": "number"
+                    },
+                    "note": {
+                        "type": "number"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "nextSeason": {
+                        "type": "string"
+                    },
+                    "previousSeason": {
+                        "type": "string"
+                    },
+                    "synopsis": {
+                        "type": "string"
+                    },
+                    "genres[]": {
                         "type": "string"
                     },
                     "img": {

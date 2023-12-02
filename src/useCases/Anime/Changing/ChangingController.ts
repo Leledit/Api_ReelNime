@@ -1,24 +1,19 @@
 import { NextFunction, Request, Response } from "express";
 import { ChangingAnimeUseCase } from "./Changing.ts";
 import { changingAnimeSchema } from "./scheme.ts";
-import multer from "multer";
-
-const storage = multer.memoryStorage(); // Configuração de armazenamento do Multer
-
-const upload = multer({ storage: storage });
+import { getFileFromRequest } from "../../../providers/MulterImage.ts";
 
 export class ChangingAnimeController {
   constructor(private changingAnimeUseCase: ChangingAnimeUseCase) {}
 
-  private validateRequest = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
+  validateRequest = (req: Request, res: Response, next: NextFunction) => {
     const { error } = changingAnimeSchema.validate(req.body);
 
     if (error) {
-      return res.status(400).send(error.message);
+      return res.status(400).json({
+        error: "Requisição inválida",
+        details: error.message,
+      });
     }
 
     next();
@@ -26,7 +21,15 @@ export class ChangingAnimeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      this.validateRequest(req, res, () => {});
+      const dataImage = getFileFromRequest(req);
+
+      if (!dataImage) {
+        return res.status(400).json({
+          error: "Requisição inválida",
+          details: "É necessario enviar uma imagem na requsição",
+        });
+      }
+
       const {
         name,
         watched,
@@ -41,40 +44,30 @@ export class ChangingAnimeController {
         id,
       } = req.body;
 
-      upload.single("file")(req, res, async (err: any) => {
-        const file = req.file;
-
-        let dataImg;
-
-        if (file) {
-          dataImg = {
-            buffer: file?.buffer,
-            fieldname: file.fieldname,
-            mimetype: file.mimetype,
-            originalname: file.originalname,
-            size: file.size,
-          };
-        }
-
-        await this.changingAnimeUseCase.execute({
-          name,
-          genres,
-          id,
-          nextSeason,
-          note,
-          previousSeason,
-          qtdEpisodes,
-          releaseYear,
-          status,
-          synopsis,
-          watched,
-          dataImg: dataImg,
-        });
+      await this.changingAnimeUseCase.execute({
+        name,
+        genres,
+        id,
+        nextSeason,
+        note,
+        previousSeason,
+        qtdEpisodes,
+        releaseYear,
+        status,
+        synopsis,
+        watched,
+        dataImg: dataImage,
       });
 
-      return res.status(201).send("Anime editado com sucesso");
+      return res.status(200).json({
+        error: "Edição realizada com sucesso",
+        details: "O anime sofreu alterações nos seus dados",
+      });
     } catch (err: any) {
-      return res.status(400).json("Erro na solicitação: " + err.message);
+      return res.status(500).json({
+        error: "Recurso não encontrado",
+        details: err.message,
+      });
     }
   }
 }

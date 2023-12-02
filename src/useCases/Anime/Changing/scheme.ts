@@ -11,5 +11,4 @@ export const changingAnimeSchema = Joi.object({
   previousSeason: Joi.string().optional(),
   synopsis: Joi.string().required(),
   genres: Joi.array().required(),
-  id: Joi.string().required(),
 });

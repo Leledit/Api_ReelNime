@@ -46,7 +46,7 @@ export class RegisterFilmeController {
         return res.status(409).json({
           error: "Conflito com outro registro no sistemas",
           details:
-            "Foi encontrado um genero com o mesmo nome, que foi informado na requsição",
+            "Foi encontrado um filme com o mesmo nome, que foi informado na requsição",
         });
       } else {
         return res.status(201).json({

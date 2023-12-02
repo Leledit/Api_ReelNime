@@ -5,15 +5,18 @@ import { paginationAnimeScheme } from "./scheme.ts";
 export class PaginationAnimeController {
   constructor(private paginationAnimeUseCase: PaginationAnimeUseCase) {}
 
-  private validateRequest = (
+  validateRequest = (
     req: Request,
     res: Response,
     next: NextFunction
   ) => {
-    const { error } = paginationAnimeScheme.validate(req.body);
+    const { error } = paginationAnimeScheme.validate(req.query);
 
     if (error) {
-      return res.status(400).send(error.message);
+      return res.status(400).json({
+        error: "Requisição inválida",
+        details: error.message,
+      });
     }
 
     next();
@@ -21,16 +24,28 @@ export class PaginationAnimeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      this.validateRequest(req, res, () => {});
-      const { page, limit } = req.body;
+
+      const { page, limit } = req.query;
 
       const dataAnimes = await this.paginationAnimeUseCase.execute({
-        page,
-        limit,
+        limit: parseInt(limit as string),
+        page: parseInt(page as string),
       });
-      return res.status(201).json(dataAnimes);
+
+      if(dataAnimes === null){
+        return res.status(404).json({
+          error: "Nenhum registro foi encontrado",
+          details: "Nenhum anime foi encontrado no nosso sistema",
+        });
+      }else{
+        return res.status(200).json(dataAnimes);
+      }
+
     } catch (err: any) {
-      return res.status(400).json("Erro na solicitação: " + err.message);
+      return res.status(500).json({
+        error: "Recurso não encontrado",
+        details: err.message,
+      });
     }
   }
 }

@@ -5,13 +5,9 @@ import { paginationFilmeScheme } from "./Scheme.ts";
 export class PaginationFilmeController {
   constructor(private paginationFilmeUseCase: PaginationFilmeUseCase) {}
 
-  validateRequest = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    const { error } = paginationFilmeScheme.validate(req.body);
-
+  validateRequest = (req: Request, res: Response, next: NextFunction) => {
+    const { error } = paginationFilmeScheme.validate(req.query);
+    
     if (error) {
       return res.status(400).json({
         error: "Requisição inválida",
@@ -23,12 +19,11 @@ export class PaginationFilmeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
+      const { page, limit } = req.query;
       
-      const { page, limit } = req.body;
-
       const dataFilmes = await this.paginationFilmeUseCase.execute({
-        page,
-        limit,
+        limit: parseInt(limit as string),
+        page: parseInt(page as string),
       });
 
       if (dataFilmes !== null) {
