@@ -1,24 +1,19 @@
 import { NextFunction, Request, Response } from "express";
-import multer from "multer";
 import { RegisterFilmeUseCase } from "./Register.ts";
-import { registerFilmeSchema } from "./scheme.ts";
-
-const storage = multer.memoryStorage(); // Configuração de armazenamento do Multer
-
-const upload = multer({ storage: storage });
+import { registerFilmeSchema } from "./Scheme.ts";
+import { getFileFromRequest } from "../../../providers/MulterImage.ts";
 
 export class RegisterFilmeController {
   constructor(private registerFilmeUseCase: RegisterFilmeUseCase) {}
 
-  private validateRequest = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
+  validateRequest = (req: Request, res: Response, next: NextFunction) => {
     const { error } = registerFilmeSchema.validate(req.body);
 
     if (error) {
-      return res.status(400).send(error.message);
+      return res.status(400).json({
+        error: "Requisição inválida",
+        details: error.message,
+      });
     }
 
     next();
@@ -26,42 +21,44 @@ export class RegisterFilmeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      this.validateRequest(req, res, () => {});
+      const dataImage = getFileFromRequest(req);
 
-      await new Promise<void>((resolve, reject) => {
-        const { name, visa, duration, lauch, note, synopsis } = req.body;
-
-        upload.single("file")(req, res, async (err: any) => {
-          const file = req.file;
-          let dataImg;
-          if (file) {
-            dataImg = {
-              buffer: file?.buffer,
-              fieldname: file.fieldname,
-              mimetype: file.mimetype,
-              originalname: file.originalname,
-              size: file.size,
-            };
-          }
-          const resultRequest = await this.registerFilmeUseCase.execute({
-            name,
-            visa,
-            duration,
-            lauch,
-            note,
-            synopsis,
-            dataImg: dataImg,
-          });
-          if (!resultRequest) {
-            reject(new Error("Filme ja cadastrado"));
-          }
-
-          resolve();
+      if (!dataImage) {
+        return res.status(400).json({
+          error: "Requisição inválida",
+          details: "É necessario enviar uma imagem na requsição",
         });
+      }
+
+      const { name, visa, duration, lauch, note, synopsis } = req.body;
+
+      const resultRequest = await this.registerFilmeUseCase.execute({
+        name,
+        visa,
+        duration,
+        lauch,
+        note,
+        synopsis,
+        dataImg: dataImage,
       });
-      return res.status(201).send("filme cadastrado com sucesso!");
+
+      if (!resultRequest) {
+        return res.status(409).json({
+          error: "Conflito com outro registro no sistemas",
+          details:
+            "Foi encontrado um genero com o mesmo nome, que foi informado na requsição",
+        });
+      } else {
+        return res.status(201).json({
+          error: "Cadastro efetuado com sucesso!",
+          details: "O filme foi incluindo na base de dados do sistema",
+        });
+      }
     } catch (err: any) {
-      return res.status(400).json("Erro na solicitação: " + err.message);
+      return res.status(500).json({
+        error: "Recurso não encontrado",
+        details: err.message,
+      });
     }
   }
 }

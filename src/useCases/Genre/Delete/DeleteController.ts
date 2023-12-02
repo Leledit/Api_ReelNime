@@ -22,10 +22,13 @@ export class DeleteGenreController {
       await this.DeleteGenresUseCase.execute({
         id: req.params.id,
       });
-      return res.status(200).send("Exclusão realizada com sucesso");
+      return res.status(200).json({
+        error: "Exclusão realizada com sucesso",
+        details: "O genero foi excluido do sistema",
+      });
     } catch (err: any) {
-      return res.status(404).json({
-        error: "Requisição inválida",
+      return res.status(500).json({
+        error: "Recurso não encontrado",
         details: err.message,
       });
     }

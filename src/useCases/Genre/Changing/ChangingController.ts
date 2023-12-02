@@ -34,8 +34,8 @@ export class ChangingGenerController {
         details: "O genero sofreu alterações nos seus dados",
       });
     } catch (err: any) {
-      return res.status(400).json({
-        error: "Requisição inválida",
+      return res.status(500).json({
+        error: "Recurso não encontrado",
         details: err.message,
       });
     }

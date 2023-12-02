@@ -19,6 +19,7 @@ import { PaginationFilmeController } from "./useCases/Filme/Pagination/Paginatio
 import { paginationFilmeController } from "./useCases/Filme/Pagination/index.ts";
 import { deleteFilmeController } from "./useCases/Filme/Delete/index.ts";
 import { searchGenreController } from "./useCases/Genre/Search/index.ts";
+import { singleFileUpload } from "./providers/MulterImage.ts";
 
 const router = Router();
 
@@ -95,28 +96,50 @@ router.delete("/animes/:id", (request, response) => {
 
 //Routes related to the "films" segment
 
-router.post("/filmes/", upload.single("img"), (request, response) => {
-  return registerFilmeController.handle(request, response);
-});
+router.post(
+  "/filmes/",
+  singleFileUpload("img"),
+  registerFilmeController.validateRequest,
+  (request, response) => {
+    return registerFilmeController.handle(request, response);
+  }
+);
 
-router.put("/filmes/", upload.single("img"), (request, response) => {
-  return changingFilmeController.handle(request, response);
-});
+router.put(
+  "/filmes/:id",
+  singleFileUpload("img"),
+  changingFilmeController.validateRequest,
+  (request, response) => {
+    return changingFilmeController.handle(request, response);
+  }
+);
 
-router.get("/filmes/page/", (request, response) => {
-  return paginationFilmeController.handle(request, response);
-});
+router.get(
+  "/filmes/page/",
+  paginationFilmeController.validateRequest,
+  (request, response) => {
+    return paginationFilmeController.handle(request, response);
+  }
+);
 
-router.get("/filmes/:id", (request, response) => {
-  return listOneFilmesController.handle(request, response);
-});
+router.get(
+  "/filmes/:id",
+  listOneFilmesController.validateRequest,
+  (request, response) => {
+    return listOneFilmesController.handle(request, response);
+  }
+);
 
 router.get("/filmes/", (request, response) => {
   return listAllFilmeController.handle(request, response);
 });
 
-router.delete("/filmes/:id", (request, response) => {
-  return deleteFilmeController.handle(request, response);
-});
+router.delete(
+  "/filmes/:id",
+  deleteFilmeController.validateRequest,
+  (request, response) => {
+    return deleteFilmeController.handle(request, response);
+  }
+);
 
 export { router };

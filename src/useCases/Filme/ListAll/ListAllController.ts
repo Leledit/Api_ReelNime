@@ -8,7 +8,10 @@ export class ListAllFilmeController {
       const dataFilmes = await this.listAllFilmeUseCase.execute();
       return res.status(201).json(dataFilmes);
     } catch (err: any) {
-      return res.status(400).json("Erro na solicitação: " + err.message);
+      return res.status(500).json({
+        error: "Recurso não encontrado",
+        details: err.message,
+      });
     }
   }
 }

@@ -21,7 +21,7 @@
                 "summary": "Cadastro de genero",
                 "description": "Rota responsavel por realizar o cadastro de um novo genero na aplicação",
                 "tags": [
-                    "genres"
+                    "Generos"
                 ],
                 "requestBody": {
                     "content": {
@@ -46,7 +46,17 @@
                             }
                         }
                     },
-                    "404": {
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Problemas com as validações de dados"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
                         "description": "Recurso não encontrado",
                         "content": {
                             "application/json": {
@@ -72,7 +82,7 @@
                 "summary": "Buscando todos os generos cadastrados",
                 "description": "Rota responsavel por realizar a busca de todos os generos cadastrados na aplicação",
                 "tags": [
-                    "genres"
+                    "Generos"
                 ],
                 "responses": {
                     "200": {
@@ -88,7 +98,7 @@
                             }
                         }
                     },
-                    "404": {
+                    "500": {
                         "description": "Recurso não encontrado",
                         "content": {
                             "application/json": {
@@ -106,7 +116,7 @@
                 "summary": "Buscando um unico genero",
                 "description": "Rota responsavel por realizar a busca de um genero na aplicação, sendo necessario informar o 'name' do mesmo",
                 "tags": [
-                    "genres"
+                    "Generos"
                 ],
                 "parameters": [
                     {
@@ -137,7 +147,7 @@
                             }
                         }
                     },
-                    "404": {
+                    "500": {
                         "description": "Recurso não encontrado",
                         "content": {
                             "application/json": {
@@ -151,11 +161,11 @@
             }
         },
         "/genres/{id}": {
-            "get":{
+            "get": {
                 "summary": "Buscando os dados de um genero",
                 "description": "Rota responsavel por retornar um genero, que corresponde ao id informado",
                 "tags": [
-                    "genres"
+                    "Generos"
                 ],
                 "parameters": [
                     {
@@ -186,7 +196,7 @@
                             }
                         }
                     },
-                    "404": {
+                    "500": {
                         "description": "Recurso não encontrado",
                         "content": {
                             "application/json": {
@@ -202,7 +212,7 @@
                 "summary": "Alterando os dados de um genero",
                 "description": "Rota responsavel por realizar a alteração das informações referente a um genero",
                 "tags": [
-                    "genres"
+                    "Generos"
                 ],
                 "parameters": [
                     {
@@ -240,7 +250,17 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "mensagem": "Deve ser informado o id de um genero, cadastrado no sistema"
+                                    "mensagem": "Problemas com as validações de dados"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
                                 }
                             }
                         }
@@ -251,7 +271,7 @@
                 "summary": "Deletando os dados de um genero",
                 "description": "Rota responsavel por deletar os dados referentes a um genero",
                 "tags": [
-                    "genres"
+                    "Generos"
                 ],
                 "parameters": [
                     {
@@ -277,7 +297,342 @@
                         "content": {
                             "application/json": {
                                 "example": {
+                                    "mensagem": "Problemas com as validações de dados"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
                                     "mensagem": "Problemas ao tentar excluir um genero"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/filmes/": {
+            "post": {
+                "summary": "Cadastro de filme",
+                "description": "Rota responsavel por realizar o cadastro de um novo filme na aplicação",
+                "tags": [
+                    "Filmes"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Films"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cadastro efetuado com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O filme foi incluindo na base de dados do sistema"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Problemas com as validações de dados"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflito com outro registro no sistemas",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Foi encontrado um genero com o mesmo nome, que foi informado na requsição"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Buscando todos os filmes cadastrados",
+                "description": "Rota responsavel por realizar a busca de todos os filmes cadastrados na aplicação",
+                "tags": [
+                    "Filmes"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Films"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/filmes/page/": {
+            "get": {
+                "summary": "Buscando uma determinada quantidade de dados",
+                "description": "Rota responsavel por retornar uma certa quantidade de dados(paginação)",
+                "tags": [
+                    "Filmes"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "page": {
+                                        "type": "number"
+                                    },
+                                    "limit": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Films"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Problemas com as validações de dados"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum registro foi encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Nunhum filme foi encontrado no nosso sistema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/filmes/{id}": {
+            "get": {
+                "summary": "Buscando os dados de um filme",
+                "description": "Rota responsavel por retornar um filme, que corresponde ao id informado",
+                "tags": [
+                    "Filmes"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do filme",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Films"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Deve ser informado o id de um genero, cadastrado no sistema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum registro foi encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Nunhum filme foi encontrado no nosso sistema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Alterando os dados de um filme",
+                "description": "Rota responsavel por realizar a alteração das informações referente a um filme",
+                "tags": [
+                    "Filmes"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do genero",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Films"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Edição realizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O filme sofreu alterações nos seus dados"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Problemas com as validações de dados"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletando os dados de um filme",
+                "description": "Rota responsavel por deletar os dados referentes a um filme",
+                "tags": [
+                    "Filmes"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do filme",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exclusão realizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O filme foi excluido da nossa base de dados"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Problemas com as validações de dados"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Problemas ao tentar excluir um filme"
                                 }
                             }
                         }
@@ -293,6 +648,42 @@
                 "properties": {
                     "name": {
                         "type": "string"
+                    }
+                }
+            },
+            "Films": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "visa",
+                    "duration",
+                    "lauch",
+                    "note",
+                    "synopsis",
+                    "img"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "visa": {
+                        "type": "boolean"
+                    },
+                    "duration": {
+                        "type": "number"
+                    },
+                    "lauch": {
+                        "type": "number"
+                    },
+                    "note": {
+                        "type": "number"
+                    },
+                    "synopsis": {
+                        "type": "string"
+                    },
+                    "img": {
+                        "type": "string",
+                        "format": "binary"
                     }
                 }
             }

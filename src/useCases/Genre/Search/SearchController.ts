@@ -34,7 +34,7 @@ export class SearchGenreController {
         });
       }
     } catch (err: any) {
-      return res.status(404).json({
+      return res.status(500).json({
         error: "Requisição inválida",
         details: err.message,
       });

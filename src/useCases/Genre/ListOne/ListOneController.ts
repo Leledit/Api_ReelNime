@@ -34,8 +34,8 @@ export class ListOneGenreController {
         });
       }
     } catch (err: any) {
-      return res.status(404).json({
-        error: "Requisição inválida",
+      return res.status(500).json({
+        error: "Recurso não encontrado",
         details: err.message,
       });
     }

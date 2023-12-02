@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { PaginationFilmeUseCase } from "./Pagination.ts";
-import { paginationFilmeScheme } from "./scheme.ts";
+import { paginationFilmeScheme } from "./Scheme.ts";
 
 export class PaginationFilmeController {
   constructor(private paginationFilmeUseCase: PaginationFilmeUseCase) {}
 
-  private validateRequest = (
+  validateRequest = (
     req: Request,
     res: Response,
     next: NextFunction
@@ -13,14 +13,17 @@ export class PaginationFilmeController {
     const { error } = paginationFilmeScheme.validate(req.body);
 
     if (error) {
-      return res.status(400).send(error.message);
+      return res.status(400).json({
+        error: "Requisição inválida",
+        details: error.message,
+      });
     }
     next();
   };
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      this.validateRequest(req, res, () => {});
+      
       const { page, limit } = req.body;
 
       const dataFilmes = await this.paginationFilmeUseCase.execute({
@@ -29,12 +32,18 @@ export class PaginationFilmeController {
       });
 
       if (dataFilmes !== null) {
-        return res.status(201).json(dataFilmes);
+        return res.status(200).json(dataFilmes);
       } else {
-        return res.status(400).send("Não ha filmes");
+        return res.status(404).json({
+          error: "Nenhum registro foi encontrado",
+          details: "Nunhum filme foi encontrado no nosso sistema",
+        });
       }
     } catch (err: any) {
-      return res.status(400).json("Erro na solicitaçãoss: " + err.message);
+      return res.status(500).json({
+        error: "Recurso não encontrado",
+        details: err.message,
+      });
     }
   }
 }
