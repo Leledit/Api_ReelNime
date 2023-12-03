@@ -18,6 +18,7 @@ import { paginationFilmeController } from "./useCases/Filme/Pagination/index.ts"
 import { deleteFilmeController } from "./useCases/Filme/Delete/index.ts";
 import { searchGenreController } from "./useCases/Genre/Search/index.ts";
 import { singleFileUpload } from "./providers/MulterImage.ts";
+import { releasesController } from "./useCases/Dasboard/Releases/index.ts";
 
 const router = Router();
 
@@ -154,5 +155,11 @@ router.delete(
     return deleteFilmeController.handle(request, response);
   }
 );
+
+//
+
+router.get("/dashboard/releases/",(request, response) => {
+  return releasesController.handle(request, response);
+})
 
 export { router };

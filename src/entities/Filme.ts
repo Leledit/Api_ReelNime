@@ -8,6 +8,7 @@ export class Filme {
     public lauch: string= '';
     public note:number =  0;
     public synopsis: string = '';
+    public updateDate?: Date = new Date();
     public urlImg?: string = '';
 
     constructor(props: Omit<Filme,"id">, id?: string) {
