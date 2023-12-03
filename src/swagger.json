@@ -961,6 +961,89 @@
                     }
                 }
             }
+        },
+        "/dashboard/releases/": {
+            "get": {
+                "summary": "Buscando os ultimos animes e filmes cadastrados",
+                "description": "Rota responsavel por retornar um objeto, contendo os ultimos animes e filmes cadastrados",
+                "tags": [
+                    "Dashboard"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "dataAnime": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "$ref": "#/components/schemas/Anime"
+                                            }
+                                        },
+                                        "dataFilmes": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "$ref": "#/components/schemas/Films"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard/recentylAdded/": {
+            "get": {
+                "summary": "Buscando os ultimos titulos cadastardos no sistema",
+                "description": "Rota responsavel por retornar um array de objetos, contendo os ultimos titulos incluidos no sistema",
+                "tags": [
+                    "Dashboard"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "oneOf": [
+                                            {"$ref": "#/components/schemas/Anime"},
+                                            {"$ref": "#/components/schemas/Films"}
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {

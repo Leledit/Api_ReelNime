@@ -19,6 +19,7 @@ import { deleteFilmeController } from "./useCases/Filme/Delete/index.ts";
 import { searchGenreController } from "./useCases/Genre/Search/index.ts";
 import { singleFileUpload } from "./providers/MulterImage.ts";
 import { releasesController } from "./useCases/Dasboard/Releases/index.ts";
+import { recentlyAddedController } from "./useCases/Dasboard/RecentlyAdded/index.ts";
 
 const router = Router();
 
@@ -158,8 +159,12 @@ router.delete(
 
 //
 
-router.get("/dashboard/releases/",(request, response) => {
+router.get("/dashboard/releases/", (request, response) => {
   return releasesController.handle(request, response);
-})
+});
+
+router.get("/dashboard/recentylAdded/", (request, response) => {
+  return recentlyAddedController.handle(request, response);
+});
 
 export { router };

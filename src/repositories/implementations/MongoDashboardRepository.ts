@@ -4,6 +4,32 @@ import { Filme } from "../../entities/Filme.ts";
 import { IDashboardRepository } from "../IDashboardRepository.ts";
 
 export class MongoDashboardRepository implements IDashboardRepository {
+  async retunrDataRecentlyAdded(): Promise<object> {
+    try {
+      const refDb = clienteDbMongo();
+
+      const collectionAnimes = refDb.collection("animes");
+      const resultAnimes = await collectionAnimes
+        .aggregate([{ $sort: { data: -1 } }])
+        .toArray();
+
+      const collectionFilmes = refDb.collection("filmes");
+      const resultFilmes = await collectionFilmes
+        .aggregate([{ $sort: { data: -1 } }])
+        .toArray();
+
+      const result = [...resultAnimes, ...resultFilmes];
+
+      result.sort((a, b) => b.updateDate - a.updateDate);
+
+      const recentylAdded = result.slice(0, 10);
+
+      return recentylAdded;
+    } catch (error) {
+      throw new Error("Falha ao obter os dados dos animes: " + error);
+    }
+  }
+
   async returnDataRecentlyAddedAnimes(limit: number): Promise<Anime[] | null> {
     try {
       const refDb = clienteDbMongo();
