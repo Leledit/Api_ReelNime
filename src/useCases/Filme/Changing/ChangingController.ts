@@ -30,10 +30,12 @@ export class ChangingFilmeController {
         });
       }
 
-      const { id, name, visa, duration, lauch, note, synopsis } = req.body;
+      const { name, visa, duration, lauch, note, synopsis } = req.body;
+
+      const params = req.params;
 
       await this.changingFilmeUseCase.execute({
-        id: id,
+        id: params.id, 
         name: name,
         duration: duration,
         lauch: lauch,

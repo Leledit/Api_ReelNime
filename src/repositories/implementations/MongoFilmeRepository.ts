@@ -71,12 +71,12 @@ export class MongoFilmeRepository implements IFilmeRepository {
           },
         }
       );
-
+      
       if (resultRequest.matchedCount === 0) {
         throw new Error("Id invalido");
       }
     } catch (error) {
-      throw new Error("erro ao atualizar um anime: " + error);
+      throw new Error("erro ao atualizar um filme: " + error);
     }
   }
   async findAll(): Promise<Filme[] | null> {

@@ -4,7 +4,37 @@ import { Filme } from "../../entities/Filme.ts";
 import { IDashboardRepository } from "../IDashboardRepository.ts";
 
 export class MongoDashboardRepository implements IDashboardRepository {
-  async retunrDataRecentlyAdded(): Promise<object> {
+  async returnDataPopular(): Promise<object> {
+    try {
+      const refDb = clienteDbMongo();
+
+      const collectionAnimes = refDb.collection("animes");
+      const resultAnimes = await collectionAnimes
+        .find()
+        .sort({ note: -1 })
+        .limit(10)
+        .toArray();
+
+      const collectionFilmes = refDb.collection("filmes");
+      const resultFilmes = await collectionFilmes
+        .find()
+        .sort({ note: -1 })
+        .limit(10)
+        .toArray();
+
+      const result = [...resultAnimes, ...resultFilmes];
+
+      result.sort((a, b) => b.note - a.note);
+
+      const popular = result.slice(0, 10);
+
+      return popular;
+    } catch (error) {
+      throw new Error("Falha ao obter os dados dos animes: " + error);
+    }
+  }
+
+  async returnDataRecentlyAdded(): Promise<object> {
     try {
       const refDb = clienteDbMongo();
 

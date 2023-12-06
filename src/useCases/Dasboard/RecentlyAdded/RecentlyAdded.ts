@@ -3,7 +3,7 @@ import { MongoDashboardRepository } from "../../../repositories/implementations/
 export class RecentlyAddedUseCase{
     constructor(private mongoDashboardRepository: MongoDashboardRepository){}
     async execute(){
-        const recentylAdded = await this.mongoDashboardRepository.retunrDataRecentlyAdded();
+        const recentylAdded = await this.mongoDashboardRepository.returnDataRecentlyAdded();
         
         return recentylAdded;
     }

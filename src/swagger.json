@@ -1044,6 +1044,43 @@
                     }
                 }
             }
+        },
+        "/dashboard/popular/":{
+            "get": {
+                "summary": "Buscando os titulos mais populares",
+                "description": "Rota responsavel por retornar um array de objetos, contendo os titulos com a melhor nota",
+                "tags": [
+                    "Dashboard"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "oneOf": [
+                                            {"$ref": "#/components/schemas/Anime"},
+                                            {"$ref": "#/components/schemas/Films"}
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
