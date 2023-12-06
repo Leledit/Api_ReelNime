@@ -732,6 +732,68 @@
                 }
             }
         },
+        "/animes/genres/": {
+            "get": {
+                "summary": "Buscando todos os animes de um genero especifico",
+                "description": "Rota responsavel por retornar todos os animes pertencentes a um genero",
+                "tags": [
+                    "Animes"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Nome do genero",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Anime"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Problemas com as validações de dados"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum registro foi encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Nenhum anime foi encontrado no nosso sistema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/animes/page/": {
             "get": {
                 "summary": "Buscando uma determinada quantidade de dados",
@@ -1024,8 +1086,12 @@
                                     "items": {
                                         "type": "object",
                                         "oneOf": [
-                                            {"$ref": "#/components/schemas/Anime"},
-                                            {"$ref": "#/components/schemas/Films"}
+                                            {
+                                                "$ref": "#/components/schemas/Anime"
+                                            },
+                                            {
+                                                "$ref": "#/components/schemas/Films"
+                                            }
                                         ]
                                     }
                                 }
@@ -1045,7 +1111,7 @@
                 }
             }
         },
-        "/dashboard/popular/":{
+        "/dashboard/popular/": {
             "get": {
                 "summary": "Buscando os titulos mais populares",
                 "description": "Rota responsavel por retornar um array de objetos, contendo os titulos com a melhor nota",
@@ -1061,8 +1127,12 @@
                                     "items": {
                                         "type": "object",
                                         "oneOf": [
-                                            {"$ref": "#/components/schemas/Anime"},
-                                            {"$ref": "#/components/schemas/Films"}
+                                            {
+                                                "$ref": "#/components/schemas/Anime"
+                                            },
+                                            {
+                                                "$ref": "#/components/schemas/Films"
+                                            }
                                         ]
                                     }
                                 }
