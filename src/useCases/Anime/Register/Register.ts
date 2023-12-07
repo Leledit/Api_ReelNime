@@ -33,7 +33,6 @@ export class RegisterAnimesUseCase {
           status: data.status,
           synopsis: data.synopsis,
           watched: data.watched,
-          genres: data.genres,
           urlImg: urlImgAnime,
         });
       } else {
@@ -46,7 +45,6 @@ export class RegisterAnimesUseCase {
           releaseYear: data.releaseYear,
           status: data.status,
           synopsis: data.synopsis,
-          genres: data.genres,
           watched: data.watched,
         });
       }

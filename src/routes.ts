@@ -21,7 +21,7 @@ import { singleFileUpload } from "./providers/MulterImage.ts";
 import { releasesController } from "./useCases/Dasboard/Releases/index.ts";
 import { recentlyAddedController } from "./useCases/Dasboard/RecentlyAdded/index.ts";
 import { popularController } from "./useCases/Dasboard/Popular/index.ts";
-import { genresController } from "./useCases/Anime/Genres/index.ts";
+import { findByNameController } from "./useCases/Anime/Genres/findByName/index.ts";
 
 const router = Router();
 
@@ -88,8 +88,8 @@ router.put(
   }
 );
 
-router.get("/animes/genres/", genresController.validateRequest,(request, response) => {
-  genresController.handle(request, response);
+router.get("/animes/genres/", findByNameController.validateRequest,(request, response) => {
+  findByNameController.handle(request, response);
 })
 
 router.get(
@@ -108,8 +108,6 @@ router.get(
   }
 );
 
-
-
 router.get("/animes/", (request, response) => {
   return listAllAnimesController.handle(request, response);
 });
@@ -117,9 +115,6 @@ router.get("/animes/", (request, response) => {
 router.delete("/animes/:id", (request, response) => {
   return deleteAnimeController.handle(request, response);
 });
-
-
-
 
 //Routes related to the "films" segment
 

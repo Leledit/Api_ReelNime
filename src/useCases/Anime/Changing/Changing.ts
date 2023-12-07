@@ -43,7 +43,6 @@ export class ChangingAnimeUseCase {
           status: data.status,
           synopsis: data.synopsis,
           watched: data.watched,
-          genres: data.genres,
           urlImg: urlImg,
         },
         data.id

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { GenresUseCase } from "./Genres.ts";
-import { listGenreAnimeSchema } from "./Scheme.ts";
+import { listGenreAnimeSchema } from "./findByName/Scheme.ts";
 
 export class GenresController {
   constructor(private genreUseCase: GenresUseCase) {}

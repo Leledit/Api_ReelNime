@@ -10,7 +10,6 @@ export interface IAnimesRequestDTO {
   updateDate?: Date;
   status: string;
   note: number;
-  genres: string[];
   dataImg?: {
     fieldname: string;
     originalname: string;

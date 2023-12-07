@@ -39,7 +39,6 @@ export class RegisterAnimeController {
         previousSeason,
         synopsis,
         status,
-        genres,
       } = req.body;
 
       const result = await this.registerAnimesUseCase.execute({
@@ -47,7 +46,6 @@ export class RegisterAnimeController {
         nextSeason,
         note,
         previousSeason,
-        genres,
         qtdEpisodes,
         releaseYear,
         synopsis,

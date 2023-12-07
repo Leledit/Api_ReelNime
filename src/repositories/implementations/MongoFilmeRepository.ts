@@ -44,7 +44,8 @@ export class MongoFilmeRepository implements IFilmeRepository {
             visa: resultRequest.visa,
             urlImg: resultRequest.urlImg,
           },
-          id
+          id,
+          resultRequest.genres
         );
       } else {
         return null;
@@ -87,7 +88,6 @@ export class MongoFilmeRepository implements IFilmeRepository {
       if (resultRequest.length !== 0) {
         let dataFilmes: Filme[] = [];
         resultRequest.map((item) => {
-          let id = item.id;
           dataFilmes.push(
             new Filme(
               {
@@ -99,7 +99,8 @@ export class MongoFilmeRepository implements IFilmeRepository {
                 visa: item.visa,
                 urlImg: item.urlImg,
               },
-              id
+              item.id,
+              item.genres
             )
           );
         });
@@ -135,10 +136,12 @@ export class MongoFilmeRepository implements IFilmeRepository {
                 lauch: item.lauch,
                 note: item.note,
                 synopsis: item.synopsis,
+                genres: item.genres,
                 visa: item.visa,
                 urlImg: item.urlImg,
               },
-              item.id
+              item.id,
+              item.genres
             )
           );
         });

@@ -40,11 +40,12 @@ export class ChangingFilmeUseCase {
           note: data.note,
           synopsis: data.synopsis,
           visa: data.visa,
+          genres: data.genres,
           urlImg: urlImg,
         },
         data.id
       );
-      
+
       await this.filmeRepository.changing(filme);
     } catch (err: any) {
       console.log("---");

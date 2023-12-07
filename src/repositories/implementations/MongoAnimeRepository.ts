@@ -21,35 +21,33 @@ export class MongoAnimeRepository implements IAnimeRepository {
         .find({ genres: { $in: [genre] } })
         .toArray();
 
-        if (resultRequest.length !== 0) {
-          let dataAnimes: Anime[] = [];
-          resultRequest.map((item) => {
-            let id = item.id;
-            dataAnimes.push(
-              new Anime(
-                {
-                  name: item.name,
-                  genres: item.genres,
-                  nextSeason: item.nextSeason,
-                  previousSeason: item.previousSeason,
-                  note: item.note,
-                  qtdEpisodes: item.qtdEpisodes,
-                  releaseYear: item.releaseYear,
-                  status: item.status,
-                  synopsis: item.synopsis,
-                  watched: item.watched,
-                  urlImg: item.urlImg,
-                },
-                id
-              )
-            );
-          });
-  
-          return dataAnimes;
-        } else {
-          return null;
-        }
-      
+      if (resultRequest.length !== 0) {
+        let dataAnimes: Anime[] = [];
+        resultRequest.map((item) => {
+          dataAnimes.push(
+            new Anime(
+              {
+                name: item.name,
+                nextSeason: item.nextSeason,
+                previousSeason: item.previousSeason,
+                note: item.note,
+                qtdEpisodes: item.qtdEpisodes,
+                releaseYear: item.releaseYear,
+                status: item.status,
+                synopsis: item.synopsis,
+                watched: item.watched,
+                urlImg: item.urlImg,
+              },
+              item.id,
+              item.genres
+            )
+          );
+        });
+
+        return dataAnimes;
+      } else {
+        return null;
+      }
     } catch (error: any) {
       throw new Error("Falha ao cadastrar um anime: " + error.message);
     }
@@ -113,11 +111,9 @@ export class MongoAnimeRepository implements IAnimeRepository {
       const resultRequest = await collectionAnimes.findOne({ id: id });
 
       if (resultRequest) {
-        let id = resultRequest.id;
         return new Anime(
           {
             name: resultRequest.name,
-            genres: resultRequest.genres,
             nextSeason: resultRequest.nextSeason,
             note: resultRequest.note,
             previousSeason: resultRequest.previousSeason,
@@ -129,7 +125,8 @@ export class MongoAnimeRepository implements IAnimeRepository {
             updateDate: resultRequest.updateDate,
             urlImg: resultRequest.urlImg,
           },
-          id
+          resultRequest.id,
+          resultRequest.genres
         );
       } else {
         return null;
@@ -147,12 +144,10 @@ export class MongoAnimeRepository implements IAnimeRepository {
       if (resultRequest.length !== 0) {
         let dataAnimes: Anime[] = [];
         resultRequest.map((item) => {
-          let id = item.id;
           dataAnimes.push(
             new Anime(
               {
                 name: item.name,
-                genres: item.genres,
                 nextSeason: item.nextSeason,
                 previousSeason: item.previousSeason,
                 note: item.note,
@@ -163,7 +158,8 @@ export class MongoAnimeRepository implements IAnimeRepository {
                 watched: item.watched,
                 urlImg: item.urlImg,
               },
-              id
+              item.id,
+              item.genres
             )
           );
         });
@@ -209,7 +205,6 @@ export class MongoAnimeRepository implements IAnimeRepository {
             new Anime(
               {
                 name: item.name,
-                genres: item.genres,
                 nextSeason: item.nextSeason,
                 previousSeason: item.previousSeason,
                 note: item.note,
@@ -220,7 +215,8 @@ export class MongoAnimeRepository implements IAnimeRepository {
                 watched: item.watched,
                 urlImg: item.urlImg,
               },
-              item.id
+              item.id,
+              item.genres
             )
           );
         });

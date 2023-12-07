@@ -40,13 +40,11 @@ export class ChangingAnimeController {
         nextSeason,
         previousSeason,
         synopsis,
-        genres,
         id,
       } = req.body;
 
       await this.changingAnimeUseCase.execute({
         name,
-        genres,
         id,
         nextSeason,
         note,

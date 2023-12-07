@@ -22,7 +22,7 @@ export class DeleteFilmeController {
       await this.deleteFilmeUseCase.execute({ id: req.params.id });
       return res.status(200).json({
         error: "Exclusão realizada com sucesso",
-        details: "O genero foi excluido do sistema",
+        details: "O filme foi excluido do sistema",
       });
     } catch (err: any) {
       return res.status(500).json({

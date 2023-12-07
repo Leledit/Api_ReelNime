@@ -7,4 +7,5 @@ export const changingFilmeSchema = Joi.object({
   lauch: Joi.string().required(),
   note: Joi.string().required(),
   synopsis: Joi.string().required(),
+  genres: Joi.array().required(),
 });

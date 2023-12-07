@@ -9,7 +9,6 @@ export interface IAnimesRequestDTO {
   watched: boolean;
   note: number;
   status: string;
-  genres: string[];
   dataImg?: {
     fieldname: string;
     originalname: string;
