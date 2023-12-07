@@ -3,6 +3,43 @@ import { Filme } from "../../entities/Filme.ts";
 import { IFilmeRepository } from "../IFilmeRepository.ts";
 
 export class MongoFilmeRepository implements IFilmeRepository {
+  async searchByGenre(genre: string): Promise<Filme[] | null> {
+    try {
+      const refDb = clienteDbMongo();
+      const resultRequest = await refDb
+        .collection("filmes")
+        .find({ genres: { $in: [genre] } })
+        .toArray();
+
+      if (resultRequest.length !== 0) {
+        let dataAnimes: Filme[] = [];
+        resultRequest.map((item) => {
+          dataAnimes.push(
+            new Filme(
+              {
+                name: item.name,
+                duration: item.duration,
+                lauch: item.lauch,
+                note: item.note,
+                synopsis: item.synopsis,
+                visa: item.visa,
+                urlImg: item.urlImg,
+              },
+              item.id,
+              item.genres
+            )
+          );
+        });
+
+        return dataAnimes;
+      } else {
+        return null;
+      }
+    } catch (error: any) {
+      throw new Error("Falha ao cadastrar um anime: " + error.message);
+    }
+  }
+
   async findByName(name: string): Promise<boolean> {
     const refDb = clienteDbMongo();
     try {
@@ -72,7 +109,7 @@ export class MongoFilmeRepository implements IFilmeRepository {
           },
         }
       );
-      
+
       if (resultRequest.matchedCount === 0) {
         throw new Error("Id invalido");
       }

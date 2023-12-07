@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import { FilmeFindByNameGenreUseCase } from "./FindByName.ts";
-import { findByNameGenreAnimeSchema } from "./Scheme.ts";
+import { findByNameGenreFilmeSchema } from "./Scheme.ts";
 
-export class AnimeFindByNameGenreController {
+export class FilmeFindByNameGenreController {
     constructor(private filmeFindByNameGenreUseCase: FilmeFindByNameGenreUseCase) {}
   
     validateRequest = (req: Request, res: Response, next: NextFunction) => {
-      const { error } = findByNameGenreAnimeSchema.validate(req.query);
+      const { error } = findByNameGenreFilmeSchema.validate(req.query);
   
       if (error) {
         return res.status(400).json({
@@ -29,7 +29,7 @@ export class AnimeFindByNameGenreController {
         } else {
           return res.status(404).json({
             error: "Nenhum registro foi encontrado",
-            details: "Nenhum anime foi encontrado, com o genero informado",
+            details: "Nenhum filme foi encontrado, com o genero informado",
           });
         }
       } catch (err: any) {

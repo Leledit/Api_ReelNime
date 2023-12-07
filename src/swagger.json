@@ -407,6 +407,68 @@
                 }
             }
         },
+        "/filmes/genres/": {
+            "get": {
+                "summary": "Buscando todos os filmes de um genero especifico",
+                "description": "Rota responsavel por retornar todos os filmes pertencentes a um genero",
+                "tags": [
+                    "Filmes"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Nome do genero",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Films"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Problemas com as validações de dados"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum registro foi encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Nenhum filme foi encontrado, com o genero informado"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/filmes/page/": {
             "get": {
                 "summary": "Buscando uma determinada quantidade de dados",
@@ -776,7 +838,7 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "mensagem": "Nenhum anime foi encontrado no nosso sistema"
+                                    "mensagem": "Nenhum anime foi encontrado, com o genero informado"
                                 }
                             }
                         }

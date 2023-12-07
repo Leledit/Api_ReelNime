@@ -21,8 +21,8 @@ import { singleFileUpload } from "./providers/MulterImage.ts";
 import { releasesController } from "./useCases/Dasboard/Releases/index.ts";
 import { recentlyAddedController } from "./useCases/Dasboard/RecentlyAdded/index.ts";
 import { popularController } from "./useCases/Dasboard/Popular/index.ts";
-import { findByNameController } from "./useCases/Anime/Genres/findByName/index.ts";
-
+import { animeFindByNameGenreController } from "./useCases/Anime/Genres/findByName/index.ts";
+import { filmeFindByNameGenreController } from "./useCases/Filme/Genres/findByName/index.ts";
 const router = Router();
 
 //Routes related to the "genre" segment
@@ -88,8 +88,8 @@ router.put(
   }
 );
 
-router.get("/animes/genres/", findByNameController.validateRequest,(request, response) => {
-  findByNameController.handle(request, response);
+router.get("/animes/genres/", animeFindByNameGenreController.validateRequest,(request, response) => {
+  animeFindByNameGenreController.handle(request, response);
 })
 
 router.get(
@@ -135,6 +135,10 @@ router.put(
     return changingFilmeController.handle(request, response);
   }
 );
+
+router.get("/filmes/genres/", filmeFindByNameGenreController.validateRequest,(request, response) => {
+  filmeFindByNameGenreController.handle(request, response);
+})
 
 router.get(
   "/filmes/page/",
