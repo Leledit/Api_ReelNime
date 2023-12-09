@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { LitByYearAnimeUseCase } from "./LitstByYear.ts";
-import { LitByYearAnimeScheme } from "./Scheme.ts";
+import { LitByYearFilmeUseCase } from "./LitByYear.ts";
+import { LitByYearAnimeScheme } from "../../Anime/LitByYear/Scheme.ts";
 
-export class LitByYearAnimeController {
-  constructor(private litByYearAnimeUseCase: LitByYearAnimeUseCase) {}
+export class LitByYearFilmeController {
+  constructor(private litByYearUseCase: LitByYearFilmeUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
     const { error } = LitByYearAnimeScheme.validate(req.query);
@@ -22,7 +22,7 @@ export class LitByYearAnimeController {
     try {
       const { year } = req.query;
 
-      const dataAnimes = await this.litByYearAnimeUseCase.execute({
+      const dataAnimes = await this.litByYearUseCase.execute({
         year: parseInt(year as string),
       });
 

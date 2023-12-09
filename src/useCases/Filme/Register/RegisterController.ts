@@ -30,14 +30,15 @@ export class RegisterFilmeController {
         });
       }
 
-      const { name, visa, duration, lauch, note, synopsis} = req.body;
+      const { name, visa, duration,  note, synopsis, releaseYear } =
+        req.body;
 
       const resultRequest = await this.registerFilmeUseCase.execute({
         name,
-        visa,
+        visa: Boolean(visa),
+        releaseYear: parseInt(releaseYear),
         duration,
-        lauch,
-        note,
+        note: parseInt(note),
         synopsis,
         dataImg: dataImage,
       });

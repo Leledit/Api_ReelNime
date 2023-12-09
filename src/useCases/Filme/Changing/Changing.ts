@@ -35,9 +35,9 @@ export class ChangingFilmeUseCase {
       const filme = new Filme(
         {
           duration: data.duration,
-          lauch: data.lauch,
           name: data.name,
           note: data.note,
+          releaseYear: data.releaseYear,
           synopsis: data.synopsis,
           visa: data.visa,
           genres: data.genres,

@@ -3,6 +3,43 @@ import { Filme } from "../../entities/Filme.ts";
 import { IFilmeRepository } from "../IFilmeRepository.ts";
 
 export class MongoFilmeRepository implements IFilmeRepository {
+  async findByYear(year: number): Promise<Filme[] | null> {
+    try {
+      const refDb = clienteDbMongo();
+      const resultRequest = await refDb
+        .collection("filmes")
+        .find({ releaseYear: year })
+        .toArray();
+
+      if (resultRequest.length !== 0) {
+        let dataAnimes: Filme[] = [];
+        resultRequest.map((item) => {
+          dataAnimes.push(
+            new Filme(
+              {
+                name: item.name,
+                duration: item.duration,
+                note: item.note,
+                synopsis: item.synopsis,
+                visa: item.visa,
+                releaseYear: item.releaseYear,
+                urlImg: item.urlImg,
+              },
+              item.id,
+              item.genres
+            )
+          );
+        });
+
+        return dataAnimes;
+      } else {
+        return null;
+      }
+    } catch (error: any) {
+      throw new Error("Falha ao buscar um anime: " + error.message);
+    }
+  }
+
   async searchByGenre(genre: string): Promise<Filme[] | null> {
     try {
       const refDb = clienteDbMongo();
@@ -19,10 +56,10 @@ export class MongoFilmeRepository implements IFilmeRepository {
               {
                 name: item.name,
                 duration: item.duration,
-                lauch: item.lauch,
                 note: item.note,
                 synopsis: item.synopsis,
                 visa: item.visa,
+                releaseYear: item.releaseYear,
                 urlImg: item.urlImg,
               },
               item.id,
@@ -75,7 +112,7 @@ export class MongoFilmeRepository implements IFilmeRepository {
           {
             name: resultRequest.name,
             duration: resultRequest.duration,
-            lauch: resultRequest.lauch,
+            releaseYear: resultRequest.releaseYear,
             note: resultRequest.note,
             synopsis: resultRequest.synopsis,
             visa: resultRequest.visa,
@@ -102,7 +139,6 @@ export class MongoFilmeRepository implements IFilmeRepository {
             name: filme.name,
             visa: filme.visa,
             duration: filme.duration,
-            lauch: filme.lauch,
             note: filme.note,
             synopsis: filme.synopsis,
             urlImg: filme.urlImg,
@@ -130,9 +166,9 @@ export class MongoFilmeRepository implements IFilmeRepository {
               {
                 name: item.name,
                 duration: item.duration,
-                lauch: item.lauch,
                 note: item.note,
                 synopsis: item.synopsis,
+                releaseYear: item.releaseYear,
                 visa: item.visa,
                 urlImg: item.urlImg,
               },
@@ -170,7 +206,7 @@ export class MongoFilmeRepository implements IFilmeRepository {
               {
                 name: item.name,
                 duration: item.duration,
-                lauch: item.lauch,
+                releaseYear: item.releaseYear,
                 note: item.note,
                 synopsis: item.synopsis,
                 genres: item.genres,

@@ -30,7 +30,7 @@ export class ChangingFilmeController {
         });
       }
 
-      const { name, visa, duration, lauch, note, synopsis, genres } = req.body;
+      const { name, visa, duration, lauch, note, synopsis, genres, releaseYear } = req.body;
 
       const params = req.params;
 
@@ -38,6 +38,7 @@ export class ChangingFilmeController {
         id: params.id, 
         name: name,
         duration: duration,
+        releaseYear: parseInt(releaseYear),
         lauch: lauch,
         note: note,
         synopsis: synopsis,

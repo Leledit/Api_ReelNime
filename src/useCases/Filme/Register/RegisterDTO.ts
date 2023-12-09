@@ -2,7 +2,7 @@ export interface IFilmeRequestDTO {
   name: string;
   visa: boolean;
   duration: string;
-  lauch: string;
+  releaseYear: number,
   note: number;
   synopsis: string;
   dataImg?: {

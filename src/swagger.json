@@ -469,6 +469,68 @@
                 }
             }
         },
+        "/filmes/year/": {
+            "get": {
+                "summary": "Buscando todos os filmes lançados em um ano especifico",
+                "description": "Rota responsavel por retornar todos os filmes, que foram lançados em um ano especifico ",
+                "tags": [
+                    "Filmes"
+                ],
+                "parameters": [
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "Ano de lançamento",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Films"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Problemas com as validações de dados"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum registro foi encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Nunhum filme foi encontrado no nosso sistema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/filmes/page/": {
             "get": {
                 "summary": "Buscando uma determinada quantidade de dados",
@@ -839,6 +901,68 @@
                             "application/json": {
                                 "example": {
                                     "mensagem": "Nenhum anime foi encontrado, com o genero informado"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/animes/year/": {
+            "get": {
+                "summary": "Buscando todos os animes lançados em um ano especifico",
+                "description": "Rota responsavel por retornar todos os animes, que foram lançados em um ano especifico ",
+                "tags": [
+                    "Animes"
+                ],
+                "parameters": [
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "Ano de lançamento",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Anime"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Problemas com as validações de dados"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum registro foi encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Nunhum anime foi encontrado no nosso sistema"
                                 }
                             }
                         }

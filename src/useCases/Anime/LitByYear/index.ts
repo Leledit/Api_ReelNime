@@ -1,9 +1,9 @@
 import { MongoAnimeRepository } from "../../../repositories/implementations/MongoAnimeRepository.ts";
-import { LitByYearUseCase } from "./LitstByYear.ts";
-import { LitByYearController } from "./LitstByYearController.ts";
+import { LitByYearAnimeUseCase } from "./LitstByYear.ts";
+import { LitByYearAnimeController } from "./LitstByYearController.ts";
 
 const mongoAnimeRepository = new MongoAnimeRepository();
-const litsByYearUseCase = new LitByYearUseCase(mongoAnimeRepository);
-const litsByYearController = new LitByYearController(litsByYearUseCase);
+const litsByYearAnimeUseCase = new LitByYearAnimeUseCase(mongoAnimeRepository);
+const litByYearAnimeController = new LitByYearAnimeController(litsByYearAnimeUseCase);
 
-export {litsByYearUseCase, litsByYearController}
+export {litsByYearAnimeUseCase, litByYearAnimeController}

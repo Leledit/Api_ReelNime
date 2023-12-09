@@ -23,7 +23,8 @@ import { recentlyAddedController } from "./useCases/Dasboard/RecentlyAdded/index
 import { popularController } from "./useCases/Dasboard/Popular/index.ts";
 import { animeFindByNameGenreController } from "./useCases/Anime/Genres/findByName/index.ts";
 import { filmeFindByNameGenreController } from "./useCases/Filme/Genres/findByName/index.ts";
-import { litsByYearController } from "./useCases/Anime/LitByYear/index.ts";
+import { litByYearAnimeController } from "./useCases/Anime/LitByYear/index.ts";
+import { litByYearFilmeController } from "./useCases/Filme/LitByYear/index.ts";
 const router = Router();
 
 //Routes related to the "genre" segment
@@ -106,9 +107,9 @@ router.get(
 
 router.get(
   "/animes/year/",
-  litsByYearController.validateRequest,
+  litByYearAnimeController.validateRequest,
   (request, response) => {
-    return litsByYearController.handle(request, response);
+    return litByYearAnimeController.handle(request, response);
   }
 );
 
@@ -136,6 +137,14 @@ router.post(
   registerFilmeController.validateRequest,
   (request, response) => {
     return registerFilmeController.handle(request, response);
+  }
+);
+
+router.get(
+  "/filmes/year/",
+  litByYearFilmeController.validateRequest,
+  (request, response) => {
+    return litByYearFilmeController.handle(request, response);
   }
 );
 

@@ -27,7 +27,7 @@ export class RegisterFilmeUseCase {
       const filme = new Filme({
         name: data.name,
         duration: data.duration,
-        lauch: data.lauch,
+        releaseYear: data.releaseYear,
         note: data.note,
         synopsis: data.synopsis,
         visa: data.visa,

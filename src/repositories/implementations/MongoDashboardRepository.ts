@@ -122,8 +122,8 @@ export class MongoDashboardRepository implements IDashboardRepository {
               {
                 name: item.name,
                 duration: item.duration,
-                lauch: item.lauch,
                 note: item.note,
+                releaseYear: item.releaseYear,
                 synopsis: item.synopsis,
                 visa: item.visa,
                 genres: item.genres,
