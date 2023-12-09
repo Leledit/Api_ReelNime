@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response, query } from "express";
 import { ChangingAnimeUseCase } from "./Changing.ts";
 import { changingAnimeSchema } from "./scheme.ts";
 import { getFileFromRequest } from "../../../providers/MulterImage.ts";
@@ -40,17 +40,18 @@ export class ChangingAnimeController {
         nextSeason,
         previousSeason,
         synopsis,
-        id,
       } = req.body;
+
+      const {id} = req.params;
 
       await this.changingAnimeUseCase.execute({
         name,
         id,
         nextSeason,
-        note,
+        note: parseInt(note),
         previousSeason,
-        qtdEpisodes,
-        releaseYear,
+        qtdEpisodes: parseInt(qtdEpisodes),
+        releaseYear: parseInt(releaseYear),
         status,
         synopsis,
         watched,

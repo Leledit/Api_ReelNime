@@ -23,6 +23,7 @@ import { recentlyAddedController } from "./useCases/Dasboard/RecentlyAdded/index
 import { popularController } from "./useCases/Dasboard/Popular/index.ts";
 import { animeFindByNameGenreController } from "./useCases/Anime/Genres/findByName/index.ts";
 import { filmeFindByNameGenreController } from "./useCases/Filme/Genres/findByName/index.ts";
+import { litsByYearController } from "./useCases/Anime/LitByYear/index.ts";
 const router = Router();
 
 //Routes related to the "genre" segment
@@ -69,7 +70,6 @@ router.delete(
 
 //Routes related to the "anime" segment
 
-
 router.post(
   "/animes/",
   singleFileUpload("img"),
@@ -88,15 +88,27 @@ router.put(
   }
 );
 
-router.get("/animes/genres/", animeFindByNameGenreController.validateRequest,(request, response) => {
-  animeFindByNameGenreController.handle(request, response);
-})
+router.get(
+  "/animes/genres/",
+  animeFindByNameGenreController.validateRequest,
+  (request, response) => {
+    animeFindByNameGenreController.handle(request, response);
+  }
+);
 
 router.get(
   "/animes/page/",
   paginationAnimeController.validateRequest,
   (request, response) => {
     return paginationAnimeController.handle(request, response);
+  }
+);
+
+router.get(
+  "/animes/year/",
+  litsByYearController.validateRequest,
+  (request, response) => {
+    return litsByYearController.handle(request, response);
   }
 );
 
@@ -136,9 +148,13 @@ router.put(
   }
 );
 
-router.get("/filmes/genres/", filmeFindByNameGenreController.validateRequest,(request, response) => {
-  filmeFindByNameGenreController.handle(request, response);
-})
+router.get(
+  "/filmes/genres/",
+  filmeFindByNameGenreController.validateRequest,
+  (request, response) => {
+    filmeFindByNameGenreController.handle(request, response);
+  }
+);
 
 router.get(
   "/filmes/page/",

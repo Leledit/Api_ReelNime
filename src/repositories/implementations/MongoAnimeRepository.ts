@@ -13,6 +13,46 @@ export class MongoAnimeRepository implements IAnimeRepository {
     }
   }
 
+  async findByYear(year: number): Promise<Anime[] | null> {
+    try {
+      const refDb = clienteDbMongo();
+      const resultRequest = await refDb
+        .collection("animes")
+        .find({ releaseYear: year })
+        .toArray();
+
+      if (resultRequest.length !== 0) {
+        let dataAnimes: Anime[] = [];
+        resultRequest.map((item) => {
+          dataAnimes.push(
+            new Anime(
+              {
+                name: item.name,
+                nextSeason: item.nextSeason,
+                previousSeason: item.previousSeason,
+                note: item.note,
+                qtdEpisodes: item.qtdEpisodes,
+                releaseYear: item.releaseYear,
+                status: item.status,
+                synopsis: item.synopsis,
+                watched: item.watched,
+                urlImg: item.urlImg,
+              },
+              item.id,
+              item.genres
+            )
+          );
+        });
+
+        return dataAnimes;
+      } else {
+        return null;
+      }
+    } catch (error: any) {
+      throw new Error("Falha ao buscar um anime: " + error.message);
+    }
+  }
+
   async searchByGenre(genre: string): Promise<Anime[] | null> {
     try {
       const refDb = clienteDbMongo();
@@ -49,7 +89,7 @@ export class MongoAnimeRepository implements IAnimeRepository {
         return null;
       }
     } catch (error: any) {
-      throw new Error("Falha ao cadastrar um anime: " + error.message);
+      throw new Error("Falha ao buscar um anime: " + error.message);
     }
   }
 

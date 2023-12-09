@@ -8,10 +8,10 @@ export class RegisterAnimeController {
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
     const { error } = registerAnimeSchema.validate(req.body);
-    
+
     if (error) {
       return res.status(400).json({
-        error: "Requisição inválida aaa",
+        error: "Requisição inválida",
         details: error.message,
       });
     }
@@ -44,12 +44,12 @@ export class RegisterAnimeController {
       const result = await this.registerAnimesUseCase.execute({
         name,
         nextSeason,
-        note,
+        note: parseInt(note),
         previousSeason,
-        qtdEpisodes,
-        releaseYear,
+        qtdEpisodes: parseInt(qtdEpisodes),
+        releaseYear: parseInt(releaseYear),
         synopsis,
-        watched,
+        watched: Boolean(watched),
         status,
         dataImg: dataImage,
       });

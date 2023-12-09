@@ -7,6 +7,7 @@ import path from "path";
 export class ChangingAnimeUseCase {
   constructor(private animesRepository: IAnimeRepository) {}
   async execute(data: IAnimesRequestDTO) {
+    
     try {
       const oldAnimeData = await this.animesRepository.listOne(data.id);
       if (oldAnimeData?.urlImg && data.dataImg) {
