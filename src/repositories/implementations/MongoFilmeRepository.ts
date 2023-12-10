@@ -22,7 +22,7 @@ export class MongoFilmeRepository implements IFilmeRepository {
         return true;
       }
     } catch (error: any) {
-      throw new Error("Falha ao buscar um anime: " + error.message);
+      throw new Error("Falha ao editar os generos de filme: " + error.message);
     }
   }
 
@@ -59,7 +59,7 @@ export class MongoFilmeRepository implements IFilmeRepository {
         return null;
       }
     } catch (error: any) {
-      throw new Error("Falha ao buscar um anime: " + error.message);
+      throw new Error("Falha ao buscar um filme: " + error.message);
     }
   }
 
@@ -96,7 +96,7 @@ export class MongoFilmeRepository implements IFilmeRepository {
         return null;
       }
     } catch (error: any) {
-      throw new Error("Falha ao cadastrar um anime: " + error.message);
+      throw new Error("Falha ao cadastrar um filme: " + error.message);
     }
   }
 
@@ -206,7 +206,7 @@ export class MongoFilmeRepository implements IFilmeRepository {
         return null;
       }
     } catch (error) {
-      throw new Error("Falha ao obter todos os animes: " + error);
+      throw new Error("Falha ao obter todos os filme: " + error);
     }
   }
   async paginationList(

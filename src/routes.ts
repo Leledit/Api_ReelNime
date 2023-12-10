@@ -27,6 +27,8 @@ import { litByYearAnimeController } from "./useCases/Anime/LitByYear/index.ts";
 import { litByYearFilmeController } from "./useCases/Filme/LitByYear/index.ts";
 import { addGenresInFilmeController } from "./useCases/Filme/Genres/Add/index.ts";
 import { deleteGenresInFilmeController } from "./useCases/Filme/Genres/Delete/index.ts";
+import { addGenresInAnimeController } from "./useCases/Anime/Genres/Add/index.ts";
+import { deleteGenresInAnimeController } from "./useCases/Anime/Genres/Delete/index.ts";
 const router = Router();
 
 //Routes related to the "genre" segment
@@ -88,6 +90,22 @@ router.put(
   changingAnimeControler.validateRequest,
   (request, response) => {
     return changingAnimeControler.handle(request, response);
+  }
+);
+
+router.get(
+  "/animes/genres/add/",
+  addGenresInAnimeController.validateRequest,
+  (request, response) => {
+    addGenresInAnimeController.handle(request, response);
+  }
+);
+
+router.get(
+  "/animes/genres/delete/",
+  deleteGenresInAnimeController.validateRequest,
+  (request, response) => {
+    deleteGenresInAnimeController.handle(request, response);
   }
 );
 

@@ -62,7 +62,7 @@ export class RegisterAnimeController {
         });
       } else {
         return res.status(201).json({
-          error: "Cadastro efetuado com sucesso!",
+          message: "Cadastro efetuado com sucesso!",
           details: "O anime foi incluindo na base de dados do sistema",
         });
       }

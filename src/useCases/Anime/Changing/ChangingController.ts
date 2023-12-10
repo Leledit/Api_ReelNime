@@ -59,7 +59,7 @@ export class ChangingAnimeController {
       });
 
       return res.status(200).json({
-        error: "Edição realizada com sucesso",
+        message: "Edição realizada com sucesso",
         details: "O anime sofreu alterações nos seus dados",
       });
     } catch (err: any) {

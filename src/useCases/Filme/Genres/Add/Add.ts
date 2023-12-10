@@ -14,12 +14,12 @@ export class AddGenresInFilmeUseCase {
       }
 
       //Verificando se esse genero ja esta cadastrado
-      if (dataFilme.genres?.includes(data.nameGenre)) {
+      if (dataFilme.genres?.includes(data.nameGenre.trim())) {
         return "Genero ja incluindo nesse filme";
       }
 
       if (dataFilme.genres) {
-        const dataGenres: string[] = [...dataFilme.genres, data.nameGenre];
+        const dataGenres: string[] = [...dataFilme.genres, data.nameGenre.trim()];
 
         const resultRequest = await this.mongoFilmeRepository.changingGenre(
           dataGenres,

@@ -14,14 +14,14 @@ export class DeleteGenresInFilmeUseCase {
       }
 
       //Verificando se o genero não existe no objeto do filme
-      if (!dataFilme.genres?.includes(data.nameGenre)) {
+      if (!dataFilme.genres?.includes(data.nameGenre.trim())) {
         return "O genero informado não esta vinculado a este filme!";
       }
 
       let genres: string[] = [...dataFilme.genres];
 
       genres.map((item, index) => {
-        if (item === data.nameGenre) {
+        if (item === data.nameGenre.trim()) {
           genres.splice(index, 1);
         }
       });
@@ -37,7 +37,6 @@ export class DeleteGenresInFilmeUseCase {
         return "Houve um problema na ação de remoção de um genero";
       }
 
-      return true;
     } catch (err: any) {
       throw new Error(err.message);
     }
