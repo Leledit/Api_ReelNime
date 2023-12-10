@@ -3,6 +3,29 @@ import { Filme } from "../../entities/Filme.ts";
 import { IFilmeRepository } from "../IFilmeRepository.ts";
 
 export class MongoFilmeRepository implements IFilmeRepository {
+  async changingGenre(genres: string[], idFilme: string): Promise<boolean> {
+    try {
+      const refDb = clienteDbMongo();
+
+      const resultRequest = await refDb.collection("filmes").updateOne(
+        { id: idFilme },
+        {
+          $set: {
+            genres: genres,
+          },
+        }
+      );
+
+      if (resultRequest.matchedCount === 0) {
+        return false;
+      } else {
+        return true;
+      }
+    } catch (error: any) {
+      throw new Error("Falha ao buscar um anime: " + error.message);
+    }
+  }
+
   async findByYear(year: number): Promise<Filme[] | null> {
     try {
       const refDb = clienteDbMongo();

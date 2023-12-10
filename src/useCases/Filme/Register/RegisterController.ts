@@ -51,7 +51,7 @@ export class RegisterFilmeController {
         });
       } else {
         return res.status(201).json({
-          error: "Cadastro efetuado com sucesso!",
+          message: "Cadastro efetuado com sucesso!",
           details: "O filme foi incluindo na base de dados do sistema",
         });
       }

@@ -12,4 +12,5 @@ export interface IFilmeRepository {
   ): Promise<Filme[] | null>;
   delete(id: string): Promise<void>;
   findByYear(year: number): Promise<Filme[] | null>;
+  changingGenre(genres: string[],idFilme:string): Promise<boolean>;
 }
