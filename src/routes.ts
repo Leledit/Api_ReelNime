@@ -29,6 +29,8 @@ import { addGenresInFilmeController } from "./useCases/Filme/Genres/Add/index.ts
 import { deleteGenresInFilmeController } from "./useCases/Filme/Genres/Delete/index.ts";
 import { addGenresInAnimeController } from "./useCases/Anime/Genres/Add/index.ts";
 import { deleteGenresInAnimeController } from "./useCases/Anime/Genres/Delete/index.ts";
+import { registerUserController } from "./useCases/User/Register/index.ts";
+import { loginUserController } from "./useCases/User/Login/index.ts";
 const router = Router();
 
 //Routes related to the "genre" segment
@@ -93,7 +95,7 @@ router.put(
   }
 );
 
-router.get(
+router.post(
   "/animes/genres/add/",
   addGenresInAnimeController.validateRequest,
   (request, response) => {
@@ -101,7 +103,7 @@ router.get(
   }
 );
 
-router.get(
+router.delete(
   "/animes/genres/delete/",
   deleteGenresInAnimeController.validateRequest,
   (request, response) => {
@@ -160,7 +162,7 @@ router.post(
   }
 );
 
-router.get(
+router.post(
   "/filmes/genres/add/",
   addGenresInFilmeController.validateRequest,
   (request, response) => {
@@ -168,7 +170,7 @@ router.get(
   }
 );
 
-router.get(
+router.delete(
   "/filmes/genres/delete/",
   deleteGenresInFilmeController.validateRequest,
   (request, response) => {
@@ -242,5 +244,23 @@ router.get("/dashboard/recentylAdded/", (request, response) => {
 router.get("/dashboard/popular/", (request, response) => {
   return popularController.handle(request, response);
 });
+
+//
+
+router.post(
+  "/user/register/",
+  registerUserController.validateRequest,
+  (request, response) => {
+    return registerUserController.handle(request, response);
+  }
+);
+
+router.post(
+  "/user/login/",
+  loginUserController.validateRequest,
+  (request, response) => {
+    return loginUserController.handle(request, response);
+  }
+);
 
 export { router };

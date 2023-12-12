@@ -1,12 +1,15 @@
 import { NextFunction, Request, Response } from "express";
-import { AddFilmeSchema } from "./Scheme.ts";
-import { AddGenresInFilmeUseCase } from "./Add.ts";
+import { LoginUserUseCase } from "./Login.ts";
+import { loginUserSchema } from "./Scheme.ts";
 
-export class AddGenresInFilmeController {
-  constructor(private addGenresInFilmeUseCase: AddGenresInFilmeUseCase) {}
+export class LoginUserController {
+  constructor(private loginUserUseCase: LoginUserUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = AddFilmeSchema.validate(req.body);
+    const { error } = loginUserSchema.validate(req.body);
+
+    console.log("---");
+    console.log(req.body);
 
     if (error) {
       return res.status(400).json({
@@ -14,27 +17,26 @@ export class AddGenresInFilmeController {
         details: error.message,
       });
     }
-
     next();
   };
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const { id, nameGenre } = req.body;
+      const { email, password } = req.body;
 
-      const result = await this.addGenresInFilmeUseCase.execute({
-        id: id as string,
-        nameGenre: nameGenre as string,
+      const result = await this.loginUserUseCase.execute({
+        email,
+        password,
       });
 
       if (result === true) {
-        return res.status(200).json({
-          message: "Genero adicionado com sucesso!",
-          details: "Um novo genero foi adicionado a lista de generos do filme",
+        return res.status(201).json({
+          message: "Usuario autenticado!",
+          details: "o usuario esta autenticado e pode proceguir na aplicação",
         });
       } else {
         return res.status(500).json({
-          error: "Recurso não encontrado",
+          message: "Problemas ao realizar o login",
           details: result,
         });
       }

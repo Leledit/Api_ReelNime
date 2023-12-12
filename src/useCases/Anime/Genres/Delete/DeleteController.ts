@@ -7,7 +7,7 @@ export class DeleteGenresInAnimeController {
   constructor(private deleteGenresInAnimeUseCase: DeleteGenresInAnimeUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = DeleteAnimeSchema.validate(req.query);
+    const { error } = DeleteAnimeSchema.validate(req.body);
 
     if (error) {
       return res.status(400).json({
@@ -21,7 +21,7 @@ export class DeleteGenresInAnimeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const { id, nameGenre } = req.query;
+      const { id, nameGenre } = req.body;
 
       const result = await this.deleteGenresInAnimeUseCase.execute({
         id: id as string,

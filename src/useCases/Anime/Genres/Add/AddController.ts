@@ -6,7 +6,7 @@ export class AddGenresInAnimeController {
   constructor(private addGenresInAnimeUseCase: AddGenresInAnimeUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = AddAnimeSchema.validate(req.query);
+    const { error } = AddAnimeSchema.validate(req.body);
 
     if (error) {
       return res.status(400).json({
@@ -20,7 +20,7 @@ export class AddGenresInAnimeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const { id, nameGenre } = req.query;
+      const { id, nameGenre } = req.body;
 
       const result = await this.addGenresInAnimeUseCase.execute({
         id: id as string,

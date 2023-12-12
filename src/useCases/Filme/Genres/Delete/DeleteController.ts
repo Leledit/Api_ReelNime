@@ -6,7 +6,7 @@ export class DeleteGenresInFilmeController {
   constructor(private DeleteGenresInFilmeUseCase: DeleteGenresInFilmeUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = DeleteFilmeSchema.validate(req.query);
+    const { error } = DeleteFilmeSchema.validate(req.body);
 
     if (error) {
       return res.status(400).json({
@@ -20,7 +20,7 @@ export class DeleteGenresInFilmeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const { id, nameGenre } = req.query;
+      const { id, nameGenre } = req.body;
 
       const result = await this.DeleteGenresInFilmeUseCase.execute({
         id: id as string,
