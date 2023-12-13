@@ -24,15 +24,15 @@ export class RegisterUserController {
 
       const result = await this.registerUserUsecase.execute({email,password});
 
-      if(result === true){
+      if(result.status === "success"){
         return res.status(201).json({
           message: "Cadastro efetuado com sucesso!",
-          details: "Um novo usuario foi adicionado no sistema!",
+          tolken: result.token,
         });
       }else{
         return res.status(500).json({
           message: "Problemas ao realizar o cadastro",
-          details: result,
+          details: result.mensagem,
         });
       }
     } catch (err: any) {

@@ -16,7 +16,7 @@ export class DeleteGenresInAnimeUseCase {
 
       //Verificando se o genero não existe no objeto do anime
       if (!dataAnime.genres?.includes(data.nameGenre)) {
-        return "O genero informado não esta vinculado a este anieme!";
+        return "O genero informado não esta vinculado a este anime!";
       }
 
       let genres: string[] = [...dataAnime.genres];

@@ -1,18 +1,27 @@
 import { User } from "../../../entities/User.ts";
+import { resultOperation } from "../../../interfaces/resultOperation.ts";
 import { MongoUserRepository } from "../../../repositories/implementations/MongoUserRepository.ts";
+import TokenService from "../../../security/tokenService.ts";
 import { RegisterUserDTO } from "./RegisterDTO.ts";
 import bcrypt from "bcrypt";
 
 export class RegisterUserUseCase {
-  constructor(private mongoUserRepository: MongoUserRepository) {}
-  async execute(data: RegisterUserDTO): Promise<boolean | string> {
+  constructor(
+    private mongoUserRepository: MongoUserRepository,
+    private tokenService = new TokenService(process.env.TOLKEN_SECRET_KEY || "")
+  ) {}
+  async execute(data: RegisterUserDTO): Promise<resultOperation> {
     try {
       //verificando se o email ja estava cadastrado no sistema
-      const isRegistered =
-        await this.mongoUserRepository.searchingByEmail(data.email);
+      const isRegistered = await this.mongoUserRepository.searchingByEmail(
+        data.email
+      );
 
       if (isRegistered) {
-        return "Email ja cadastrado no sistema";
+        return {
+          status: "error",
+          mensagem: "Email ja cadastrado no sistema",
+        };
       }
 
       //Criando o hast da senha
@@ -28,9 +37,20 @@ export class RegisterUserUseCase {
       const resultRequest = await this.mongoUserRepository.register(dataUser);
 
       if (resultRequest) {
-        return true;
+        const token = this.tokenService.gerarToken({
+          usuarioId: data.email,
+          papel: dataUser.type,
+        });
+
+        return {
+          status: "success",
+          token: token,
+        };
       } else {
-        return "Problemas ao cadastrar um novo usuario";
+        return {
+          status: "error",
+          mensagem: "Problemas ao cadastrar um novo usuario",
+        };
       }
     } catch (err: any) {
       throw new Error(err.message);

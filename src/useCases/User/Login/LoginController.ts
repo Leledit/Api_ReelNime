@@ -8,9 +8,6 @@ export class LoginUserController {
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
     const { error } = loginUserSchema.validate(req.body);
 
-    console.log("---");
-    console.log(req.body);
-
     if (error) {
       return res.status(400).json({
         error: "Requisição inválida",
@@ -29,15 +26,15 @@ export class LoginUserController {
         password,
       });
 
-      if (result === true) {
+      if (result.status === "success") {
         return res.status(201).json({
           message: "Usuario autenticado!",
-          details: "o usuario esta autenticado e pode proceguir na aplicação",
+          tolken: result.token,
         });
       } else {
         return res.status(500).json({
           message: "Problemas ao realizar o login",
-          details: result,
+          details: result.mensagem,
         });
       }
     } catch (err: any) {
