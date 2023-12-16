@@ -23,6 +23,11 @@
                 "tags": [
                     "Generos"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -214,6 +219,11 @@
                 "tags": [
                     "Generos"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -273,6 +283,11 @@
                 "tags": [
                     "Generos"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -321,6 +336,11 @@
                 "description": "Rota responsavel por adicionar um novo genero a lista de generos de um filme ",
                 "tags": [
                     "Filmes"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "requestBody": {
                     "content": {
@@ -387,6 +407,11 @@
                 "description": "Rota responsavel por realizar o cadastro de um novo filme na aplicação",
                 "tags": [
                     "Filmes"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "requestBody": {
                     "content": {
@@ -732,6 +757,11 @@
                 "tags": [
                     "Filmes"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -788,6 +818,11 @@
                 "tags": [
                     "Filmes"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -836,6 +871,11 @@
                 "description": "Rota responsavel por remover um genero da lista de generos de um filme ",
                 "tags": [
                     "Filmes"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "requestBody": {
                     "content": {
@@ -903,6 +943,11 @@
                 "tags": [
                     "Animes"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -968,6 +1013,11 @@
                 "description": "Rota responsavel por realizar o cadastro de um novo anime na aplicação",
                 "tags": [
                     "Animes"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "requestBody": {
                     "content": {
@@ -1310,6 +1360,11 @@
                 "tags": [
                     "Animes"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -1366,6 +1421,11 @@
                 "tags": [
                     "Animes"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -1414,6 +1474,11 @@
                 "description": "Rota responsavel por remover um genero da lista de generos de um anime ",
                 "tags": [
                     "Animes"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "requestBody": {
                     "content": {
@@ -1609,6 +1674,11 @@
                 "tags": [
                     "User"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1671,6 +1741,11 @@
                 "tags": [
                     "User"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1686,8 +1761,8 @@
                                 }
                             },
                             "example": {
-                                "email": "leandro@outlook.com",
-                                "password": "1234"
+                                "email": "leandro_ricardo22@outlook.com",
+                                "password": "123"
                             }
                         }
                     }
@@ -1728,6 +1803,13 @@
         }
     },
     "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
         "schemas": {
             "Genres": {
                 "type": "object",

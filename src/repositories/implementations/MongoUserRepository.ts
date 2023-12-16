@@ -13,7 +13,7 @@ export class MongoUserRepository implements IUserRepository {
 
       if (resultRequest) {
         const userData = new User(
-          { email: resultRequest.email, password: resultRequest.password },
+          { email: resultRequest.email, password: resultRequest.password,type:resultRequest.type },
           resultRequest.id
         );
         return userData;

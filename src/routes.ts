@@ -31,12 +31,14 @@ import { addGenresInAnimeController } from "./useCases/Anime/Genres/Add/index.ts
 import { deleteGenresInAnimeController } from "./useCases/Anime/Genres/Delete/index.ts";
 import { registerUserController } from "./useCases/User/Register/index.ts";
 import { loginUserController } from "./useCases/User/Login/index.ts";
+import authenticateToken from "./middleware/authMiddleware.ts";
 const router = Router();
 
 //Routes related to the "genre" segment
 
 router.post(
   "/genres/",
+  authenticateToken,
   registerGenreController.validateRequest,
   (request, response) => {
     return registerGenreController.handle(request, response);
@@ -63,12 +65,13 @@ router.get(
   }
 );
 
-router.put("/genres/:id", (request, response) => {
+router.put("/genres/:id", authenticateToken, (request, response) => {
   return changingGenerController.handle(request, response);
 });
 
 router.delete(
   "/genres/:id",
+  authenticateToken,
   deleteGenreController.validateRequest,
   (request, response) => {
     return deleteGenreController.handle(request, response);
@@ -79,6 +82,7 @@ router.delete(
 
 router.post(
   "/animes/",
+  authenticateToken,
   singleFileUpload("img"),
   registerAnimeController.validateRequest,
   (request, response) => {
@@ -88,6 +92,7 @@ router.post(
 
 router.put(
   "/animes/:id",
+  authenticateToken,
   singleFileUpload("img"),
   changingAnimeControler.validateRequest,
   (request, response) => {
@@ -97,6 +102,7 @@ router.put(
 
 router.post(
   "/animes/genres/add/",
+  authenticateToken,
   addGenresInAnimeController.validateRequest,
   (request, response) => {
     addGenresInAnimeController.handle(request, response);
@@ -105,6 +111,7 @@ router.post(
 
 router.delete(
   "/animes/genres/delete/",
+  authenticateToken,
   deleteGenresInAnimeController.validateRequest,
   (request, response) => {
     deleteGenresInAnimeController.handle(request, response);
@@ -147,7 +154,7 @@ router.get("/animes/", (request, response) => {
   return listAllAnimesController.handle(request, response);
 });
 
-router.delete("/animes/:id", (request, response) => {
+router.delete("/animes/:id", authenticateToken, (request, response) => {
   return deleteAnimeController.handle(request, response);
 });
 
@@ -155,6 +162,7 @@ router.delete("/animes/:id", (request, response) => {
 
 router.post(
   "/filmes/",
+  authenticateToken,
   singleFileUpload("img"),
   registerFilmeController.validateRequest,
   (request, response) => {
@@ -164,6 +172,7 @@ router.post(
 
 router.post(
   "/filmes/genres/add/",
+  authenticateToken,
   addGenresInFilmeController.validateRequest,
   (request, response) => {
     addGenresInFilmeController.handle(request, response);
@@ -172,6 +181,7 @@ router.post(
 
 router.delete(
   "/filmes/genres/delete/",
+  authenticateToken,
   deleteGenresInFilmeController.validateRequest,
   (request, response) => {
     deleteGenresInFilmeController.handle(request, response);
@@ -188,6 +198,7 @@ router.get(
 
 router.put(
   "/filmes/:id",
+  authenticateToken,
   singleFileUpload("img"),
   changingFilmeController.validateRequest,
   (request, response) => {
@@ -225,6 +236,7 @@ router.get("/filmes/", (request, response) => {
 
 router.delete(
   "/filmes/:id",
+  authenticateToken,
   deleteFilmeController.validateRequest,
   (request, response) => {
     return deleteFilmeController.handle(request, response);

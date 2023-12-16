@@ -16,9 +16,9 @@ class TokenService {
 
   gerarToken(
     payload: Record<string, any>,
-    opcoesAdicionais?: SignOptions
+    AdditionalOptions?: SignOptions
   ): string {
-    const opcoes = { ...this.optionsStandard, ...opcoesAdicionais };
+    const opcoes = { ...this.optionsStandard, ...AdditionalOptions };
     return jwt.sign(payload, this.secret, opcoes);
   }
 
