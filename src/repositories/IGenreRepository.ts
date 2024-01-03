@@ -1,4 +1,4 @@
-import { Genre } from "../entities/Genre";
+import { Genre } from "../entities/Genre.ts";
 
 export interface IGenreRepository {
   save(genre: Genre): Promise<void>;

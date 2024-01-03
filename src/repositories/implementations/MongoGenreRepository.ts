@@ -1,6 +1,6 @@
 import clienteDbMongo from "../../database/mongoDbConfig.ts";
 import { Genre } from "../../entities/Genre.ts";
-import { IGenreRepository } from "../IGenreRepository";
+import { IGenreRepository } from "../IGenreRepository.ts";
 
 export class MongoGenreRepository implements IGenreRepository {
   async save(genre: Genre): Promise<void> {

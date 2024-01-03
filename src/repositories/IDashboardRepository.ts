@@ -1,5 +1,5 @@
-import { Anime } from "../entities/Anime";
-import { Filme } from "../entities/Filme";
+import { Anime } from "../entities/Anime.ts";
+import { Filme } from "../entities/Filme.ts";
 
 export interface IDashboardRepository {
     returnDataRecentlyAddedAnimes(limit:number):Promise<Anime[]|null>,

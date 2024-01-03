@@ -31,6 +31,7 @@ export class RegisterUserUseCase {
       //Cadastrando um novo usuario
       const dataUser = new User({
         email: data.email,
+        name: data.name,
         password: hashSenha,
       });
 

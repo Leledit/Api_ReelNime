@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ReleasesUseCase } from "./Releases";
+import { ReleasesUseCase } from "./Releases.ts";
 
 export class ReleasesController {
   constructor(private releasesUseCase: ReleasesUseCase) {}

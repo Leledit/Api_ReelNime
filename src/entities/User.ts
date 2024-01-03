@@ -3,6 +3,7 @@ import { uuid } from "uuidv4";
 export class User{
     public readonly id: string | undefined;
     public email: string = '';
+    public name: string = '';
     public password: string = '';
     public type?: string = 'user';
 

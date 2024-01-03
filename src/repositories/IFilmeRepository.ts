@@ -1,4 +1,4 @@
-import { Filme } from "../entities/Filme";
+import { Filme } from "../entities/Filme.ts";
 
 export interface IFilmeRepository {
   findByName(name: string): Promise<boolean>;

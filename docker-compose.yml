@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  app:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/Site_Animes
+      - TOLKEN_SECRET_KEY=8A898E817E59CC629EDA69BF3E3A201503F9965E29BC7651D76E83ACD48AF12B5D86C3D61B3B260C29615A6F55B0C511
+    networks:
+      - compase-bridge
+  
+  mongo:
+    container_name: mongo
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    networks:
+      - compase-bridge
+      
+networks:
+  compase-bridge:
+    driver: bridge

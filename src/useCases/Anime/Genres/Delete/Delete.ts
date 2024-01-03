@@ -1,5 +1,5 @@
-import { MongoAnimeRepository } from "../../../../repositories/implementations/MongoAnimeRepository";
-import { DeleteAnimeDTO } from "./DeleteDTO";
+import { MongoAnimeRepository } from "../../../../repositories/implementations/MongoAnimeRepository.ts";
+import { DeleteAnimeDTO } from "./DeleteDTO.ts";
 
 
 export class DeleteGenresInAnimeUseCase {

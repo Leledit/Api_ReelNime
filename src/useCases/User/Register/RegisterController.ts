@@ -20,9 +20,9 @@ export class RegisterUserController {
   async handle(req: Request, res: Response): Promise<Response> {
     try {
 
-      const {email,password} = req.body;
+      const {email,name,password} = req.body;
 
-      const result = await this.registerUserUsecase.execute({email,password});
+      const result = await this.registerUserUsecase.execute({email,name,password});
 
       if(result.status === "success"){
         return res.status(201).json({
