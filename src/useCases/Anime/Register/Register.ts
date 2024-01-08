@@ -12,14 +12,19 @@ export class RegisterAnimesUseCase {
     );
 
     if (!dataAlreadyRegistered) {
+
+
+      const clearImgBase64 = data.img.replace(/^data:image\/\w+;base64,/, '');
+      const bufferImg = Buffer.from(clearImgBase64, 'base64');
+
       let anime;
-      if (data.dataImg) {
-        const uniqueSuffix = Date.now() + Math.round(Math.random() * 1e9);
-        const filename = uniqueSuffix + path.extname(data.dataImg.originalname);
+      if (data.img) {
+        //const uniqueSuffix = Date.now() + Math.round(Math.random() * 1e9);
+        //const filename = uniqueSuffix + path.extname(data.dataImg.originalname);
 
         const urlImgAnime = await StorageFirebase.uploadFile(
-          data.dataImg.buffer,
-          filename,
+          bufferImg,
+          data.name,
           "animes/"
         );
 

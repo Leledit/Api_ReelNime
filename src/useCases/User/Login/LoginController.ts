@@ -30,6 +30,7 @@ export class LoginUserController {
         return res.status(201).json({
           message: "Usuario autenticado!",
           tolken: result.token,
+          type: result.type
         });
       } else {
         return res.status(500).json({

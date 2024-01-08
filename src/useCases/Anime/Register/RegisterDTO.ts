@@ -10,11 +10,14 @@ export interface IAnimesRequestDTO {
   updateDate?: Date;
   status: string;
   note: number;
-  dataImg?: {
+  img: string,
+}
+/*
+dataImg?: {
     fieldname: string;
     originalname: string;
     mimetype: string;
     buffer: Buffer;
     size: number;
-  };
-}
+  }; 
+*/

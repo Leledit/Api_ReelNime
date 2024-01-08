@@ -6,7 +6,7 @@ export class ListAllFilmeController {
   async handle(req: Request, res: Response): Promise<Response> {
     try {
       const dataFilmes = await this.listAllFilmeUseCase.execute();
-      return res.status(201).json(dataFilmes);
+      return res.status(200).json(dataFilmes);
     } catch (err: any) {
       return res.status(500).json({
         error: "Recurso não encontrado",

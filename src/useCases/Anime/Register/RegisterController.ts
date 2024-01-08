@@ -20,14 +20,14 @@ export class RegisterAnimeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const dataImage = getFileFromRequest(req);
+      /*const dataImage = getFileFromRequest(req);
 
       if (!dataImage) {
         return res.status(400).json({
           error: "Requisição inválida",
           details: "É necessario enviar uma imagem na requsição",
         });
-      }
+      }*/
 
       const {
         name,
@@ -39,6 +39,7 @@ export class RegisterAnimeController {
         previousSeason,
         synopsis,
         status,
+        img
       } = req.body;
 
       const result = await this.registerAnimesUseCase.execute({
@@ -51,7 +52,7 @@ export class RegisterAnimeController {
         synopsis,
         watched: Boolean(watched),
         status,
-        dataImg: dataImage,
+        img: img,
       });
 
       if (!result) {

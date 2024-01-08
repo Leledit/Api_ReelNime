@@ -9,7 +9,7 @@ export class StorageFirebase {
     try {
       const storage = getStorage();
       const bucket = storage.bucket();
-      const file = bucket.file(folder + fileName);
+      const file = bucket.file(folder + fileName+".jpg");
       await file.save(imageBuffer);
       await file.makePublic();
       const downloadURL = await file.getSignedUrl({

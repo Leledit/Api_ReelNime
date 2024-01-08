@@ -80,10 +80,10 @@ router.delete(
 
 //Routes related to the "anime" segment
 
+//  singleFileUpload("img"),
 router.post(
   "/animes/",
   authenticateToken,
-  singleFileUpload("img"),
   registerAnimeController.validateRequest,
   (request, response) => {
     return registerAnimeController.handle(request, response);

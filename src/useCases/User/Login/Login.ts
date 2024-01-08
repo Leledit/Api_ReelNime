@@ -45,6 +45,7 @@ export class LoginUserUseCase {
             return {
               status: "success",
               token: token,
+              type: dataUser.type
             };
           } else {
             return {

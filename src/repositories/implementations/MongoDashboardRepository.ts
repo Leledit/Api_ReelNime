@@ -52,7 +52,7 @@ export class MongoDashboardRepository implements IDashboardRepository {
 
       result.sort((a, b) => b.updateDate - a.updateDate);
 
-      const recentylAdded = result.slice(0, 10);
+      const recentylAdded = result.slice(0, 24);
 
       return recentylAdded;
     } catch (error) {
