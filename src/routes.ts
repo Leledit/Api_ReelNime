@@ -80,7 +80,6 @@ router.delete(
 
 //Routes related to the "anime" segment
 
-//  singleFileUpload("img"),
 router.post(
   "/animes/",
   authenticateToken,
@@ -93,7 +92,6 @@ router.post(
 router.put(
   "/animes/:id",
   authenticateToken,
-  singleFileUpload("img"),
   changingAnimeControler.validateRequest,
   (request, response) => {
     return changingAnimeControler.handle(request, response);

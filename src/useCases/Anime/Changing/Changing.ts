@@ -2,37 +2,44 @@ import { Anime } from "../../../entities/Anime.ts";
 import { StorageFirebase } from "../../../providers/IStorageFirebase.ts";
 import { IAnimeRepository } from "../../../repositories/IAnimeRepository.ts";
 import { IAnimesRequestDTO } from "./ChangingDTO.ts";
-import path from "path";
 
 export class ChangingAnimeUseCase {
   constructor(private animesRepository: IAnimeRepository) {}
   async execute(data: IAnimesRequestDTO) {
-    
     try {
       const oldAnimeData = await this.animesRepository.listOne(data.id);
-      if (oldAnimeData?.urlImg && data.dataImg) {
-        //apagando a imagen antiga para dar lugar a nova
-        await StorageFirebase.deleteImg(oldAnimeData?.urlImg, "animes/");
-      }
 
       let urlImg = "";
 
-      if (data.dataImg) {
-        const uniqueSuffix = Date.now() + Math.round(Math.random() * 1e9);
-        const filename = uniqueSuffix + path.extname(data.dataImg.originalname);
-
-        const urlImgAnime = await StorageFirebase.uploadFile(
-          data.dataImg.buffer,
-          filename,
-          "animes/"
-        );
-        urlImg = urlImgAnime;
+      const linkRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+      if (linkRegex.test(data.img)) {
+        urlImg = data.img;
       } else {
-        if (oldAnimeData?.urlImg) {
-          urlImg = oldAnimeData?.urlImg;
+        if (oldAnimeData?.urlImg && data.img) {
+          //apagando a imagen antiga para dar lugar a nova
+          await StorageFirebase.deleteImg(oldAnimeData?.urlImg, "animes/");
+        }
+
+        //Adicionando a imagen no storage
+        if (data.img) {
+          const clearImgBase64 = data.img.replace(
+            /^data:image\/\w+;base64,/,
+            ""
+          );
+          const bufferImg = Buffer.from(clearImgBase64, "base64");
+
+          const urlImgAnime = await StorageFirebase.uploadFile(
+            bufferImg,
+            data.name,
+            "animes/"
+          );
+          urlImg = urlImgAnime;
+        } else {
+          if (oldAnimeData?.urlImg) {
+            urlImg = oldAnimeData?.urlImg;
+          }
         }
       }
-
       const anime = new Anime(
         {
           name: data.name,

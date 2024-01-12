@@ -9,11 +9,5 @@ export interface IAnimesRequestDTO {
   watched: boolean;
   note: number;
   status: string;
-  dataImg?: {
-    fieldname: string;
-    originalname: string;
-    mimetype: string;
-    buffer: Buffer;
-    size: number;
-  };
+  img: string,
 }

@@ -21,15 +21,7 @@ export class ChangingAnimeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const dataImage = getFileFromRequest(req);
-
-      if (!dataImage) {
-        return res.status(400).json({
-          error: "Requisição inválida",
-          details: "É necessario enviar uma imagem na requsição",
-        });
-      }
-
+      
       const {
         name,
         watched,
@@ -40,6 +32,7 @@ export class ChangingAnimeController {
         nextSeason,
         previousSeason,
         synopsis,
+        img
       } = req.body;
 
       const {id} = req.params;
@@ -55,7 +48,7 @@ export class ChangingAnimeController {
         status,
         synopsis,
         watched,
-        dataImg: dataImage,
+        img: img,
       });
 
       return res.status(200).json({

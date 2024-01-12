@@ -2,7 +2,7 @@ import Joi from "joi";
 
 export const registerAnimeSchema = Joi.object({
   name: Joi.string().required(),
-  watched: Joi.string().required(),
+  watched: Joi.boolean().required(),
   qtdEpisodes: Joi.number().required(),
   releaseYear: Joi.number().required(),
   note: Joi.number().required(),

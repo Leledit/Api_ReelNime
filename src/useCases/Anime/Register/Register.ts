@@ -19,9 +19,7 @@ export class RegisterAnimesUseCase {
 
       let anime;
       if (data.img) {
-        //const uniqueSuffix = Date.now() + Math.round(Math.random() * 1e9);
-        //const filename = uniqueSuffix + path.extname(data.dataImg.originalname);
-
+  
         const urlImgAnime = await StorageFirebase.uploadFile(
           bufferImg,
           data.name,
