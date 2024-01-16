@@ -7,8 +7,9 @@ export class SearchGenresUseCase {
   async execute(data: IGenresRequestDTO) {
     const genre = new Genre(data);
 
-    const searchResult = await this.genresRepository.findByName(genre);
-    if (searchResult.name !== "") {
+    const searchResult = await this.genresRepository.query(data.name);
+    
+    if (searchResult.length !== 0) {
       return searchResult;
     } else {
       return undefined;

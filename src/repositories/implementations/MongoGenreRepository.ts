@@ -33,10 +33,42 @@ export class MongoGenreRepository implements IGenreRepository {
     }
   }
 
+  async query(query: string): Promise<Genre[]> {
+    try {
+      const refDb = clienteDbMongo();
+      const collectionGenres = refDb.collection("genres");
+
+      const regex = new RegExp('^' + query, 'i');
+
+      const resultRequest = await collectionGenres.find({
+        name: regex,
+      }).toArray();
+
+      if (resultRequest) {
+        let genre: Genre[] = [];
+        resultRequest.map((item) => {
+          genre.push({
+            name: item.name,
+            id: item.id,
+            registrationDate: item.registrationDate,
+          });
+        });
+        return genre;
+      } else {
+        return [];
+      }
+    } catch (error: any) {
+      throw new Error(
+        "Falha ao validar a existencia de um genero: " + error.message
+      );
+    }
+  }
+
   async findByName(genre: Genre): Promise<Genre> {
     try {
       const refDb = clienteDbMongo();
       const collectionGenres = refDb.collection("genres");
+
       const resultRequest = await collectionGenres.findOne({
         name: genre.name,
       });

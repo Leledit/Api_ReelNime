@@ -7,4 +7,5 @@ export interface IGenreRepository {
   changing(genre: Genre): Promise<void>;
   delete(idGenre: string): Promise<void>;
   listOne(id: string): Promise<Genre | null>;
+  query(query:string): Promise<Genre[]>;
 }
