@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { RegisterFilmeUseCase } from "./Register.ts";
 import { registerFilmeSchema } from "./Scheme.ts";
-import { getFileFromRequest } from "../../../providers/MulterImage.ts";
 
 export class RegisterFilmeController {
   constructor(private registerFilmeUseCase: RegisterFilmeUseCase) {}
@@ -21,16 +20,8 @@ export class RegisterFilmeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const dataImage = getFileFromRequest(req);
 
-      if (!dataImage) {
-        return res.status(400).json({
-          error: "Requisição inválida",
-          details: "É necessario enviar uma imagem na requsição",
-        });
-      }
-
-      const { name, visa, duration,  note, synopsis, releaseYear } =
+      const { name, visa, duration,  note, synopsis, releaseYear,img } =
         req.body;
 
       const resultRequest = await this.registerFilmeUseCase.execute({
@@ -40,7 +31,7 @@ export class RegisterFilmeController {
         duration,
         note: parseInt(note),
         synopsis,
-        dataImg: dataImage,
+        img:img,
       });
 
       if (!resultRequest) {

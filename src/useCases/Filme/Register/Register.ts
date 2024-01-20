@@ -2,7 +2,6 @@ import { Filme } from "../../../entities/Filme.ts";
 import { StorageFirebase } from "../../../providers/IStorageFirebase.ts";
 import { IFilmeRepository } from "../../../repositories/IFilmeRepository.ts";
 import { IFilmeRequestDTO } from "./RegisterDTO.ts";
-import path from "path";
 
 export class RegisterFilmeUseCase {
   constructor(private filmeRepository: IFilmeRepository) {}
@@ -11,15 +10,16 @@ export class RegisterFilmeUseCase {
       data.name
     );
 
-    if (!dataAlreadyRegistered) {
+    if (!dataAlreadyRegistered) { 
       let urlImgFilme = "";
-      if (data.dataImg) {
-        const uniqueSuffix = Date.now() + Math.round(Math.random() * 1e9);
-        const filename = uniqueSuffix + path.extname(data.dataImg.originalname);
 
+      const clearImgBase64 = data.img.replace(/^data:image\/\w+;base64,/, '');
+      const bufferImg = Buffer.from(clearImgBase64, 'base64');
+
+      if(data.img){
         urlImgFilme = await StorageFirebase.uploadFile(
-          data.dataImg.buffer,
-          filename,
+          bufferImg,
+          data.name,
           "filmes/"
         );
       }

@@ -7,4 +7,6 @@ export const registerFilmeSchema = Joi.object({
   note: Joi.string().required(),
   releaseYear: Joi.number().required(),
   synopsis: Joi.string().required(),
+  img: Joi.string().required(),
 });
+

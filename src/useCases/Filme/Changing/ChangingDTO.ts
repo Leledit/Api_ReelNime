@@ -8,11 +8,5 @@ export interface IFilmeRequestDTO {
   note: number;
   synopsis: string;
   genres: string[],
-  dataImg?: {
-    fieldname: string;
-    originalname: string;
-    mimetype: string;
-    buffer: Buffer;
-    size: number;
-  };
+  img: string;
 }

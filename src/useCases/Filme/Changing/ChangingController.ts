@@ -21,16 +21,8 @@ export class ChangingFilmeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const dataImage = getFileFromRequest(req);
-
-      if (!dataImage) {
-        return res.status(400).json({
-          error: "Requisição inválida",
-          details: "É necessario enviar uma imagem na requsição",
-        });
-      }
-
-      const { name, visa, duration, lauch, note, synopsis, genres, releaseYear } = req.body;
+  
+      const { name, visa, duration, lauch, note, synopsis, genres, releaseYear, img } = req.body;
 
       const params = req.params;
 
@@ -44,7 +36,7 @@ export class ChangingFilmeController {
         synopsis: synopsis,
         visa: visa,
         genres: genres,
-        dataImg: dataImage,
+        img: img,
       });
 
       return res.status(200).json({

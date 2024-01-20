@@ -8,27 +8,38 @@ export class ChangingFilmeUseCase {
   constructor(private filmeRepository: IFilmeRepository) {}
   async execute(data: IFilmeRequestDTO) {
     try {
-      const oldFilmeData = await this.filmeRepository.listOne(data.id);
-      if (oldFilmeData?.urlImg && data.dataImg) {
-        //apagando a imagen antiga para dar lugar a nova
-        await StorageFirebase.deleteImg(oldFilmeData?.urlImg, "filmes/");
-      }
-
+      
       let urlImg = "";
+      const linkRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
 
-      if (data.dataImg) {
-        const uniqueSuffix = Date.now() + Math.round(Math.random() * 1e9);
-        const filename = uniqueSuffix + path.extname(data.dataImg.originalname);
+      const oldFilmeData = await this.filmeRepository.listOne(data.id);
 
-        const urlImgAnime = await StorageFirebase.uploadFile(
-          data.dataImg.buffer,
-          filename,
-          "filmes/"
-        );
-        urlImg = urlImgAnime;
-      } else {
-        if (oldFilmeData?.urlImg) {
-          urlImg = oldFilmeData?.urlImg;
+      if (linkRegex.test(data.img)) {
+        urlImg = data.img;
+      }else{
+        if (oldFilmeData?.urlImg && data.img) {
+          //apagando a imagen antiga para dar lugar a nova
+          await StorageFirebase.deleteImg(oldFilmeData?.urlImg, "filmes/");
+        }
+
+        if(data.img){
+          const clearImgBase64 = data.img.replace(
+            /^data:image\/\w+;base64,/,
+            ""
+          );
+
+          const bufferImg = Buffer.from(clearImgBase64, "base64");
+          
+          const urlImgAnime = await StorageFirebase.uploadFile(
+            bufferImg,
+            data.name,
+            "filmes/"
+          );
+          urlImg = urlImgAnime;
+        }else {
+          if (oldFilmeData?.urlImg) {
+            urlImg = oldFilmeData?.urlImg;
+          }
         }
       }
 

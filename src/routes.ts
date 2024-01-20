@@ -161,7 +161,6 @@ router.delete("/animes/:id", authenticateToken, (request, response) => {
 router.post(
   "/filmes/",
   authenticateToken,
-  singleFileUpload("img"),
   registerFilmeController.validateRequest,
   (request, response) => {
     return registerFilmeController.handle(request, response);
@@ -197,7 +196,6 @@ router.get(
 router.put(
   "/filmes/:id",
   authenticateToken,
-  singleFileUpload("img"),
   changingFilmeController.validateRequest,
   (request, response) => {
     return changingFilmeController.handle(request, response);
