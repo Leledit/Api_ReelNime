@@ -14,4 +14,5 @@ export interface IAnimeRepository {
   searchByGenre(genre: string): Promise<Anime[] | null>;
   findByYear(year: number): Promise<Anime[] | null>;
   changingGenre(genres: string[],idAnime:string): Promise<boolean>;
+  totalRecords(): Promise<number>
 }

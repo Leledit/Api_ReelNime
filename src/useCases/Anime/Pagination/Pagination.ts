@@ -17,4 +17,8 @@ export class PaginationAnimeUseCase {
     );    
     return dataAnime;
   }
+
+  async totalRecords(){
+    return await this.animeRepository.totalRecords();
+  }
 }

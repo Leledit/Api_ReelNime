@@ -32,13 +32,15 @@ export class PaginationAnimeController {
         page: parseInt(page as string),
       });
 
+      const totalRecords = await this.paginationAnimeUseCase.totalRecords();
+
       if(dataAnimes === null){
         return res.status(404).json({
           error: "Nenhum registro foi encontrado",
           details: "Nenhum anime foi encontrado no nosso sistema",
         });
       }else{
-        return res.status(200).json(dataAnimes);
+        return res.status(200).setHeader('X-Total-Count',totalRecords).json(dataAnimes);
       }
 
     } catch (err: any) {

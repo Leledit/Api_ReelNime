@@ -3,6 +3,14 @@ import { Anime } from "../../entities/Anime.ts";
 import { IAnimeRepository } from "../IAnimeRepository.ts";
 
 export class MongoAnimeRepository implements IAnimeRepository {
+
+  async totalRecords(): Promise<number> {
+    const refDb = clienteDbMongo();
+    const collectionAnimes = refDb.collection("animes");
+    
+    return collectionAnimes.countDocuments();
+  }
+
   async save(anime: Anime): Promise<void> {
     try {
       const refDb = clienteDbMongo();

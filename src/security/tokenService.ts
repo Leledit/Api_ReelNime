@@ -9,7 +9,7 @@ class TokenService {
 
     // Opções padrão para assinatura e verificação de tokens
     this.optionsStandard = {
-      expiresIn: "1h",
+      expiresIn: "1h",//1h
       algorithm: "HS256",
     };
   }
