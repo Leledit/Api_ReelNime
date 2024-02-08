@@ -10,15 +10,14 @@ export class PaginationAnimeUseCase {
       initialValue = 0;
       finalValue = data.limit;
     }
-
     const dataAnime = await this.animeRepository.paginationList(
       initialValue,
       finalValue
-    );    
+    );
     return dataAnime;
   }
 
-  async totalRecords(){
+  async totalRecords() {
     return await this.animeRepository.totalRecords();
   }
 }

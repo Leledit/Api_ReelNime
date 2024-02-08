@@ -266,7 +266,7 @@ export class MongoAnimeRepository implements IAnimeRepository {
       const resultRequest = await collectionAnimes
         .find()
         .skip(initialValue)
-        .limit(finalValue)
+        .limit(initialValue - finalValue)
         .toArray();
 
       if (resultRequest.length !== 0) {
