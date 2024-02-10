@@ -4,6 +4,30 @@ import { Filme } from "../../entities/Filme.ts";
 import { IDashboardRepository } from "../IDashboardRepository.ts";
 
 export class MongoDashboardRepository implements IDashboardRepository {
+  async returnSearch(
+    search: string,
+    limit: number,
+    page: number
+  ): Promise<{ total: number; itens: any[] }> {
+    //const dataTabela1 = await Modelo1.find({ campo: { $regex: keyword, $options: 'i' } }); // Use 'i' para tornar a pesquisa case-insensitive
+
+    const refDb = clienteDbMongo();
+    const resulAnimes = await refDb
+      .collection("animes")
+      .find({ name: { $regex: search, $options: "i" } })
+      .toArray();
+
+    const resulFilmes = await refDb
+      .collection("filmes")
+      .find({ name: { $regex: search, $options: "i" } })
+      .toArray();
+
+    let allData = [...resulAnimes, ...resulFilmes];
+    const totalRecords = resulAnimes.length + resulFilmes.length;
+    const paginationData = allData.slice((page - 1) * limit, page * limit);
+    return { total: totalRecords, itens: paginationData };
+  }
+
   async returnDataListingByYear(
     limit: number,
     page: number,

@@ -32,10 +32,8 @@ import { deleteGenresInAnimeController } from "./useCases/Anime/Genres/Delete/in
 import { registerUserController } from "./useCases/User/Register/index.ts";
 import { loginUserController } from "./useCases/User/Login/index.ts";
 import authenticateToken from "./middleware/authMiddleware.ts";
-import {
-  listByYearController,
-  listByYearDasboardUseCase,
-} from "./useCases/Dasboard/ListByYear/index.ts";
+import { listByYearController } from "./useCases/Dasboard/ListByYear/index.ts";
+import { searchDashboarController } from "./useCases/Dasboard/Search/index.ts";
 const router = Router();
 
 //Routes related to the "genre" segment
@@ -261,6 +259,13 @@ router.get(
   listByYearController.validateRequest,
   (request, response) => {
     return listByYearController.handle(request, response);
+  }
+);
+router.get(
+  "/dashboard/search",
+  searchDashboarController.validateRequest,
+  (request, response) => {
+    return searchDashboarController.handle(request, response);
   }
 );
 

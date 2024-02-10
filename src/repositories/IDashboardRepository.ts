@@ -11,4 +11,9 @@ export interface IDashboardRepository {
     page: number,
     year: number
   ): Promise<{ total: number; itens: any[] }>;
+  returnSearch(
+    search: string,
+    limit: number,
+    page: number
+  ): Promise<{ total: number; itens: any[] }>;
 }
