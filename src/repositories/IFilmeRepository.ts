@@ -13,4 +13,5 @@ export interface IFilmeRepository {
   delete(id: string): Promise<void>;
   findByYear(year: number): Promise<Filme[] | null>;
   changingGenre(genres: string[],idFilme:string): Promise<boolean>;
+  totalRecords(): Promise<number>
 }

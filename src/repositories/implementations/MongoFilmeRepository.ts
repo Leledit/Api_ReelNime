@@ -209,6 +209,12 @@ export class MongoFilmeRepository implements IFilmeRepository {
       throw new Error("Falha ao obter todos os filme: " + error);
     }
   }
+  totalRecords(): Promise<number> {
+    const refDb = clienteDbMongo();
+    const collectionAnimes = refDb.collection("filmes");
+
+    return collectionAnimes.countDocuments();
+  }
   async paginationList(
     initialValue: number,
     finalValue: number
@@ -219,7 +225,7 @@ export class MongoFilmeRepository implements IFilmeRepository {
       const resultRequest = await collectionFilmes
         .find()
         .skip(initialValue)
-        .limit(finalValue)
+        .limit(initialValue - finalValue)
         .toArray();
       if (resultRequest.length !== 0) {
         let dataFilmes: Filme[] = [];

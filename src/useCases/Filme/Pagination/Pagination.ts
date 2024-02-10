@@ -18,4 +18,8 @@ export class PaginationFilmeUseCase {
 
     return dataFilme;
   }
+
+  async totalRecords() {
+    return await this.filmeRepository.totalRecords();
+  }
 }

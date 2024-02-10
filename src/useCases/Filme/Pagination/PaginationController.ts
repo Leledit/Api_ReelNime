@@ -7,7 +7,7 @@ export class PaginationFilmeController {
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
     const { error } = paginationFilmeScheme.validate(req.query);
-    
+
     if (error) {
       return res.status(400).json({
         error: "Requisição inválida",
@@ -20,14 +20,19 @@ export class PaginationFilmeController {
   async handle(req: Request, res: Response): Promise<Response> {
     try {
       const { page, limit } = req.query;
-      
+
       const dataFilmes = await this.paginationFilmeUseCase.execute({
         limit: parseInt(limit as string),
         page: parseInt(page as string),
       });
 
+      const totalRecords = await this.paginationFilmeUseCase.totalRecords();
+
       if (dataFilmes !== null) {
-        return res.status(200).json(dataFilmes);
+        return res
+          .status(200)
+          .setHeader("X-Total-Count", totalRecords)
+          .json(dataFilmes);
       } else {
         return res.status(404).json({
           error: "Nenhum registro foi encontrado",
