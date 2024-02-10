@@ -4,6 +4,33 @@ import { Filme } from "../../entities/Filme.ts";
 import { IDashboardRepository } from "../IDashboardRepository.ts";
 
 export class MongoDashboardRepository implements IDashboardRepository {
+  async returnDataListingByYear(
+    limit: number,
+    page: number,
+    year: number
+  ): Promise<{ total: number; itens: any }> {
+    try {
+      const refDb = clienteDbMongo();
+      const resulAnimes = await refDb
+        .collection("animes")
+        .find({ releaseYear: year })
+        .toArray();
+
+      const resultFilmes = await refDb
+        .collection("filmes")
+        .find({ releaseYear: year })
+        .toArray();
+
+      let allData = [...resulAnimes, ...resultFilmes];
+      const totalRecords = resulAnimes.length + resultFilmes.length;
+      const paginationData = allData.slice((page - 1) * limit, page * limit);
+
+      return { total: totalRecords, itens: paginationData };
+    } catch (error: any) {
+      throw new Error("Falha ao buscar um anime: " + error.message);
+    }
+  }
+
   async returnDataPopular(): Promise<object> {
     try {
       const refDb = clienteDbMongo();

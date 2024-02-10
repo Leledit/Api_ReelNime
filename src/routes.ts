@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, request, response } from "express";
 import { registerGenreController } from "./useCases/Genre/Register/index.ts";
 import { listAllGenresController } from "./useCases/Genre/ListAll/index.ts";
 import { listOneGenreController } from "./useCases/Genre/ListOne/index.ts";
@@ -23,8 +23,8 @@ import { recentlyAddedController } from "./useCases/Dasboard/RecentlyAdded/index
 import { popularController } from "./useCases/Dasboard/Popular/index.ts";
 import { animeFindByNameGenreController } from "./useCases/Anime/Genres/findByName/index.ts";
 import { filmeFindByNameGenreController } from "./useCases/Filme/Genres/FindByName/index.ts";
-import { litByYearAnimeController } from "./useCases/Anime/LitByYear/index.ts";
-import { litByYearFilmeController } from "./useCases/Filme/LitByYear/index.ts";
+import { litByYearAnimeController } from "./useCases/Anime/LitsByYear/index.ts";
+import { litByYearFilmeController } from "./useCases/Filme/ListByYear/index.ts";
 import { addGenresInFilmeController } from "./useCases/Filme/Genres/Add/index.ts";
 import { deleteGenresInFilmeController } from "./useCases/Filme/Genres/Delete/index.ts";
 import { addGenresInAnimeController } from "./useCases/Anime/Genres/Add/index.ts";
@@ -32,6 +32,10 @@ import { deleteGenresInAnimeController } from "./useCases/Anime/Genres/Delete/in
 import { registerUserController } from "./useCases/User/Register/index.ts";
 import { loginUserController } from "./useCases/User/Login/index.ts";
 import authenticateToken from "./middleware/authMiddleware.ts";
+import {
+  listByYearController,
+  listByYearDasboardUseCase,
+} from "./useCases/Dasboard/ListByYear/index.ts";
 const router = Router();
 
 //Routes related to the "genre" segment
@@ -252,8 +256,13 @@ router.get("/dashboard/recentylAdded/", (request, response) => {
 router.get("/dashboard/popular/", (request, response) => {
   return popularController.handle(request, response);
 });
-
-//
+router.get(
+  "/dashboard/year/",
+  listByYearController.validateRequest,
+  (request, response) => {
+    return listByYearController.handle(request, response);
+  }
+);
 
 router.post(
   "/user/register/",

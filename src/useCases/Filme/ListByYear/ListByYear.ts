@@ -1,5 +1,5 @@
-import { IFilmeRepository } from "../../../repositories/IFilmeRepository.ts";
-import { LitByYearDTO } from "./LitByYearDTO.ts";
+import { IFilmeRepository } from "../../../repositories/IFilmeRepository.js";
+import { LitByYearDTO } from "./ListByYearDTO.js";
 
 export class LitByYearFilmeUseCase{
     constructor(private filmeRepository: IFilmeRepository) {}

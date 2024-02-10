@@ -1,6 +1,6 @@
 import { MongoFilmeRepository } from "../../../repositories/implementations/MongoFilmeRepository.ts";
-import { LitByYearFilmeUseCase } from "./LitByYear.ts";
-import { LitByYearFilmeController } from "./LitByYearController.ts";
+import { LitByYearFilmeUseCase } from "./ListByYear.ts";
+import { LitByYearFilmeController } from "./ListByYearController.ts";
 
 const mongoFilmeRepository = new MongoFilmeRepository();
 const litByYearFilmeUseCase = new LitByYearFilmeUseCase(mongoFilmeRepository);

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { LitByYearFilmeUseCase } from "./LitByYear.ts";
-import { LitByYearAnimeScheme } from "../../Anime/LitByYear/Scheme.ts";
+import { LitByYearFilmeUseCase } from "./ListByYear.js";
+import { LitByYearAnimeScheme } from "../../Anime/LitsByYear/Scheme.js";
 
 export class LitByYearFilmeController {
   constructor(private litByYearUseCase: LitByYearFilmeUseCase) {}

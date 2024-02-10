@@ -1,5 +1,5 @@
-import { IAnimeRepository } from "../../../repositories/IAnimeRepository.ts";
-import { ILitByYearDTO } from "./LitstByYearDTO.ts";
+import { IAnimeRepository } from "../../../repositories/IAnimeRepository.js";
+import { ILitByYearDTO } from "./LitstByYearDTO.js";
 
 export class LitByYearAnimeUseCase {
   constructor(private animeRepository: IAnimeRepository) {}
