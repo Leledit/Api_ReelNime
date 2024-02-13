@@ -1,4 +1,4 @@
-export interface DeleteAnimeDTO {
+export interface AnimeGenresDeleteDTO {
   id: string;
   nameGenre: string;
 }

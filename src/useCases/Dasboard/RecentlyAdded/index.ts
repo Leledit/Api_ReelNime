@@ -1,11 +1,13 @@
 import { MongoDashboardRepository } from "../../../repositories/implementations/MongoDashboardRepository.ts";
-import { RecentlyAddedUseCase } from "./RecentlyAdded.ts";
-import { RecentlyAddedController } from "./RecentlyAddedController.ts";
+import { DasboardRecentlyAddedUseCase } from "./RecentlyAdded.ts";
+import { DasboardRecentlyAddedController } from "./RecentlyAddedController.ts";
 
 const mongoDashboardRepository = new MongoDashboardRepository();
-const recentlyAddedUseCase = new RecentlyAddedUseCase(mongoDashboardRepository);
-const recentlyAddedController = new RecentlyAddedController(
-  recentlyAddedUseCase
+const dasboardRecentlyAddedUseCase = new DasboardRecentlyAddedUseCase(
+  mongoDashboardRepository
+);
+const dasboardRecentlyAddedController = new DasboardRecentlyAddedController(
+  dasboardRecentlyAddedUseCase
 );
 
-export { recentlyAddedUseCase, recentlyAddedController };
+export { dasboardRecentlyAddedUseCase, dasboardRecentlyAddedController };

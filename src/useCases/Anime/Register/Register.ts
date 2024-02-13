@@ -1,25 +1,21 @@
 import { Anime } from "../../../entities/Anime.ts";
 import { IAnimeRepository } from "../../../repositories/IAnimeRepository.ts";
 import { StorageFirebase } from "../../../providers/IStorageFirebase.ts";
-import { IAnimesRequestDTO } from "./RegisterDTO.ts";
-import path from "path";
+import { IAnimeRegisterDTO } from "./RegisterDTO.ts";
 
-export class RegisterAnimesUseCase {
+export class AnimeRegisterUseCase {
   constructor(private animesRepository: IAnimeRepository) {}
-  async execute(data: IAnimesRequestDTO) {
+  async execute(data: IAnimeRegisterDTO) {
     const dataAlreadyRegistered = await this.animesRepository.findByName(
       data.name
     );
 
     if (!dataAlreadyRegistered) {
-
-
-      const clearImgBase64 = data.img.replace(/^data:image\/\w+;base64,/, '');
-      const bufferImg = Buffer.from(clearImgBase64, 'base64');
+      const clearImgBase64 = data.img.replace(/^data:image\/\w+;base64,/, "");
+      const bufferImg = Buffer.from(clearImgBase64, "base64");
 
       let anime;
       if (data.img) {
-  
         const urlImgAnime = await StorageFirebase.uploadFile(
           bufferImg,
           data.name,

@@ -1,10 +1,10 @@
 import { MongoDashboardRepository } from "../../../repositories/implementations/MongoDashboardRepository";
-import { IDashboardRequestDTO } from "./ListByYearDTO";
+import { IDasboardListByYearDTO } from "./ListByYearDTO";
 
-export class ListByYearDasboardUseCase {
+export class DasboardListByYearUseCase {
   constructor(private mongoDashboardRepository: MongoDashboardRepository) {}
 
-  async handle(data: IDashboardRequestDTO) {
+  async handle(data: IDasboardListByYearDTO) {
     const result = await this.mongoDashboardRepository.returnDataListingByYear(
       data.limit,
       data.page,

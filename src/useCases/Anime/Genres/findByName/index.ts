@@ -1,9 +1,13 @@
 import { MongoAnimeRepository } from "../../../../repositories/implementations/MongoAnimeRepository.ts";
-import { FilmeFindByNameGenreUseCase } from "./FindByName.ts";
+import { AnimeGenreFindByNameUseCase } from "./FindByName.ts";
 import { AnimeFindByNameGenreController } from "./FindByNameController.ts";
 
 const mongoAnimeRepository = new MongoAnimeRepository();
-const filmeFindByNameGenreUseCase = new FilmeFindByNameGenreUseCase(mongoAnimeRepository);
-const animeFindByNameGenreController = new AnimeFindByNameGenreController(filmeFindByNameGenreUseCase);
+const animeGenreFindByNameUseCase = new AnimeGenreFindByNameUseCase(
+  mongoAnimeRepository
+);
+const animeFindByNameGenreController = new AnimeFindByNameGenreController(
+  animeGenreFindByNameUseCase
+);
 
-export { filmeFindByNameGenreUseCase, animeFindByNameGenreController };
+export { animeGenreFindByNameUseCase, animeFindByNameGenreController };

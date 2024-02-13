@@ -1,13 +1,11 @@
 import { MongoFilmeRepository } from "../../../../repositories/implementations/MongoFilmeRepository.ts";
-import { AddGenresInFilmeUseCase } from "./Add.ts";
-import { AddGenresInFilmeController } from "./AddController.ts";
+import { FilmeGenresAddUseCase } from "./Add.ts";
+import { FilmeGenresAddController } from "./AddController.ts";
 
 const mongoFilmeRepository = new MongoFilmeRepository();
-const addGenresInFilmeUseCase = new AddGenresInFilmeUseCase(
-  mongoFilmeRepository
-);
-const addGenresInFilmeController = new AddGenresInFilmeController(
-  addGenresInFilmeUseCase
+const filmeGenresAddUseCase = new FilmeGenresAddUseCase(mongoFilmeRepository);
+const filmeGenresAddController = new FilmeGenresAddController(
+  filmeGenresAddUseCase
 );
 
-export { addGenresInFilmeUseCase, addGenresInFilmeController };
+export { filmeGenresAddUseCase, filmeGenresAddController };

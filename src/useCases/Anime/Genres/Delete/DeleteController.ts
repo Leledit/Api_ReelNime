@@ -1,13 +1,12 @@
 import { NextFunction, Request, Response } from "express";
+import { AnimeGenresDeleteUseCase } from "./Delete.ts";
+import { AnimeGenresDeleteSchema } from "./scheme.ts";
 
-import { DeleteGenresInAnimeUseCase } from "./Delete.ts";
-import { DeleteAnimeSchema } from "./Scheme.ts";
-
-export class DeleteGenresInAnimeController {
-  constructor(private deleteGenresInAnimeUseCase: DeleteGenresInAnimeUseCase) {}
+export class AnimeGenresDeleteController {
+  constructor(private animeGenresDeleteUseCase: AnimeGenresDeleteUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = DeleteAnimeSchema.validate(req.body);
+    const { error } = AnimeGenresDeleteSchema.validate(req.query);
 
     if (error) {
       return res.status(400).json({
@@ -21,9 +20,9 @@ export class DeleteGenresInAnimeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const { id, nameGenre } = req.body;
+      const { id, nameGenre } = req.query;
 
-      const result = await this.deleteGenresInAnimeUseCase.execute({
+      const result = await this.animeGenresDeleteUseCase.execute({
         id: id as string,
         nameGenre: nameGenre as string,
       });

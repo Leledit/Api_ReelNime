@@ -1,10 +1,10 @@
 import { MongoFilmeRepository } from "../../../../repositories/implementations/MongoFilmeRepository.ts";
-import { DeleteFilmeDTO } from "./DeleteDTO.ts";
+import { FilmeGenresDeleteDTO } from "./DeleteDTO.ts";
 
-export class DeleteGenresInFilmeUseCase {
+export class FilmeGenresDeleteUseCase {
   constructor(private mongoFilmeRepository: MongoFilmeRepository) {}
 
-  async execute(data: DeleteFilmeDTO): Promise<boolean | string> {
+  async execute(data: FilmeGenresDeleteDTO): Promise<boolean | string> {
     try {
       //Buscando os dados do filme
       const dataFilme = await this.mongoFilmeRepository.listOne(data.id);
@@ -36,7 +36,6 @@ export class DeleteGenresInFilmeUseCase {
       } else {
         return "Houve um problema na ação de remoção de um genero";
       }
-
     } catch (err: any) {
       throw new Error(err.message);
     }

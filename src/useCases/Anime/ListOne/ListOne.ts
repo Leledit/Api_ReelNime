@@ -1,10 +1,10 @@
 import { IAnimeRepository } from "../../../repositories/IAnimeRepository.ts";
-import { IAnimesRequestDTO } from "./ListOneDTO.ts";
+import { IAnimeListOneDTO } from "./ListOneDTO.ts";
 
-export class ListOneAnimesUseCase {
+export class AnimeListOneUseCase {
   constructor(private animesRepository: IAnimeRepository) {}
 
-  async execute(data: IAnimesRequestDTO) {
+  async execute(data: IAnimeListOneDTO) {
     const dataAnime = await this.animesRepository.listOne(data.id);
 
     return dataAnime;

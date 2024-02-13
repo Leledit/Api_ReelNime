@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const changingFilmeSchema = Joi.object({
+export const FilmeChangingScheme = Joi.object({
   name: Joi.string().required(),
   visa: Joi.string().required(),
   duration: Joi.string().required(),

@@ -1,4 +1,4 @@
-export interface DeleteFilmeDTO {
+export interface FilmeGenresDeleteDTO {
   id: string;
   nameGenre: string;
 }

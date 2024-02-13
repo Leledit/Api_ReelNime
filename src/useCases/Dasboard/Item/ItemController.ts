@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { ItemDasboardUseCase } from "./Item.js";
-import { itemDashboardScheme } from "./scheme.js";
+import { DasboardItemUseCase } from "./Item.js";
+import { DashboardItemScheme } from "./scheme.js";
 
-export class ItemDashboardController {
-  constructor(private itemDasboardUseCase: ItemDasboardUseCase) {}
+export class DasboardItemController {
+  constructor(private dasboardItemUseCase: DasboardItemUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = itemDashboardScheme.validate(req.query);
+    const { error } = DashboardItemScheme.validate(req.query);
     if (error) {
       return res.status(400).json({
         error: "Requisição inválida",
@@ -20,7 +20,7 @@ export class ItemDashboardController {
     try {
       const { id } = req.query;
 
-      const resultRequest:any = await this.itemDasboardUseCase.handle({
+      const resultRequest: any = await this.dasboardItemUseCase.handle({
         id: id as string,
       });
 

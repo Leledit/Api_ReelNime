@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { SearchDashboardUseCase } from "./Search.ts";
-import { searchDashboardScheme } from "./scheme.ts";
+import { DashboardSearchUseCase } from "./Search.ts";
+import { DashboardSearchScheme } from "./scheme.ts";
 
-export class SearchDashboarController {
-  constructor(private searchDashboardUseCase: SearchDashboardUseCase) {}
+export class DashboardSearchController {
+  constructor(private dashboardSearchUseCase: DashboardSearchUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = searchDashboardScheme.validate(req.query);
+    const { error } = DashboardSearchScheme.validate(req.query);
     if (error) {
       return res.status(400).json({
         error: "Requisição inválida",
@@ -20,7 +20,7 @@ export class SearchDashboarController {
     try {
       const { search, page, limit } = req.query;
 
-      const resultRequest = await this.searchDashboardUseCase.handle({
+      const resultRequest = await this.dashboardSearchUseCase.handle({
         search: search as string,
         page: parseInt(page as string),
         limit: parseInt(limit as string),

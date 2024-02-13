@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const AddAnimeSchema = Joi.object({
+export const AnimeGenresAddScheme = Joi.object({
   id: Joi.string().required(),
   nameGenre: Joi.string().required(),
 });

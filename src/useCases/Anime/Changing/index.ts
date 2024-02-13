@@ -1,11 +1,11 @@
 import { MongoAnimeRepository } from "../../../repositories/implementations/MongoAnimeRepository.ts";
-import { ChangingAnimeUseCase } from "./Changing.ts";
-import { ChangingAnimeController } from "./ChangingController.ts";
+import { AnimeChangingUseCase } from "./Changing.ts";
+import { AnimeChangingController } from "./ChangingController.ts";
 
 const mongoAnimeRepository = new MongoAnimeRepository();
-const changingAnimesUseCase = new ChangingAnimeUseCase(mongoAnimeRepository);
-const changingAnimeControler = new ChangingAnimeController(
-  changingAnimesUseCase
+const animeChangingUseCase = new AnimeChangingUseCase(mongoAnimeRepository);
+const animeChangingControler = new AnimeChangingController(
+  animeChangingUseCase
 );
 
-export { changingAnimesUseCase, changingAnimeControler };
+export { animeChangingUseCase, animeChangingControler };

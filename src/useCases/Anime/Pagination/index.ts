@@ -1,11 +1,11 @@
 import { MongoAnimeRepository } from "../../../repositories/implementations/MongoAnimeRepository.ts";
-import { PaginationAnimeUseCase } from "./Pagination.ts";
-import { PaginationAnimeController } from "./PaginationController.ts";
+import { AnimePaginationUseCase } from "./Pagination.ts";
+import { AnimePaginationController } from "./PaginationController.ts";
 
 const mongoAnimeRepository = new MongoAnimeRepository();
-const paginationAnimeUseCase = new PaginationAnimeUseCase(mongoAnimeRepository);
-const paginationAnimeController = new PaginationAnimeController(
-  paginationAnimeUseCase
+const animePaginationUseCase = new AnimePaginationUseCase(mongoAnimeRepository);
+const animePaginationController = new AnimePaginationController(
+  animePaginationUseCase
 );
 
-export { paginationAnimeUseCase, paginationAnimeController };
+export { animePaginationUseCase, animePaginationController };

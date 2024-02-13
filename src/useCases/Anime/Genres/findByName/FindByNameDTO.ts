@@ -1,4 +1,3 @@
-export interface IFindByNameDTO {
-    name: string;
-  }
-  
+export interface AnimeGenreFindByNameDTO {
+  name: string;
+}

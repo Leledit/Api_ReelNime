@@ -1,9 +1,9 @@
 import { IAnimeRepository } from "../../../repositories/IAnimeRepository.ts";
-import { IAnimesRequestDTO } from "./PaginationDTO.ts";
+import { IAnimePaginationDTO } from "./PaginationDTO.ts";
 
-export class PaginationAnimeUseCase {
+export class AnimePaginationUseCase {
   constructor(private animeRepository: IAnimeRepository) {}
-  async execute(data: IAnimesRequestDTO) {
+  async execute(data: IAnimePaginationDTO) {
     let finalValue = data.page * data.limit;
     let initialValue = finalValue - data.limit;
     if (data.page === 1) {

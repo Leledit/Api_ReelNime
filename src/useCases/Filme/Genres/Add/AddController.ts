@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { AddFilmeSchema } from "./Scheme.ts";
-import { AddGenresInFilmeUseCase } from "./Add.ts";
+import { FilmeGenresAddScheme } from "./scheme.ts";
+import { FilmeGenresAddUseCase } from "./Add.ts";
 
-export class AddGenresInFilmeController {
-  constructor(private addGenresInFilmeUseCase: AddGenresInFilmeUseCase) {}
+export class FilmeGenresAddController {
+  constructor(private filmeGenresAddUseCase: FilmeGenresAddUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = AddFilmeSchema.validate(req.body);
+    const { error } = FilmeGenresAddScheme.validate(req.body);
 
     if (error) {
       return res.status(400).json({
@@ -22,7 +22,7 @@ export class AddGenresInFilmeController {
     try {
       const { id, nameGenre } = req.body;
 
-      const result = await this.addGenresInFilmeUseCase.execute({
+      const result = await this.filmeGenresAddUseCase.execute({
         id: id as string,
         nameGenre: nameGenre as string,
       });

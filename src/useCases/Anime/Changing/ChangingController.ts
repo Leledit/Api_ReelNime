@@ -1,13 +1,12 @@
-import { NextFunction, Request, Response, query } from "express";
-import { ChangingAnimeUseCase } from "./Changing.ts";
-import { changingAnimeSchema } from "./scheme.ts";
-import { getFileFromRequest } from "../../../providers/MulterImage.ts";
+import { NextFunction, Request, Response } from "express";
+import { AnimeChangingUseCase } from "./Changing.ts";
+import { AnimeChangingScheme } from "./scheme.ts";
 
-export class ChangingAnimeController {
-  constructor(private changingAnimeUseCase: ChangingAnimeUseCase) {}
+export class AnimeChangingController {
+  constructor(private animeChangingUseCase: AnimeChangingUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = changingAnimeSchema.validate(req.body);
+    const { error } = AnimeChangingScheme.validate(req.body);
 
     if (error) {
       return res.status(400).json({
@@ -21,7 +20,6 @@ export class ChangingAnimeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      
       const {
         name,
         watched,
@@ -32,12 +30,12 @@ export class ChangingAnimeController {
         nextSeason,
         previousSeason,
         synopsis,
-        img
+        img,
       } = req.body;
 
-      const {id} = req.params;
+      const { id } = req.params;
 
-      await this.changingAnimeUseCase.execute({
+      await this.animeChangingUseCase.execute({
         name,
         id,
         nextSeason,

@@ -1,11 +1,10 @@
 import { MongoAnimeRepository } from "../../../../repositories/implementations/MongoAnimeRepository.ts";
-import { DeleteAnimeDTO } from "./DeleteDTO.ts";
+import { AnimeGenresDeleteDTO } from "./DeleteDTO.ts";
 
-
-export class DeleteGenresInAnimeUseCase {
+export class AnimeGenresDeleteUseCase {
   constructor(private mongoAnimeRepository: MongoAnimeRepository) {}
 
-  async execute(data: DeleteAnimeDTO): Promise<boolean | string> {
+  async execute(data: AnimeGenresDeleteDTO): Promise<boolean | string> {
     try {
       //Buscando os dados do anime
       const dataAnime = await this.mongoAnimeRepository.listOne(data.id);
@@ -37,7 +36,6 @@ export class DeleteGenresInAnimeUseCase {
       } else {
         return "Houve um problema na ação de remoção de um genero";
       }
-
     } catch (err: any) {
       throw new Error(err.message);
     }

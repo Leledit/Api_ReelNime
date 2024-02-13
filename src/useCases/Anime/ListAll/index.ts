@@ -1,11 +1,9 @@
 import { MongoAnimeRepository } from "../../../repositories/implementations/MongoAnimeRepository.ts";
-import { ListAllAnimesUseCase } from "./ListAll.ts";
-import { ListAllAnimeController } from "./ListAllController.ts";
+import { AnimeListAllUseCase } from "./ListAll.ts";
+import { AnimeListAllController } from "./ListAllController.ts";
 
 const mongoAnimeRepository = new MongoAnimeRepository();
-const listAllAnimesUseCase = new ListAllAnimesUseCase(mongoAnimeRepository);
-const listAllAnimesController = new ListAllAnimeController(
-  listAllAnimesUseCase
-);
+const animeListAllUseCase = new AnimeListAllUseCase(mongoAnimeRepository);
+const animeListAllController = new AnimeListAllController(animeListAllUseCase);
 
-export { listAllAnimesUseCase, listAllAnimesController };
+export { animeListAllUseCase, animeListAllController };

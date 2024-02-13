@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { ReleasesUseCase } from "./Releases.ts";
+import { DashboardReleasesUseCase } from "./Releases.ts";
 
-export class ReleasesController {
-  constructor(private releasesUseCase: ReleasesUseCase) {}
+export class DashboardReleasesController {
+  constructor(private dashboardReleasesUseCase: DashboardReleasesUseCase) {}
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const releasesData = await this.releasesUseCase.execute();
+      const releasesData = await this.dashboardReleasesUseCase.execute();
 
       return res.status(200).json(releasesData);
     } catch (err: any) {

@@ -1,10 +1,10 @@
 import { MongoDashboardRepository } from "../../../repositories/implementations/MongoDashboardRepository";
-import { IDashboardRequestDTO } from "./ListByGenreDTO";
+import { IDashboardListByGenreDTO } from "./ListByGenreDTO";
 
-export class ListByGenreDasboardUseCase {
+export class DashboardListByGenreUseCase {
   constructor(private mongoDashboardRepository: MongoDashboardRepository) {}
 
-  async handle(data: IDashboardRequestDTO) {
+  async handle(data: IDashboardListByGenreDTO) {
     const result: any = await this.mongoDashboardRepository.listByGenre(
       data.genre,
       data.limit,

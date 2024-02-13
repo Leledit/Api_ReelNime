@@ -1,6 +1,6 @@
 import { IDashboardRepository } from "../../../repositories/IDashboardRepository.js";
 
-export class ReleasesUseCase {
+export class DashboardReleasesUseCase {
   constructor(private dashboardRepository: IDashboardRepository) {}
   async execute() {
     const dataAnime =

@@ -1,11 +1,11 @@
 import { MongoAnimeRepository } from "../../../repositories/implementations/MongoAnimeRepository.ts";
-import { RegisterAnimesUseCase } from "./Register.ts";
-import { RegisterAnimeController } from "./RegisterController.ts";
+import { AnimeRegisterUseCase } from "./Register.ts";
+import { AnimeRegisterController } from "./RegisterController.ts";
 
 const mongoAnimeRepository = new MongoAnimeRepository();
-const registerAnimesUseCase = new RegisterAnimesUseCase(mongoAnimeRepository);
-const registerAnimeController = new RegisterAnimeController(
-  registerAnimesUseCase
+const animeRegisterUseCase = new AnimeRegisterUseCase(mongoAnimeRepository);
+const animeRegisterController = new AnimeRegisterController(
+  animeRegisterUseCase
 );
 
-export { registerAnimesUseCase, registerAnimeController };
+export { animeRegisterUseCase, animeRegisterController };

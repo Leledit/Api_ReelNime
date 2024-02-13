@@ -1,3 +1,3 @@
-export interface IDashboardRequestDTO {
+export interface IDashboardItemDTO {
   id: string;
 }

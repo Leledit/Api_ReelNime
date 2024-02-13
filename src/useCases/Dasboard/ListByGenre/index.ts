@@ -1,13 +1,13 @@
 import { MongoDashboardRepository } from "../../../repositories/implementations/MongoDashboardRepository.js";
-import { ListByGenreDasboardUseCase } from "./ListByGenre.js";
-import { ListByGenreController } from "./ListByGenreController.js";
+import { DashboardListByGenreUseCase } from "./ListByGenre.js";
+import { DashboardListByGenreController } from "./ListByGenreController.js";
 
 const mongoDashboardRepository = new MongoDashboardRepository();
-const listByGenreDasboardUseCase = new ListByGenreDasboardUseCase(
+const dashboardListByGenreUseCase = new DashboardListByGenreUseCase(
   mongoDashboardRepository
 );
-const listByGenreController = new ListByGenreController(
-  listByGenreDasboardUseCase
+const dashboardListByGenreController = new DashboardListByGenreController(
+  dashboardListByGenreUseCase
 );
 
-export { listByGenreDasboardUseCase, listByGenreController };
+export { dashboardListByGenreUseCase, dashboardListByGenreController };

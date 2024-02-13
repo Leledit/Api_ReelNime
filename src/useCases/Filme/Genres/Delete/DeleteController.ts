@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { DeleteGenresInFilmeUseCase } from "./Delete.ts";
-import { DeleteFilmeSchema } from "./Scheme.ts";
+import { FilmeGenresDeleteUseCase } from "./Delete.ts";
+import { FilmeGenresDeleteScheme } from "./scheme.ts";
 
-export class DeleteGenresInFilmeController {
-  constructor(private DeleteGenresInFilmeUseCase: DeleteGenresInFilmeUseCase) {}
+export class FilmeGenresDeleteController {
+  constructor(private filmeGenresDeleteUseCase: FilmeGenresDeleteUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = DeleteFilmeSchema.validate(req.body);
+    const { error } = FilmeGenresDeleteScheme.validate(req.query);
 
     if (error) {
       return res.status(400).json({
@@ -20,9 +20,9 @@ export class DeleteGenresInFilmeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const { id, nameGenre } = req.body;
+      const { id, nameGenre } = req.query;
 
-      const result = await this.DeleteGenresInFilmeUseCase.execute({
+      const result = await this.filmeGenresDeleteUseCase.execute({
         id: id as string,
         nameGenre: nameGenre as string,
       });

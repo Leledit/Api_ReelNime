@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const paginationAnimeScheme = Joi.object({
+export const AnimePaginationScheme = Joi.object({
   page: Joi.number().required(),
   limit: Joi.number().required(),
 });

@@ -1,10 +1,10 @@
 import { MongoFilmeRepository } from "../../../../repositories/implementations/MongoFilmeRepository.ts";
-import { AddFilmeDTOExecute } from "./AddDTO.ts";
+import { FilmeGenresAddDTO } from "./AddDTO.ts";
 
-export class AddGenresInFilmeUseCase {
+export class FilmeGenresAddUseCase {
   constructor(private mongoFilmeRepository: MongoFilmeRepository) {}
 
-  async execute(data: AddFilmeDTOExecute): Promise<boolean | string> {
+  async execute(data: FilmeGenresAddDTO): Promise<boolean | string> {
     try {
       //Buscando os dados do filme
       const dataFilme = await this.mongoFilmeRepository.listOne(data.id);
@@ -19,7 +19,10 @@ export class AddGenresInFilmeUseCase {
       }
 
       if (dataFilme.genres) {
-        const dataGenres: string[] = [...dataFilme.genres, data.nameGenre.trim()];
+        const dataGenres: string[] = [
+          ...dataFilme.genres,
+          data.nameGenre.trim(),
+        ];
 
         const resultRequest = await this.mongoFilmeRepository.changingGenre(
           dataGenres,

@@ -1,9 +1,9 @@
 import { MongoFilmeRepository } from "../../../repositories/implementations/MongoFilmeRepository.ts";
-import { DeleteFilmeUseCase } from "./Delete.ts";
-import { DeleteFilmeController } from "./DeleteController.ts";
+import { FilmeDeleteUseCase } from "./Delete.ts";
+import { FilmeDeleteController } from "./DeleteController.ts";
 
 const mongoFilmeRepository = new MongoFilmeRepository();
-const deleteFilmeUseCase = new DeleteFilmeUseCase(mongoFilmeRepository);
-const deleteFilmeController = new DeleteFilmeController(deleteFilmeUseCase);
+const filmeChangingUseCase = new FilmeDeleteUseCase(mongoFilmeRepository);
+const filmeDeleteController = new FilmeDeleteController(filmeChangingUseCase);
 
-export { deleteFilmeUseCase, deleteFilmeController };
+export { filmeChangingUseCase, filmeDeleteController };

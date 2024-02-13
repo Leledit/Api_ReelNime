@@ -1,4 +1,4 @@
-export interface IAnimesRequestDTO {
+export interface IAnimeChangingDTO {
   id: string;
   qtdEpisodes: number;
   releaseYear: number;
@@ -9,5 +9,5 @@ export interface IAnimesRequestDTO {
   watched: boolean;
   note: number;
   status: string;
-  img: string,
+  img: string;
 }

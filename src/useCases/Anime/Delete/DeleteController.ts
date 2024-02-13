@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { DeleteAnimeUseCase } from "./Delete.ts";
+import { AnimeDeleteUseCase } from "./Delete.ts";
 
-export class DeleteAnimeController {
-  constructor(private deleteAnimeUseCase: DeleteAnimeUseCase) {}
+export class AnimeDeleteController {
+  constructor(private animeDeleteUseCase: AnimeDeleteUseCase) {}
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      await this.deleteAnimeUseCase.execute({ id: req.params.id });
+      await this.animeDeleteUseCase.execute({ id: req.params.id });
       return res.status(200).json({
         message: "Exclusão realizada com sucesso",
         details: "O anime foi excluido do sistema",

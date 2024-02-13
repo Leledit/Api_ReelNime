@@ -1,13 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { ChangingFilmeUseCase } from "./Changing.ts";
-import { changingFilmeSchema } from "./Shceme.ts";
-import { getFileFromRequest } from "../../../providers/MulterImage.ts";
+import { FilmeChangingUseCase } from "./Changing.ts";
+import { FilmeChangingScheme } from "./scheme.ts";
 
-export class ChangingFilmeController {
-  constructor(private changingFilmeUseCase: ChangingFilmeUseCase) {}
+export class FilmeChangingController {
+  constructor(private filmeChangingUseCase: FilmeChangingUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = changingFilmeSchema.validate(req.body);
+    const { error } = FilmeChangingScheme.validate(req.body);
 
     if (error) {
       return res.status(400).json({
@@ -21,13 +20,22 @@ export class ChangingFilmeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-  
-      const { name, visa, duration, lauch, note, synopsis, genres, releaseYear, img } = req.body;
+      const {
+        name,
+        visa,
+        duration,
+        lauch,
+        note,
+        synopsis,
+        genres,
+        releaseYear,
+        img,
+      } = req.body;
 
       const params = req.params;
 
-      await this.changingFilmeUseCase.execute({
-        id: params.id, 
+      await this.filmeChangingUseCase.execute({
+        id: params.id,
         name: name,
         duration: duration,
         releaseYear: parseInt(releaseYear),

@@ -1,10 +1,10 @@
 import { StorageFirebase } from "../../../providers/IStorageFirebase.ts";
 import { IFilmeRepository } from "../../../repositories/IFilmeRepository.ts";
-import { IFilmeRequestDTO } from "./DeleteDTO.ts";
+import { IFilmeDeleteSchemeDTO } from "./DeleteDTO.ts";
 
-export class DeleteFilmeUseCase {
+export class FilmeDeleteUseCase {
   constructor(private filmeRepository: IFilmeRepository) {}
-  async execute(data: IFilmeRequestDTO) {
+  async execute(data: IFilmeDeleteSchemeDTO) {
     try {
       const dataAnime = await this.filmeRepository.listOne(data.id);
 

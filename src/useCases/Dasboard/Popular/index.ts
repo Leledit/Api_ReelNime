@@ -1,10 +1,13 @@
 import { MongoDashboardRepository } from "../../../repositories/implementations/MongoDashboardRepository.ts";
-import { PopularUseCase } from "./Popular.ts";
-import { PopularController } from "./PopularController.ts";
+import { DasboardPopularUseCase } from "./Popular.ts";
+import { DasboardPopularController } from "./PopularController.ts";
 
 const mongoDashboardRepository = new MongoDashboardRepository();
-const popularUseCase = new PopularUseCase(mongoDashboardRepository);
-const popularController = new PopularController(popularUseCase);
+const dasboardPopularUseCase = new DasboardPopularUseCase(
+  mongoDashboardRepository
+);
+const dasboardPopularController = new DasboardPopularController(
+  dasboardPopularUseCase
+);
 
-export { popularUseCase, popularController };
-
+export { dasboardPopularUseCase, dasboardPopularController };

@@ -1,3 +1,3 @@
-export interface IFilmeRequestDTO {
+export interface IFilmeDeleteSchemeDTO {
   id: string;
 }

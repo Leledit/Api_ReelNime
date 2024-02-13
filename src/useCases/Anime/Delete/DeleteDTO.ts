@@ -1,3 +1,3 @@
-export interface IAnimesRequestDTO {
+export interface IAnimesDeleteDTO {
   id: string;
 }

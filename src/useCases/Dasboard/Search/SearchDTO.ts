@@ -1,6 +1,5 @@
-export interface IDashboardRequestDTO {
-    search:string,
-    page: number;
-    limit: number;
-  }
-  
+export interface IDashboardSearchDTO {
+  search: string;
+  page: number;
+  limit: number;
+}

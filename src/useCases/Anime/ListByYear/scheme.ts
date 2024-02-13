@@ -1,5 +1,5 @@
 import Joi from "joi";
 
-export const LitByYearAnimeScheme = Joi.object({
+export const AnimeListByYearScheme = Joi.object({
   year: Joi.number().required(),
 });

@@ -1,13 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { RegisterAnimesUseCase } from "./Register.ts";
-import { registerAnimeSchema } from "./scheme.ts";
-import { getFileFromRequest } from "../../../providers/MulterImage.ts";
+import { AnimeRegisterUseCase } from "./Register.ts";
+import { AnimeRegisterScheme } from "./scheme.ts";
 
-export class RegisterAnimeController {
-  constructor(private registerAnimesUseCase: RegisterAnimesUseCase) {}
+export class AnimeRegisterController {
+  constructor(private animeRegisterUseCase: AnimeRegisterUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = registerAnimeSchema.validate(req.body);
+    const { error } = AnimeRegisterScheme.validate(req.body);
 
     if (error) {
       return res.status(400).json({
@@ -20,15 +19,6 @@ export class RegisterAnimeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      /*const dataImage = getFileFromRequest(req);
-
-      if (!dataImage) {
-        return res.status(400).json({
-          error: "Requisição inválida",
-          details: "É necessario enviar uma imagem na requsição",
-        });
-      }*/
-
       const {
         name,
         qtdEpisodes,
@@ -39,10 +29,10 @@ export class RegisterAnimeController {
         previousSeason,
         synopsis,
         status,
-        img
+        img,
       } = req.body;
 
-      const result = await this.registerAnimesUseCase.execute({
+      const result = await this.animeRegisterUseCase.execute({
         name,
         nextSeason,
         note: parseInt(note),

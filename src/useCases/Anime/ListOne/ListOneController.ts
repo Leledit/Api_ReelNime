@@ -1,16 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { ListOneAnimesUseCase } from "./ListOne.ts";
-import { listOneAnimeSchema } from "./scheme.ts";
+import { AnimeListOneUseCase } from "./ListOne.ts";
+import { AnimeListOneScheme } from "./scheme.ts";
 
-export class ListOneAnimeController {
-  constructor(private listOneAnimesUseCase: ListOneAnimesUseCase) {}
+export class AnimeListOneController {
+  constructor(private animeListOneUseCase: AnimeListOneUseCase) {}
 
-   validateRequest = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    const { error } = listOneAnimeSchema.validate(req.params);
+  validateRequest = (req: Request, res: Response, next: NextFunction) => {
+    const { error } = AnimeListOneScheme.validate(req.params);
 
     if (error) {
       return res.status(400).json({
@@ -24,9 +20,8 @@ export class ListOneAnimeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-     
       const idAnime = req.params.id;
-      const dataAnime = await this.listOneAnimesUseCase.execute({
+      const dataAnime = await this.animeListOneUseCase.execute({
         id: idAnime,
       });
 

@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { AddAnimeSchema } from "./Scheme.ts";
-import { AddGenresInAnimeUseCase } from "./Add.ts";
+import { AnimeGenresAddScheme } from "./scheme.ts";
+import { AnimeGenresAddUseCase } from "./Add.ts";
 
-export class AddGenresInAnimeController {
-  constructor(private addGenresInAnimeUseCase: AddGenresInAnimeUseCase) {}
+export class AnimeGenresAddController {
+  constructor(private animeGenresAddUseCase: AnimeGenresAddUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = AddAnimeSchema.validate(req.body);
+    const { error } = AnimeGenresAddScheme.validate(req.body);
 
     if (error) {
       return res.status(400).json({
@@ -22,7 +22,7 @@ export class AddGenresInAnimeController {
     try {
       const { id, nameGenre } = req.body;
 
-      const result = await this.addGenresInAnimeUseCase.execute({
+      const result = await this.animeGenresAddUseCase.execute({
         id: id as string,
         nameGenre: nameGenre as string,
       });

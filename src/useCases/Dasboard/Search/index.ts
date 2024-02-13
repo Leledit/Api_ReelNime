@@ -1,13 +1,13 @@
 import { MongoDashboardRepository } from "../../../repositories/implementations/MongoDashboardRepository.ts";
-import {SearchDashboardUseCase} from './Search.ts';
-import {SearchDashboarController} from './SearchController.ts';
+import { DashboardSearchUseCase } from "./Search.ts";
+import { DashboardSearchController } from "./SearchController.ts";
 
 const mongoDashboardRepository = new MongoDashboardRepository();
-const searchDashboardUseCase = new SearchDashboardUseCase(
+const dashboardSearchUseCase = new DashboardSearchUseCase(
   mongoDashboardRepository
 );
-const searchDashboarController = new SearchDashboarController(
-    searchDashboardUseCase
+const dashboardSearchController = new DashboardSearchController(
+  dashboardSearchUseCase
 );
 
-export { searchDashboardUseCase, searchDashboarController };
+export { dashboardSearchUseCase, dashboardSearchController };

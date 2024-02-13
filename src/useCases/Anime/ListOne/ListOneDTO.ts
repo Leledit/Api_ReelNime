@@ -1,3 +1,3 @@
-export interface IAnimesRequestDTO {
+export interface IAnimeListOneDTO {
   id: string;
 }

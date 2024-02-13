@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const registerAnimeSchema = Joi.object({
+export const AnimeRegisterScheme = Joi.object({
   name: Joi.string().required(),
   watched: Joi.boolean().required(),
   qtdEpisodes: Joi.number().required(),

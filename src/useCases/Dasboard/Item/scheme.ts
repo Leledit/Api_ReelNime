@@ -1,5 +1,5 @@
 import Joi from "joi";
 
-export const itemDashboardScheme = Joi.object({
+export const DashboardItemScheme = Joi.object({
   id: Joi.string().required(),
 });

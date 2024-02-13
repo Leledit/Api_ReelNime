@@ -1,11 +1,11 @@
 import { Anime } from "../../../entities/Anime.ts";
 import { StorageFirebase } from "../../../providers/IStorageFirebase.ts";
 import { IAnimeRepository } from "../../../repositories/IAnimeRepository.ts";
-import { IAnimesRequestDTO } from "./ChangingDTO.ts";
+import { IAnimeChangingDTO } from "./ChangingDTO.ts";
 
-export class ChangingAnimeUseCase {
+export class AnimeChangingUseCase {
   constructor(private animesRepository: IAnimeRepository) {}
-  async execute(data: IAnimesRequestDTO) {
+  async execute(data: IAnimeChangingDTO) {
     try {
       const oldAnimeData = await this.animesRepository.listOne(data.id);
 

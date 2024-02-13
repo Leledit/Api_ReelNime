@@ -1,13 +1,13 @@
 import { MongoDashboardRepository } from "../../../repositories/implementations/MongoDashboardRepository.js";
-import { ListByYearDasboardUseCase } from "./ListByYear.js";
-import { ListByYearController } from "./ListByYearController.js";
+import { DasboardListByYearUseCase } from "./ListByYear.js";
+import { DasboardListByYearController } from "./ListByYearController.js";
 
 const mongoDashboardRepository = new MongoDashboardRepository();
-const listByYearDasboardUseCase = new ListByYearDasboardUseCase(
+const dasboardListByYearUseCase = new DasboardListByYearUseCase(
   mongoDashboardRepository
 );
-const listByYearController = new ListByYearController(
-  listByYearDasboardUseCase
+const dasboardListByYearController = new DasboardListByYearController(
+  dasboardListByYearUseCase
 );
 
-export { listByYearDasboardUseCase, listByYearController };
+export { dasboardListByYearUseCase, dasboardListByYearController };

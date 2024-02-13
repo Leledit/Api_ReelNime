@@ -1,12 +1,11 @@
 import { Filme } from "../../../entities/Filme.ts";
 import { StorageFirebase } from "../../../providers/IStorageFirebase.ts";
 import { IFilmeRepository } from "../../../repositories/IFilmeRepository.ts";
-import { IFilmeRequestDTO } from "./ChangingDTO.ts";
-import path from "path";
+import { IFilmeChangingDTO } from "./ChangingDTO.ts";
 
-export class ChangingFilmeUseCase {
+export class FilmeChangingUseCase {
   constructor(private filmeRepository: IFilmeRepository) {}
-  async execute(data: IFilmeRequestDTO) {
+  async execute(data: IFilmeChangingDTO) {
     try {
       
       let urlImg = "";

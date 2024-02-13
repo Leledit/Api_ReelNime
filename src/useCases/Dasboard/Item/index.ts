@@ -1,13 +1,9 @@
 import { MongoDashboardRepository } from "../../../repositories/implementations/MongoDashboardRepository.js";
-import { ItemDasboardUseCase } from "./Item.js";
-import { ItemDashboardController } from "./ItemController.js";
+import { DasboardItemUseCase } from "./Item.js";
+import { DasboardItemController } from "./ItemController.js";
 
 const mongoDashboardRepository = new MongoDashboardRepository();
-const itemDasboardUseCase = new ItemDasboardUseCase(
-  mongoDashboardRepository
-);
-const itemDashboardController = new ItemDashboardController(
-  itemDasboardUseCase
-);
+const dasboardItemUseCase = new DasboardItemUseCase(mongoDashboardRepository);
+const dasboardItemController = new DasboardItemController(dasboardItemUseCase);
 
-export { itemDasboardUseCase, itemDashboardController };
+export { dasboardItemUseCase, dasboardItemController };

@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import { LitByYearFilmeUseCase } from "./ListByYear.js";
-import { LitByYearAnimeScheme } from "../../Anime/LitsByYear/Scheme.js";
+import { LitByYearFilmeScheme } from "./Scheme.ts";
 
 export class LitByYearFilmeController {
   constructor(private litByYearUseCase: LitByYearFilmeUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = LitByYearAnimeScheme.validate(req.query);
+    const { error } = LitByYearFilmeScheme.validate(req.query);
 
     if (error) {
       return res.status(400).json({

@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const DeleteAnimeSchema = Joi.object({
+export const FilmeGenresDeleteScheme = Joi.object({
   id: Joi.string().required(),
   nameGenre: Joi.string().required(),
 });

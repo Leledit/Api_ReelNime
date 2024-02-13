@@ -1,6 +1,5 @@
 import Joi from "joi";
-
-export const changingAnimeSchema = Joi.object({
+export const AnimeChangingScheme = Joi.object({
   name: Joi.string().required(),
   watched: Joi.boolean().required(),
   qtdEpisodes: Joi.number().required(),

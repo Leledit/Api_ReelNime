@@ -1,4 +1,5 @@
-export interface IAnimesRequestDTO {
+
+export interface IAnimeRegisterDTO {
   id?: string | undefined;
   qtdEpisodes: number;
   releaseYear: number;
@@ -10,14 +11,5 @@ export interface IAnimesRequestDTO {
   updateDate?: Date;
   status: string;
   note: number;
-  img: string,
+  img: string;
 }
-/*
-dataImg?: {
-    fieldname: string;
-    originalname: string;
-    mimetype: string;
-    buffer: Buffer;
-    size: number;
-  }; 
-*/

@@ -1,9 +1,13 @@
 import { MongoDashboardRepository } from "../../../repositories/implementations/MongoDashboardRepository.ts";
-import { ReleasesUseCase } from "./Releases.ts";
-import { ReleasesController } from "./ReleasesController.ts";
+import { DashboardReleasesUseCase } from "./Releases.ts";
+import { DashboardReleasesController } from "./ReleasesController.ts";
 
 const mongoDashboardRepository = new MongoDashboardRepository();
-const releasesUseCase = new ReleasesUseCase(mongoDashboardRepository);
-const releasesController = new ReleasesController(releasesUseCase);
+const dashboardReleasesUseCase = new DashboardReleasesUseCase(
+  mongoDashboardRepository
+);
+const dashboardReleasesController = new DashboardReleasesController(
+  dashboardReleasesUseCase
+);
 
-export { releasesUseCase, releasesController };
+export { dashboardReleasesUseCase, dashboardReleasesController };

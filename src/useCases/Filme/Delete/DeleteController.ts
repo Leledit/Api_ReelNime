@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { DeleteFilmeUseCase } from "./Delete.ts";
-import { deleteFilmeScheme } from "./Scheme.ts";
+import { FilmeDeleteUseCase } from "./Delete.ts";
+import { FilmeDeleteScheme } from "./Scheme.ts";
 
-export class DeleteFilmeController {
-  constructor(private deleteFilmeUseCase: DeleteFilmeUseCase) {}
+export class FilmeDeleteController {
+  constructor(private filmeDeleteUseCase: FilmeDeleteUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = deleteFilmeScheme.validate(req.params);
+    const { error } = FilmeDeleteScheme.validate(req.params);
 
     if (error) {
       return res.status(400).json({
@@ -19,7 +19,7 @@ export class DeleteFilmeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      await this.deleteFilmeUseCase.execute({ id: req.params.id });
+      await this.filmeDeleteUseCase.execute({ id: req.params.id });
       return res.status(200).json({
         message: "Exclusão realizada com sucesso",
         details: "O filme foi excluido do sistema",

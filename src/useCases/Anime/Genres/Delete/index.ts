@@ -1,14 +1,13 @@
 import { MongoAnimeRepository } from "../../../../repositories/implementations/MongoAnimeRepository.ts";
-import { DeleteGenresInAnimeUseCase } from "./Delete.ts";
-import { DeleteGenresInAnimeController } from "./DeleteController.ts";
-
+import { AnimeGenresDeleteUseCase } from "./Delete.ts";
+import { AnimeGenresDeleteController } from "./DeleteController.ts";
 
 const mongoAnimeRepository = new MongoAnimeRepository();
-const deleteGenresInAnimeUseCase = new DeleteGenresInAnimeUseCase(
+const animeGenresDeleteUseCase = new AnimeGenresDeleteUseCase(
   mongoAnimeRepository
 );
-const deleteGenresInAnimeController = new DeleteGenresInAnimeController(
-  deleteGenresInAnimeUseCase
+const animeGenresDeleteController = new AnimeGenresDeleteController(
+  animeGenresDeleteUseCase
 );
 
-export { deleteGenresInAnimeUseCase, deleteGenresInAnimeController };
+export { animeGenresDeleteUseCase, animeGenresDeleteController };

@@ -1,5 +1,5 @@
-export interface IDashboardRequestDTO {
+export interface IDasboardListByYearDTO {
   page: number;
   limit: number;
-  year:  number;
+  year: number;
 }
