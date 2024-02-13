@@ -34,6 +34,7 @@ import { loginUserController } from "./useCases/User/Login/index.ts";
 import authenticateToken from "./middleware/authMiddleware.ts";
 import { listByYearController } from "./useCases/Dasboard/ListByYear/index.ts";
 import { searchDashboarController } from "./useCases/Dasboard/Search/index.ts";
+import { itemDashboardController } from "./useCases/Dasboard/Item/index.ts";
 const router = Router();
 
 //Routes related to the "genre" segment
@@ -266,6 +267,13 @@ router.get(
   searchDashboarController.validateRequest,
   (request, response) => {
     return searchDashboarController.handle(request, response);
+  }
+);
+router.get(
+  "/dashboard/item",
+  itemDashboardController.validateRequest,
+  (request, response) => {
+    return itemDashboardController.handle(request, response);
   }
 );
 

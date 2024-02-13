@@ -4,6 +4,80 @@ import { Filme } from "../../entities/Filme.ts";
 import { IDashboardRepository } from "../IDashboardRepository.ts";
 
 export class MongoDashboardRepository implements IDashboardRepository {
+  async searchByGenre(
+    genre: string[],
+    typeItem: string,
+    id: string
+  ): Promise<object> {
+    try {
+      const refDb = clienteDbMongo();
+      let recommendations: any = [];
+
+      if (genre.length === 0) {
+        return recommendations;
+      }
+
+      for (const item of genre) {
+        //Caso ja tenha a quantidade necessaria, pare o processo de busca
+        if (recommendations.length >= 4) {
+          break;
+        }
+
+        const resultRequest = await refDb
+          .collection(typeItem)
+          .find({
+            genres: { $in: [item] },
+            id: { $ne: id },
+          })
+          .toArray();
+
+        if (resultRequest.length < 4) {
+          recommendations = [...recommendations, ...resultRequest];
+        } else {
+          if (recommendations.length === 0) {
+            recommendations = resultRequest;
+            break;
+          } else {
+            recommendations = [...recommendations, ...resultRequest];
+            break;
+          }
+        }
+      }
+
+      if (recommendations.length > 4) {
+        return recommendations.slice(0, 4);
+      } else {
+        return recommendations;
+      }
+    } catch (error) {
+      throw new Error("erro ao recuperar um anime: " + error);
+    }
+  }
+
+  async returnItem(id: string): Promise<object> {
+    try {
+      const refDb = clienteDbMongo();
+      const requestAnime = await refDb.collection("animes").findOne({ id: id });
+      const requestFilmes = await refDb
+        .collection("filmes")
+        .findOne({ id: id });
+
+      if (requestAnime) {
+        return {
+          dataItem: requestAnime,
+          type: "animes",
+        };
+      } else {
+        return {
+          dataItem: requestFilmes,
+          type: "filmes",
+        };
+      }
+    } catch (error) {
+      throw new Error("erro ao buscar o item: " + error);
+    }
+  }
+
   async returnSearch(
     search: string,
     limit: number,
