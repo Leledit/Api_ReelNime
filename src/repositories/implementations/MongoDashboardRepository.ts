@@ -4,6 +4,33 @@ import { Filme } from "../../entities/Filme.ts";
 import { IDashboardRepository } from "../IDashboardRepository.ts";
 
 export class MongoDashboardRepository implements IDashboardRepository {
+  async listByGenre(
+    genre: string,
+    limit: number,
+    page: number
+  ): Promise<object> {
+    const refDb = clienteDbMongo();
+
+    const resultRequestAnime = await refDb
+      .collection("animes")
+      .find({
+        genres: { $in: [genre] },
+      })
+      .toArray();
+
+    const resultRequestFilmes = await refDb
+      .collection("filmes")
+      .find({
+        genres: { $in: [genre] },
+      })
+      .toArray();
+
+    let allData = [...resultRequestAnime, ...resultRequestFilmes];
+    const totalRecords = resultRequestAnime.length + resultRequestFilmes.length;
+    const paginationData = allData.slice((page - 1) * limit, page * limit);
+    return { total: totalRecords, itens: paginationData };
+  }
+
   async searchByGenre(
     genre: string[],
     typeItem: string,
@@ -83,8 +110,6 @@ export class MongoDashboardRepository implements IDashboardRepository {
     limit: number,
     page: number
   ): Promise<{ total: number; itens: any[] }> {
-    //const dataTabela1 = await Modelo1.find({ campo: { $regex: keyword, $options: 'i' } }); // Use 'i' para tornar a pesquisa case-insensitive
-
     const refDb = clienteDbMongo();
     const resulAnimes = await refDb
       .collection("animes")

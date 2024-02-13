@@ -16,6 +16,7 @@ export interface IDashboardRepository {
     limit: number,
     page: number
   ): Promise<{ total: number; itens: any[] }>;
-  returnItem(id:string): Promise<object>;
-  searchByGenre(genre: string[],typeItem:string,id:string): Promise<object>;
+  returnItem(id: string): Promise<object>;
+  searchByGenre(genre: string[], typeItem: string, id: string): Promise<object>;
+  listByGenre(genre: string, limit: number, page: number): Promise<object>;
 }
