@@ -1,5 +1,5 @@
 import Joi from "joi";
 
-export const changingGenreScheme = Joi.object({
+export const GenerChangingScheme = Joi.object({
   name: Joi.string().required(),
 });

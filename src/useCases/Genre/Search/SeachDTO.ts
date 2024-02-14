@@ -1,4 +1,4 @@
-export interface IGenresRequestDTO {
+export interface GenerSearchDTO {
   name: string;
   id?: string;
 }

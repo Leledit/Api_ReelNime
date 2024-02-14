@@ -1,9 +1,9 @@
 import { IFilmeRepository } from "../../../repositories/IFilmeRepository.ts";
-import { IFilmesRequestDTO } from "./PaginationDTO.ts";
+import { IFilmePaginationDTO } from "./PaginationDTO.ts";
 
-export class PaginationFilmeUseCase {
+export class FilmePaginationUseCase {
   constructor(private filmeRepository: IFilmeRepository) {}
-  async execute(data: IFilmesRequestDTO) {
+  async execute(data: IFilmePaginationDTO) {
     let finalValue = data.page * data.limit;
     let initialValue = finalValue - data.limit;
     if (data.page === 1) {

@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { RegisterFilmeUseCase } from "./Register.ts";
-import { registerFilmeSchema } from "./Scheme.ts";
+import { FilmeRegisterUseCase } from "./Register.ts";
+import { FilmeRegisterScheme } from "./scheme.ts";
 
-export class RegisterFilmeController {
-  constructor(private registerFilmeUseCase: RegisterFilmeUseCase) {}
+export class FilmeRegisterController {
+  constructor(private filmeRegisterUseCase: FilmeRegisterUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = registerFilmeSchema.validate(req.body);
+    const { error } = FilmeRegisterScheme.validate(req.body);
 
     if (error) {
       return res.status(400).json({
@@ -20,18 +20,17 @@ export class RegisterFilmeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-
-      const { name, visa, duration,  note, synopsis, releaseYear,img } =
+      const { name, visa, duration, note, synopsis, releaseYear, img } =
         req.body;
 
-      const resultRequest = await this.registerFilmeUseCase.execute({
+      const resultRequest = await this.filmeRegisterUseCase.execute({
         name,
         visa: Boolean(visa),
         releaseYear: parseInt(releaseYear),
         duration,
         note: parseInt(note),
         synopsis,
-        img:img,
+        img: img,
       });
 
       if (!resultRequest) {

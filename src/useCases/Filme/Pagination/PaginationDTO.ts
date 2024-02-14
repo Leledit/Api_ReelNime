@@ -1,4 +1,4 @@
-export interface IFilmesRequestDTO {
+export interface IFilmePaginationDTO {
   page: number;
   limit: number;
 }

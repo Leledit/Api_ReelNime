@@ -1,11 +1,11 @@
 import { MongoGenreRepository } from "../../../repositories/implementations/MongoGenreRepository.ts";
-import { DeleteGenresUseCase } from "./Delete.ts";
-import { DeleteGenreController } from "./DeleteController.ts";
+import { GenerDeleteUseCase } from "./Delete.ts";
+import { GenerDeleteController } from "./DeleteController.ts";
 
 const mongoGenreRepository = new MongoGenreRepository();
 
-const deleteGenresUseCase = new DeleteGenresUseCase(mongoGenreRepository);
+const generDeleteUseCase = new GenerDeleteUseCase(mongoGenreRepository);
 
-const deleteGenreController = new DeleteGenreController(deleteGenresUseCase);
+const generDeleteController = new GenerDeleteController(generDeleteUseCase);
 
-export { deleteGenresUseCase, deleteGenreController };
+export { generDeleteUseCase, generDeleteController };

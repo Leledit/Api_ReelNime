@@ -1,10 +1,10 @@
 import { IGenreRepository } from "../../../repositories/IGenreRepository.ts";
-import { IGenresRequestDTO } from "./DeleteDTO.ts";
+import { IGenerDeleteDTO } from "./DeleteDTO.ts";
 
-export class DeleteGenresUseCase {
+export class GenerDeleteUseCase {
   constructor(private deleteRepository: IGenreRepository) {}
 
-  async execute(data: IGenresRequestDTO) {
+  async execute(data: IGenerDeleteDTO) {
     await this.deleteRepository.delete(data.id);
   }
 }

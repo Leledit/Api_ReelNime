@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { searchGenreScheme } from "./Shceme.js";
-import { SearchGenresUseCase } from "./Search.js";
+import { GenerSearchScheme } from "./scheme.js";
+import { GenerSearchUseCase } from "./Search.js";
 
-export class SearchGenreController {
-  constructor(private searchGenresUseCase: SearchGenresUseCase) {}
+export class GenerSearchController {
+  constructor(private generSearchUseCase: GenerSearchUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = searchGenreScheme.validate(req.query);
+    const { error } = GenerSearchScheme.validate(req.query);
 
     if (error) {
       return res.status(400).json({
@@ -20,7 +20,7 @@ export class SearchGenreController {
     try {
       const query = req.query.query as string;
 
-      const dataGenre = await this.searchGenresUseCase.execute({
+      const dataGenre = await this.generSearchUseCase.execute({
         name: query,
       });
 

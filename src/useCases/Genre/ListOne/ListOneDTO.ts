@@ -1,3 +1,3 @@
-export interface IGenresRequestDTO {
+export interface IGenerListOnelDTO {
   id: string;
 }

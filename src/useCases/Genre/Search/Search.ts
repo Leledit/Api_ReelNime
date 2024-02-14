@@ -1,14 +1,14 @@
 import { Genre } from "../../../entities/Genre.js";
 import { IGenreRepository } from "../../../repositories/IGenreRepository.js";
-import { IGenresRequestDTO } from "../Register/RegisterDTO.js";
+import { GenerSearchDTO } from "./SeachDTO.js";
 
-export class SearchGenresUseCase {
+export class GenerSearchUseCase {
   constructor(private genresRepository: IGenreRepository) {}
-  async execute(data: IGenresRequestDTO) {
+  async execute(data: GenerSearchDTO) {
     const genre = new Genre(data);
 
     const searchResult = await this.genresRepository.query(data.name);
-    
+
     if (searchResult.length !== 0) {
       return searchResult;
     } else {

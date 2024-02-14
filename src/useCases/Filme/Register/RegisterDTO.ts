@@ -1,9 +1,9 @@
-export interface IFilmeRequestDTO {
+export interface IFilmeRegisterDTO {
   name: string;
   visa: boolean;
   duration: string;
-  releaseYear: number,
+  releaseYear: number;
   note: number;
   synopsis: string;
-  img:string,
+  img: string;
 }

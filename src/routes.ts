@@ -1,4 +1,12 @@
 import { Router } from "express";
+
+import { generChangingController } from "./useCases/Genre/Changing/index.ts";
+import { generDeleteController } from "./useCases/Genre/Delete/index.ts";
+import { generListAllController } from "./useCases/Genre/ListAll/index.ts";
+import { generListOnelController } from "./useCases/Genre/ListOne/index.ts";
+import { generRegisterController } from "./useCases/Genre/Register/index.ts";
+import { generSearchController } from "./useCases/Genre/Search/index.ts";
+
 import { animeChangingControler } from "./useCases/Anime/Changing/index.ts";
 import { animeListOneController } from "./useCases/Anime/ListOne/index.ts";
 import { animeDeleteController } from "./useCases/Anime/Delete/index.ts";
@@ -10,6 +18,17 @@ import { animeListAllController } from "./useCases/Anime/ListAll/index.ts";
 import { animePaginationController } from "./useCases/Anime/Pagination/index.ts";
 import { animeRegisterController } from "./useCases/Anime/Register/index.ts";
 
+import { filmeChangingController } from "./useCases/Filme/Changing/index.ts";
+import { filmeDeleteController } from "./useCases/Filme/Delete/index.ts";
+import { filmeGenresAddController } from "./useCases/Filme/Genres/Add/index.ts";
+import { filmeGenresDeleteController } from "./useCases/Filme/Genres/Delete/index.ts";
+import { filmeGenreFindByNameController } from "./useCases/Filme/Genres/FindByName/index.ts";
+import { filmeListAllController } from "./useCases/Filme/ListAll/index.ts";
+import { filmeLitByYearController } from "./useCases/Filme/ListByYear/index.ts";
+import { filmeListOneController } from "./useCases/Filme/ListOne/index.ts";
+import { filmePaginationController } from "./useCases/Filme/Pagination/index.ts";
+import { filmeRegisterController } from "./useCases/Filme/Register/index.ts";
+
 import { dasboardItemController } from "./useCases/Dasboard/Item/index.ts";
 import { dashboardListByGenreController } from "./useCases/Dasboard/ListByGenre/index.ts";
 import { dasboardListByYearController } from "./useCases/Dasboard/ListByYear/index.ts";
@@ -18,80 +37,52 @@ import { dasboardRecentlyAddedController } from "./useCases/Dasboard/RecentlyAdd
 import { dashboardReleasesController } from "./useCases/Dasboard/Releases/index.ts";
 import { dashboardSearchController } from "./useCases/Dasboard/Search/index.ts";
 
-import { filmeChangingController } from "./useCases/Filme/Changing/index.ts";
-import { filmeDeleteController } from "./useCases/Filme/Delete/index.ts";
-import { filmeGenresAddController } from "./useCases/Filme/Genres/Add/index.ts";
-import { filmeGenresDeleteController } from "./useCases/Filme/Genres/Delete/index.ts";
+import { userRegisterController } from "./useCases/User/Register/index.ts";
+import { userLoginController } from "./useCases/User/Login/index.ts";
 
-
-
-import { registerGenreController } from "./useCases/Genre/Register/index.ts";
-import { listAllGenresController } from "./useCases/Genre/ListAll/index.ts";
-import { listOneGenreController } from "./useCases/Genre/ListOne/index.ts";
-import { changingGenerController } from "./useCases/Genre/Changing/index.ts";
-import { deleteGenreController } from "./useCases/Genre/Delete/index.ts";
-import { registerFilmeController } from "./useCases/Filme/Register/index.ts";
-
-import { listOneFilmesController } from "./useCases/Filme/ListOne/index.ts";
-import { listAllFilmeController } from "./useCases/Filme/ListAll/index.ts";
-import { paginationFilmeController } from "./useCases/Filme/Pagination/index.ts";
-
-import { searchGenreController } from "./useCases/Genre/Search/index.ts";
-
-
-import { filmeFindByNameGenreController } from "./useCases/Filme/Genres/FindByName/index.ts";
-import { litByYearFilmeController } from "./useCases/Filme/ListByYear/index.ts";
-
-
-import { registerUserController } from "./useCases/User/Register/index.ts";
-import { loginUserController } from "./useCases/User/Login/index.ts";
 import authenticateToken from "./middleware/authMiddleware.ts";
 
-
-
 const router = Router();
-
-//Routes related to the "genre" segment
 
 router.post(
   "/genres/",
   authenticateToken,
-  registerGenreController.validateRequest,
+  generRegisterController.validateRequest,
   (request, response) => {
-    return registerGenreController.handle(request, response);
+    return generRegisterController.handle(request, response);
   }
 );
 
 router.get("/genres/", (request, response) => {
-  return listAllGenresController.handle(request, response);
+  return generListAllController.handle(request, response);
 });
 
 router.get(
   "/genres/search",
-  searchGenreController.validateRequest,
+  generSearchController.validateRequest,
   (request, response) => {
-    return searchGenreController.handle(request, response);
+    return generSearchController.handle(request, response);
   }
 );
 
 router.get(
   "/genres/:id",
-  listOneGenreController.validateRequest,
+  generListOnelController.validateRequest,
   (request, response) => {
-    return listOneGenreController.handle(request, response);
+    return generListOnelController.handle(request, response);
   }
 );
 
 router.put("/genres/:id", authenticateToken, (request, response) => {
-  return changingGenerController.handle(request, response);
+  return generChangingController.handle(request, response);
 });
 
 router.delete(
   "/genres/:id",
   authenticateToken,
-  deleteGenreController.validateRequest,
+  generDeleteController.validateRequest,
   (request, response) => {
-    return deleteGenreController.handle(request, response);
+    return generDeleteController.handle(request, response);
   }
 );
 
@@ -178,9 +169,9 @@ router.delete("/animes/:id", authenticateToken, (request, response) => {
 router.post(
   "/filmes/",
   authenticateToken,
-  registerFilmeController.validateRequest,
+  filmeRegisterController.validateRequest,
   (request, response) => {
-    return registerFilmeController.handle(request, response);
+    return filmeRegisterController.handle(request, response);
   }
 );
 
@@ -204,9 +195,9 @@ router.delete(
 
 router.get(
   "/filmes/year/",
-  litByYearFilmeController.validateRequest,
+  filmeLitByYearController.validateRequest,
   (request, response) => {
-    return litByYearFilmeController.handle(request, response);
+    return filmeLitByYearController.handle(request, response);
   }
 );
 
@@ -221,30 +212,30 @@ router.put(
 
 router.get(
   "/filmes/genres/",
-  filmeFindByNameGenreController.validateRequest,
+  filmeGenreFindByNameController.validateRequest,
   (request, response) => {
-    filmeFindByNameGenreController.handle(request, response);
+    filmeGenreFindByNameController.handle(request, response);
   }
 );
 
 router.get(
   "/filmes/page/",
-  paginationFilmeController.validateRequest,
+  filmePaginationController.validateRequest,
   (request, response) => {
-    return paginationFilmeController.handle(request, response);
+    return filmePaginationController.handle(request, response);
   }
 );
 
 router.get(
   "/filmes/:id",
-  listOneFilmesController.validateRequest,
+  filmeListOneController.validateRequest,
   (request, response) => {
-    return listOneFilmesController.handle(request, response);
+    return filmeListOneController.handle(request, response);
   }
 );
 
 router.get("/filmes/", (request, response) => {
-  return listAllFilmeController.handle(request, response);
+  return filmeListAllController.handle(request, response);
 });
 
 router.delete(
@@ -301,17 +292,17 @@ router.get(
 
 router.post(
   "/user/register/",
-  registerUserController.validateRequest,
+  userRegisterController.validateRequest,
   (request, response) => {
-    return registerUserController.handle(request, response);
+    return userRegisterController.handle(request, response);
   }
 );
 
 router.post(
   "/user/login/",
-  loginUserController.validateRequest,
+  userLoginController.validateRequest,
   (request, response) => {
-    return loginUserController.handle(request, response);
+    return userLoginController.handle(request, response);
   }
 );
 

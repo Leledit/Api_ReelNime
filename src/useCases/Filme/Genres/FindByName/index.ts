@@ -1,10 +1,13 @@
-
 import { MongoFilmeRepository } from "../../../../repositories/implementations/MongoFilmeRepository.ts";
-import { FilmeFindByNameGenreUseCase } from "./FindByName.ts";
-import { FilmeFindByNameGenreController } from "./FindByNameController.ts";
+import { FilmeGenreFindByNameUseCase } from "./FindByName.ts";
+import { FilmeGenreFindByNameController } from "./FindByNameController.ts";
 
 const mongoFilmeRepository = new MongoFilmeRepository();
-const filmeFindByNameGenreUseCase = new FilmeFindByNameGenreUseCase(mongoFilmeRepository);
-const filmeFindByNameGenreController = new FilmeFindByNameGenreController(filmeFindByNameGenreUseCase);
+const filmeGenreFindByNameUseCase = new FilmeGenreFindByNameUseCase(
+  mongoFilmeRepository
+);
+const filmeGenreFindByNameController = new FilmeGenreFindByNameController(
+  filmeGenreFindByNameUseCase
+);
 
-export { filmeFindByNameGenreUseCase, filmeFindByNameGenreController };
+export { filmeGenreFindByNameUseCase, filmeGenreFindByNameController };

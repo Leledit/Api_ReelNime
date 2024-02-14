@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from "express";
-import { ListOneGenresUseCase } from "./ListOne.js";
-import { listOneGenreScheme } from "./Shceme.js";
+import { GenerListOnelUseCase } from "./ListOne.js";
+import { GenerListOnelScheme } from "./scheme.js";
 
-export class ListOneGenreController {
-  constructor(private listOneGenresUseCase: ListOneGenresUseCase) {}
+export class GenerListOnelController {
+  constructor(private generListOnelUseCase: GenerListOnelUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = listOneGenreScheme.validate(req.params);
-    
+    const { error } = GenerListOnelScheme.validate(req.params);
+
     if (error) {
       return res.status(400).json({
         error: "Requisição inválida",
@@ -20,7 +20,7 @@ export class ListOneGenreController {
     try {
       const idGenre = req.params.id as string;
 
-      const dataGenre = await this.listOneGenresUseCase.execute({
+      const dataGenre = await this.generListOnelUseCase.execute({
         id: idGenre,
       });
 

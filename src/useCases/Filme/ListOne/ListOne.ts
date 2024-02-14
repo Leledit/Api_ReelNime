@@ -1,9 +1,9 @@
 import { IFilmeRepository } from "../../../repositories/IFilmeRepository.ts";
-import { IFilmeRequestDTO } from "./ListOneDTO.ts";
+import { IFilmeListOneDTO } from "./ListOneDTO.ts";
 
-export class ListOneFilmeUseCase {
+export class FilmeListOneUseCase {
   constructor(private filmeRepository: IFilmeRepository) {}
-  async execute(data: IFilmeRequestDTO) {
+  async execute(data: IFilmeListOneDTO) {
     const dataFilme = await this.filmeRepository.listOne(data.id);
 
     return dataFilme;

@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { ListAllFilmeUseCase } from "./ListAll.ts";
+import { FilmeListAllUseCase } from "./ListAll.ts";
 
-export class ListAllFilmeController {
-  constructor(private listAllFilmeUseCase: ListAllFilmeUseCase) {}
+export class FilmeListAllController {
+  constructor(private filmeListAllUseCase: FilmeListAllUseCase) {}
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const dataFilmes = await this.listAllFilmeUseCase.execute();
+      const dataFilmes = await this.filmeListAllUseCase.execute();
       return res.status(200).json(dataFilmes);
     } catch (err: any) {
       return res.status(500).json({

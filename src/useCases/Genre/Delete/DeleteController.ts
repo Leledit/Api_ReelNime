@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { DeleteGenresUseCase } from "./Delete.ts";
-import { deleteGenreScheme } from "./Scheme.ts";
+import { GenerDeleteUseCase } from "./Delete.ts";
+import { GenerDeleteScheme } from "./scheme.ts";
 
-export class DeleteGenreController {
-  constructor(private DeleteGenresUseCase: DeleteGenresUseCase) {}
+export class GenerDeleteController {
+  constructor(private generDeleteUseCase: GenerDeleteUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = deleteGenreScheme.validate(req.params);
+    const { error } = GenerDeleteScheme.validate(req.params);
 
     if (error) {
       return res.status(400).json({
@@ -19,7 +19,7 @@ export class DeleteGenreController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      await this.DeleteGenresUseCase.execute({
+      await this.generDeleteUseCase.execute({
         id: req.params.id,
       });
       return res.status(200).json({

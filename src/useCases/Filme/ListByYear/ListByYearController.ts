@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { LitByYearFilmeUseCase } from "./ListByYear.js";
-import { LitByYearFilmeScheme } from "./Scheme.ts";
+import { FilmeLitByYearUseCase } from "./ListByYear.js";
+import { FilmeLitByYearScheme } from "./scheme.ts";
 
-export class LitByYearFilmeController {
-  constructor(private litByYearUseCase: LitByYearFilmeUseCase) {}
+export class FilmeLitByYearController {
+  constructor(private filmeLitByYearUseCase: FilmeLitByYearUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = LitByYearFilmeScheme.validate(req.query);
+    const { error } = FilmeLitByYearScheme.validate(req.query);
 
     if (error) {
       return res.status(400).json({
@@ -22,7 +22,7 @@ export class LitByYearFilmeController {
     try {
       const { year } = req.query;
 
-      const dataAnimes = await this.litByYearUseCase.execute({
+      const dataAnimes = await this.filmeLitByYearUseCase.execute({
         year: parseInt(year as string),
       });
 

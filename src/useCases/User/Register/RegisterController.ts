@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { RegisterUserUseCase } from "./Register.ts";
-import { registerUserSchema } from "./Scheme.ts";
+import { UserRegisterUseCase } from "./Register.ts";
+import { UserRegisterScheme } from "./scheme.ts";
 
-export class RegisterUserController {
-  constructor(private registerUserUsecase: RegisterUserUseCase) {}
+export class UserRegisterController {
+  constructor(private userRegisterUseCase: UserRegisterUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = registerUserSchema.validate(req.body);
+    const { error } = UserRegisterScheme.validate(req.body);
 
     if (error) {
       return res.status(400).json({
@@ -19,17 +19,20 @@ export class RegisterUserController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
+      const { email, name, password } = req.body;
 
-      const {email,name,password} = req.body;
+      const result = await this.userRegisterUseCase.execute({
+        email,
+        name,
+        password,
+      });
 
-      const result = await this.registerUserUsecase.execute({email,name,password});
-
-      if(result.status === "success"){
+      if (result.status === "success") {
         return res.status(201).json({
           message: "Cadastro efetuado com sucesso!",
           tolken: result.token,
         });
-      }else{
+      } else {
         return res.status(500).json({
           message: "Problemas ao realizar o cadastro",
           details: result.mensagem,

@@ -1,5 +1,5 @@
-export interface RegisterUserDTO {
+export interface UserRegisterDTO {
   email: string;
-  name: string,
+  name: string;
   password: string;
 }

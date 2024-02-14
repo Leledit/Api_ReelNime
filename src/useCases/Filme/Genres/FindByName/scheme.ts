@@ -1,5 +1,5 @@
 import Joi from "joi";
 
-export const registerGenreScheme = Joi.object({
+export const FilmeGenreFindByNameScheme = Joi.object({
   name: Joi.string().required(),
 });

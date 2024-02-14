@@ -1,5 +1,5 @@
 import Joi from "joi";
 
-export const LitByYearFilmeScheme = Joi.object({
+export const FilmeLitByYearScheme = Joi.object({
   year: Joi.number().required(),
 });

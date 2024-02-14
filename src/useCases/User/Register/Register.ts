@@ -2,15 +2,15 @@ import { User } from "../../../entities/User.ts";
 import { resultOperation } from "../../../interfaces/resultOperation.ts";
 import { MongoUserRepository } from "../../../repositories/implementations/MongoUserRepository.ts";
 import TokenService from "../../../security/tokenService.ts";
-import { RegisterUserDTO } from "./RegisterDTO.ts";
+import { UserRegisterDTO } from "./RegisterDTO.ts";
 import bcrypt from "bcrypt";
 
-export class RegisterUserUseCase {
+export class UserRegisterUseCase {
   constructor(
     private mongoUserRepository: MongoUserRepository,
     private tokenService = new TokenService(process.env.TOLKEN_SECRET_KEY || "")
   ) {}
-  async execute(data: RegisterUserDTO): Promise<resultOperation> {
+  async execute(data: UserRegisterDTO): Promise<resultOperation> {
     try {
       //verificando se o email ja estava cadastrado no sistema
       const isRegistered = await this.mongoUserRepository.searchingByEmail(

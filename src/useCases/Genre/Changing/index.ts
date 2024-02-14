@@ -1,13 +1,13 @@
 import { MongoGenreRepository } from "../../../repositories/implementations/MongoGenreRepository.ts";
-import { ChangingGenresUseCase } from "./Changing.ts";
-import { ChangingGenerController } from "./ChangingController.ts";
+import { GenerChangingUseCase } from "./Changing.ts";
+import { GenerChangingController } from "./ChangingController.ts";
 
 const mongoGenreRepository = new MongoGenreRepository();
 
-const changingGenresUseCase = new ChangingGenresUseCase(mongoGenreRepository);
+const generChangingUseCase = new GenerChangingUseCase(mongoGenreRepository);
 
-const changingGenerController = new ChangingGenerController(
-  changingGenresUseCase
+const generChangingController = new GenerChangingController(
+  generChangingUseCase
 );
 
-export { changingGenresUseCase, changingGenerController };
+export { generChangingUseCase, generChangingController };

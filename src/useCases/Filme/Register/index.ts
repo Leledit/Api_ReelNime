@@ -1,11 +1,11 @@
 import { MongoFilmeRepository } from "../../../repositories/implementations/MongoFilmeRepository.ts";
-import { RegisterFilmeUseCase } from "./Register.ts";
-import { RegisterFilmeController } from "./RegisterController.ts";
+import { FilmeRegisterUseCase } from "./Register.ts";
+import { FilmeRegisterController } from "./RegisterController.ts";
 
 const mongoFilmeRepository = new MongoFilmeRepository();
-const registerFilmeUseCase = new RegisterFilmeUseCase(mongoFilmeRepository);
-const registerFilmeController = new RegisterFilmeController(
-  registerFilmeUseCase
+const filmeRegisterUseCase = new FilmeRegisterUseCase(mongoFilmeRepository);
+const filmeRegisterController = new FilmeRegisterController(
+  filmeRegisterUseCase
 );
 
-export { registerFilmeUseCase, registerFilmeController };
+export { filmeRegisterUseCase, filmeRegisterController };

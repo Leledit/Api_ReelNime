@@ -1,11 +1,11 @@
 import { MongoFilmeRepository } from "../../../repositories/implementations/MongoFilmeRepository.ts";
-import { PaginationFilmeUseCase } from "./Pagination.ts";
-import { PaginationFilmeController } from "./PaginationController.ts";
+import { FilmePaginationUseCase } from "./Pagination.ts";
+import { FilmePaginationController } from "./PaginationController.ts";
 
 const mongoFilmeRepository = new MongoFilmeRepository();
-const paginationFilmeUseCase = new PaginationFilmeUseCase(mongoFilmeRepository);
-const paginationFilmeController = new PaginationFilmeController(
-  paginationFilmeUseCase
+const filmePaginationUseCase = new FilmePaginationUseCase(mongoFilmeRepository);
+const filmePaginationController = new FilmePaginationController(
+  filmePaginationUseCase
 );
 
-export { paginationFilmeUseCase, paginationFilmeController };
+export { filmePaginationUseCase, filmePaginationController };

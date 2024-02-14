@@ -1,20 +1,16 @@
 import { resultOperation } from "../../../interfaces/resultOperation.ts";
 import { MongoUserRepository } from "../../../repositories/implementations/MongoUserRepository.ts";
 import TokenService from "../../../security/tokenService.ts";
-import { LoginUserDTO } from "./LoginDTO.ts";
+import { UserLoginDTO } from "./LoginDTO.ts";
 import bcrypt from "bcrypt";
 
-
-export class LoginUserUseCase {
+export class UserLoginUseCase {
   constructor(
     private mongoUserRepository: MongoUserRepository,
-    private tokenService = new TokenService(
-      process.env.TOLKEN_SECRET_KEY || ""
-    )
+    private tokenService = new TokenService(process.env.TOLKEN_SECRET_KEY || "")
   ) {}
 
-  async execute(data: LoginUserDTO): Promise<resultOperation> {
-
+  async execute(data: UserLoginDTO): Promise<resultOperation> {
     try {
       const dataUser = await this.mongoUserRepository.searchingByEmail(
         data.email
@@ -45,7 +41,7 @@ export class LoginUserUseCase {
             return {
               status: "success",
               token: token,
-              type: dataUser.type
+              type: dataUser.type,
             };
           } else {
             return {

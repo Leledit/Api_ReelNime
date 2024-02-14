@@ -1,10 +1,9 @@
 import { IGenreRepository } from "../../../repositories/IGenreRepository.js";
-import { IGenresRequestDTO } from "./ListOneDTO.js";
+import { IGenerListOnelDTO } from "./ListOneDTO.js";
 
-export class ListOneGenresUseCase {
+export class GenerListOnelUseCase {
   constructor(private genresRepository: IGenreRepository) {}
-  async execute(data: IGenresRequestDTO) {
-
+  async execute(data: IGenerListOnelDTO) {
     const searchResult = await this.genresRepository.listOne(data.id);
     if (searchResult) {
       return searchResult;

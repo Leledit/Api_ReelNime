@@ -1,9 +1,9 @@
 import { MongoUserRepository } from "../../../repositories/implementations/MongoUserRepository.ts";
-import { RegisterUserUseCase } from "./Register.ts";
-import { RegisterUserController } from "./RegisterController.ts";
+import { UserRegisterUseCase } from "./Register.ts";
+import { UserRegisterController } from "./RegisterController.ts";
 
 const mongoUserRepository = new MongoUserRepository();
-const registerUserUsecase = new RegisterUserUseCase(mongoUserRepository);
-const registerUserController = new RegisterUserController(registerUserUsecase);
+const userRegisterUseCase = new UserRegisterUseCase(mongoUserRepository);
+const userRegisterController = new UserRegisterController(userRegisterUseCase);
 
-export { registerUserUsecase, registerUserController };
+export { userRegisterUseCase, userRegisterController };

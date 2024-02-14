@@ -1,5 +1,5 @@
 import Joi from "joi";
 
-export const deleteGenreScheme = Joi.object({
+export const GenerDeleteScheme = Joi.object({
   id: Joi.string().required(),
 });

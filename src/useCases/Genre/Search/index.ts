@@ -1,11 +1,11 @@
 import { MongoGenreRepository } from "../../../repositories/implementations/MongoGenreRepository.ts";
-import { SearchGenresUseCase } from "./Search.ts";
-import { SearchGenreController } from "./SearchController.ts";
+import { GenerSearchUseCase } from "./Search.ts";
+import { GenerSearchController } from "./SearchController.ts";
 
 const mongoGenreRepository = new MongoGenreRepository();
 
-const searchGenresUseCase = new SearchGenresUseCase(mongoGenreRepository);
+const generSearchUseCase = new GenerSearchUseCase(mongoGenreRepository);
 
-const searchGenreController = new SearchGenreController(searchGenresUseCase);
+const generSearchController = new GenerSearchController(generSearchUseCase);
 
-export { searchGenresUseCase, searchGenreController };
+export { generSearchUseCase, generSearchController };

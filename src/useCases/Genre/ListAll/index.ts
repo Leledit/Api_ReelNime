@@ -1,13 +1,11 @@
 import { MongoGenreRepository } from "../../../repositories/implementations/MongoGenreRepository.js";
-import { ListAllGenresUseCase } from "./ListAll.js";
-import { ListAllGenreController } from "./ListAllController.js";
+import { GenerListAllUseCase } from "./ListAll.js";
+import { GenerListAllController } from "./ListAllController.js";
 
 const mongoGenreRepository = new MongoGenreRepository();
 
-const listAllGenresUseCase = new ListAllGenresUseCase(mongoGenreRepository);
+const generListAllUseCase = new GenerListAllUseCase(mongoGenreRepository);
 
-const listAllGenresController = new ListAllGenreController(
-  listAllGenresUseCase
-);
+const generListAllController = new GenerListAllController(generListAllUseCase);
 
-export { listAllGenresUseCase, listAllGenresController };
+export { generListAllUseCase, generListAllController };

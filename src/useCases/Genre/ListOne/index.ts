@@ -1,11 +1,13 @@
 import { MongoGenreRepository } from "../../../repositories/implementations/MongoGenreRepository.ts";
-import { ListOneGenresUseCase } from "./ListOne.ts";
-import { ListOneGenreController } from "./ListOneController.ts";
+import { GenerListOnelUseCase } from "./ListOne.ts";
+import { GenerListOnelController } from "./ListOneController.ts";
 
 const mongoGenreRepository = new MongoGenreRepository();
 
-const listOneGenresUseCase = new ListOneGenresUseCase(mongoGenreRepository);
+const generListOnelUseCase = new GenerListOnelUseCase(mongoGenreRepository);
 
-const listOneGenreController = new ListOneGenreController(listOneGenresUseCase);
+const generListOnelController = new GenerListOnelController(
+  generListOnelUseCase
+);
 
-export { listOneGenresUseCase, listOneGenreController };
+export { generListOnelUseCase, generListOnelController };

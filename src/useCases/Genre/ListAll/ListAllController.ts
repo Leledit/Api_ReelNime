@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { ListAllGenresUseCase } from "./ListAll.js";
+import { GenerListAllUseCase } from "./ListAll.js";
 
-export class ListAllGenreController {
-  constructor(private listAllGenreUseCase: ListAllGenresUseCase) {}
+export class GenerListAllController {
+  constructor(private generListAllUseCase: GenerListAllUseCase) {}
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const dataGenres = await this.listAllGenreUseCase.execute();
+      const dataGenres = await this.generListAllUseCase.execute();
 
       return res.status(200).json(dataGenres);
     } catch (err: any) {

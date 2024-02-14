@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { RegisterGenresUseCase } from "./Register.js";
-import { registerGenreScheme } from "./Scheme.js";
+import { GenerRegisterUseCase } from "./Register.js";
+import { GenerRegisterScheme } from "./scheme.js";
 
-export class RegisterGenreController {
-  constructor(private registerGenresUseCase: RegisterGenresUseCase) {}
+export class GenerRegisterController {
+  constructor(private generRegisterUseCase: GenerRegisterUseCase) {}
 
-  validateRequest = async (req: Request, res: Response,next:NextFunction) => {
-    const { error } = registerGenreScheme.validate(req.body);
+  validateRequest = async (req: Request, res: Response, next: NextFunction) => {
+    const { error } = GenerRegisterScheme.validate(req.body);
 
     if (error) {
       return res.status(400).json({
@@ -17,8 +17,11 @@ export class RegisterGenreController {
 
     const { name } = req.body;
 
-    const alreadyRegistered = await this.registerGenresUseCase.validateIfTheDataIsAlreadyRegistered({name});
-    
+    const alreadyRegistered =
+      await this.generRegisterUseCase.validateIfTheDataIsAlreadyRegistered({
+        name,
+      });
+
     if (alreadyRegistered) {
       return res.status(409).json({
         error: "Conflito com outro registro no sistemas",
@@ -34,12 +37,11 @@ export class RegisterGenreController {
     try {
       const { name } = req.body;
 
-      await this.registerGenresUseCase.execute({ name });
+      await this.generRegisterUseCase.execute({ name });
 
       return res.status(201).json({
         error: "Cadastro efetuado com sucesso!",
-        details:
-          "O genero foi incluindo na base de dados do sistema",
+        details: "O genero foi incluindo na base de dados do sistema",
       });
     } catch (err: any) {
       return res.status(500).json({

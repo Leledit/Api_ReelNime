@@ -1,16 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { listOneFilmeSchema } from "./Scheme.ts";
-import { ListOneFilmeUseCase } from "./ListOne.ts";
+import { FilmeListOneScheme } from "./scheme.ts";
+import { FilmeListOneUseCase } from "./ListOne.ts";
 
-export class ListOneFilmeController {
-  constructor(private listOneFilmeUseCase: ListOneFilmeUseCase) {}
+export class FilmeListOneController {
+  constructor(private filmeListOneUseCase: FilmeListOneUseCase) {}
 
-  validateRequest = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    const { error } = listOneFilmeSchema.validate(req.params);
+  validateRequest = (req: Request, res: Response, next: NextFunction) => {
+    const { error } = FilmeListOneScheme.validate(req.params);
 
     if (error) {
       return res.status(400).json({
@@ -24,9 +20,8 @@ export class ListOneFilmeController {
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-
       const idFilme = req.params.id;
-      const dataFilme = await this.listOneFilmeUseCase.execute({ id: idFilme });
+      const dataFilme = await this.filmeListOneUseCase.execute({ id: idFilme });
 
       if (dataFilme === null) {
         return res.status(404).json({

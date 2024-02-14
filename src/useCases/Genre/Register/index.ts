@@ -1,13 +1,13 @@
 import { MongoGenreRepository } from "../../../repositories/implementations/MongoGenreRepository.ts";
-import { RegisterGenresUseCase } from "./Register.ts";
-import { RegisterGenreController } from "./RegisterController.ts";
+import { GenerRegisterUseCase } from "./Register.ts";
+import { GenerRegisterController } from "./RegisterController.ts";
 
 const mongoGenreRepository = new MongoGenreRepository();
 
-const registerGenresUseCase = new RegisterGenresUseCase(mongoGenreRepository);
+const generRegisterUseCase = new GenerRegisterUseCase(mongoGenreRepository);
 
-const registerGenreController = new RegisterGenreController(
-  registerGenresUseCase
+const generRegisterController = new GenerRegisterController(
+  generRegisterUseCase
 );
 
-export { registerGenresUseCase, registerGenreController };
+export { generRegisterUseCase, generRegisterController };

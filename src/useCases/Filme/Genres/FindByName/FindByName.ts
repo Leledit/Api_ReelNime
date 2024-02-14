@@ -1,11 +1,10 @@
 import { MongoFilmeRepository } from "../../../../repositories/implementations/MongoFilmeRepository.ts";
-import { IFindByNameDTO } from "./FindByNameDTO.ts";
+import { IFilmeGenreFindByNameDTO } from "./FindByNameDTO.ts";
 
-export class FilmeFindByNameGenreUseCase {
-    constructor(private mongoFilmeRepository: MongoFilmeRepository) {}
-    async execute(data: IFindByNameDTO) {
-      const dataAnime = await this.mongoFilmeRepository.searchByGenre(data.name);
-      return dataAnime;
-    }
+export class FilmeGenreFindByNameUseCase {
+  constructor(private mongoFilmeRepository: MongoFilmeRepository) {}
+  async execute(data: IFilmeGenreFindByNameDTO) {
+    const dataAnime = await this.mongoFilmeRepository.searchByGenre(data.name);
+    return dataAnime;
   }
-  
+}

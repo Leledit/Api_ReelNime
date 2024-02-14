@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { PaginationFilmeUseCase } from "./Pagination.ts";
-import { paginationFilmeScheme } from "./Scheme.ts";
+import { FilmePaginationUseCase } from "./Pagination.ts";
+import { FilmePaginationControllerScheme } from "./scheme.ts";
 
-export class PaginationFilmeController {
-  constructor(private paginationFilmeUseCase: PaginationFilmeUseCase) {}
+export class FilmePaginationController {
+  constructor(private filmePaginationUseCase: FilmePaginationUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = paginationFilmeScheme.validate(req.query);
+    const { error } = FilmePaginationControllerScheme.validate(req.query);
 
     if (error) {
       return res.status(400).json({
@@ -21,12 +21,12 @@ export class PaginationFilmeController {
     try {
       const { page, limit } = req.query;
 
-      const dataFilmes = await this.paginationFilmeUseCase.execute({
+      const dataFilmes = await this.filmePaginationUseCase.execute({
         limit: parseInt(limit as string),
         page: parseInt(page as string),
       });
 
-      const totalRecords = await this.paginationFilmeUseCase.totalRecords();
+      const totalRecords = await this.filmePaginationUseCase.totalRecords();
 
       if (dataFilmes !== null) {
         return res

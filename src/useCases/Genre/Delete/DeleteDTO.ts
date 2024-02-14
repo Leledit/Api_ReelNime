@@ -1,3 +1,3 @@
-export interface IGenresRequestDTO {
+export interface IGenerDeleteDTO {
   id: string;
 }

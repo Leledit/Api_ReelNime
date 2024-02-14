@@ -1,3 +1,3 @@
-export interface LitByYearDTO{
-    year: number;
+export interface FilmeLitByYearDTO {
+  year: number;
 }

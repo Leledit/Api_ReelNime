@@ -1,16 +1,16 @@
 import { NextFunction, Request, Response } from "express";
-import { ChangingGenresUseCase } from "./Changing.ts";
-import { changingGenreScheme } from "./Scheme.ts";
+import { GenerChangingUseCase } from "./Changing.ts";
+import { GenerChangingScheme } from "./scheme.ts";
 
-export class ChangingGenerController {
-  constructor(private changingGenresUseCase: ChangingGenresUseCase) {}
+export class GenerChangingController {
+  constructor(private generChangingUseCase: GenerChangingUseCase) {}
 
   private validateRequest = (
     req: Request,
     res: Response,
     next: NextFunction
   ) => {
-    const { error } = changingGenreScheme.validate(req.body);
+    const { error } = GenerChangingScheme.validate(req.body);
 
     if (error) {
       return res.status(400).json({
@@ -28,7 +28,7 @@ export class ChangingGenerController {
       const id = req.params.id;
       const { name } = req.body;
 
-      await this.changingGenresUseCase.execute({ name: name, id: id });
+      await this.generChangingUseCase.execute({ name: name, id: id });
       return res.status(200).json({
         error: "Edição realizada com sucesso",
         details: "O genero sofreu alterações nos seus dados",

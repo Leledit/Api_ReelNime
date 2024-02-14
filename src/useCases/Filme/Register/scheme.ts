@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const registerFilmeSchema = Joi.object({
+export const FilmeRegisterScheme = Joi.object({
   name: Joi.string().required(),
   visa: Joi.string().required(),
   duration: Joi.string().required(),
@@ -9,4 +9,3 @@ export const registerFilmeSchema = Joi.object({
   synopsis: Joi.string().required(),
   img: Joi.string().required(),
 });
-

@@ -1,11 +1,9 @@
 import { MongoFilmeRepository } from "../../../repositories/implementations/MongoFilmeRepository.ts";
-import { ListOneFilmeUseCase } from "./ListOne.ts";
-import { ListOneFilmeController } from "./ListOneController.ts";
+import { FilmeListOneUseCase } from "./ListOne.ts";
+import { FilmeListOneController } from "./ListOneController.ts";
 
 const mongoFilmeRepository = new MongoFilmeRepository();
-const listOneFilmesUseCase = new ListOneFilmeUseCase(mongoFilmeRepository);
-const listOneFilmesController = new ListOneFilmeController(
-  listOneFilmesUseCase
-);
+const filmeListOneUseCase = new FilmeListOneUseCase(mongoFilmeRepository);
+const filmeListOneController = new FilmeListOneController(filmeListOneUseCase);
 
-export { listOneFilmesUseCase, listOneFilmesController };
+export { filmeListOneUseCase, filmeListOneController };

@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { LoginUserUseCase } from "./Login.ts";
-import { loginUserSchema } from "./Scheme.ts";
+import { UserLoginUseCase } from "./Login.ts";
+import { UserLoginScheme } from "./scheme.ts";
 
-export class LoginUserController {
-  constructor(private loginUserUseCase: LoginUserUseCase) {}
+export class UserLoginController {
+  constructor(private userLoginUseCase: UserLoginUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = loginUserSchema.validate(req.body);
+    const { error } = UserLoginScheme.validate(req.body);
 
     if (error) {
       return res.status(400).json({
@@ -21,7 +21,7 @@ export class LoginUserController {
     try {
       const { email, password } = req.body;
 
-      const result = await this.loginUserUseCase.execute({
+      const result = await this.userLoginUseCase.execute({
         email,
         password,
       });
@@ -30,7 +30,7 @@ export class LoginUserController {
         return res.status(201).json({
           message: "Usuario autenticado!",
           tolken: result.token,
-          type: result.type
+          type: result.type,
         });
       } else {
         return res.status(500).json({
