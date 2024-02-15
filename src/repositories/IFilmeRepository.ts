@@ -1,11 +1,12 @@
 import { Filme } from "../entities/Filme.ts";
+import { ListItem } from "../interfaces/listItem.ts";
 
 export interface IFilmeRepository {
   findByName(name: string): Promise<boolean>;
   save(filme: Filme): Promise<void>;
   listOne(id: string): Promise<Filme | null>;
   changing(filme: Filme): Promise<void>;
-  findAll(): Promise<Filme[] | null>;
+  findAll(): Promise<ListItem[] | null>;
   paginationList(
     initialValue: number,
     finalValue: number

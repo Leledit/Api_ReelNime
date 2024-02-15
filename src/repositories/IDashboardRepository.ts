@@ -1,9 +1,10 @@
 import { Anime } from "../entities/Anime.ts";
 import { Filme } from "../entities/Filme.ts";
+import { ListItem } from "../interfaces/listItem.ts";
 
 export interface IDashboardRepository {
-  returnDataRecentlyAddedAnimes(limit: number): Promise<Anime[] | null>;
-  returnDataRecentlyAddedFilmes(limit: number): Promise<Filme[] | null>;
+  returnDataRecentlyAddedAnimes(limit: number): Promise<ListItem[] | null>;
+  returnDataRecentlyAddedFilmes(limit: number): Promise<ListItem[] | null>;
   returnDataRecentlyAdded(): Promise<object>;
   returnDataPopular(): Promise<object>;
   returnDataListingByYear(

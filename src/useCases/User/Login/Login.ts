@@ -1,4 +1,4 @@
-import { resultOperation } from "../../../interfaces/resultOperation.ts";
+import { ResultOperation } from "../../../interfaces/resultOperation.ts";
 import { MongoUserRepository } from "../../../repositories/implementations/MongoUserRepository.ts";
 import TokenService from "../../../security/tokenService.ts";
 import { UserLoginDTO } from "./LoginDTO.ts";
@@ -10,7 +10,7 @@ export class UserLoginUseCase {
     private tokenService = new TokenService(process.env.TOLKEN_SECRET_KEY || "")
   ) {}
 
-  async execute(data: UserLoginDTO): Promise<resultOperation> {
+  async execute(data: UserLoginDTO): Promise<ResultOperation> {
     try {
       const dataUser = await this.mongoUserRepository.searchingByEmail(
         data.email

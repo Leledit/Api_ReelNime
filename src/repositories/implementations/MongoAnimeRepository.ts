@@ -1,5 +1,7 @@
 import clienteDbMongo from "../../database/mongoDbConfig.ts";
 import { Anime } from "../../entities/Anime.ts";
+import { ListItem } from "../../interfaces/listItem.ts";
+import OrganizingData from "../../utils/OrganizingData.ts";
 import { IAnimeRepository } from "../IAnimeRepository.ts";
 
 export class MongoAnimeRepository implements IAnimeRepository {
@@ -206,36 +208,15 @@ export class MongoAnimeRepository implements IAnimeRepository {
       throw new Error("erro ao recuperar um anime: " + error);
     }
   }
-  async findAll(): Promise<Anime[] | null> {
+  async findAll(): Promise<ListItem[] | null> {
     try {
       const refDb = clienteDbMongo();
       const collectionAnimes = refDb.collection("animes");
       const resultRequest = await collectionAnimes.find({}).toArray();
 
       if (resultRequest.length !== 0) {
-        let dataAnimes: Anime[] = [];
-        resultRequest.map((item) => {
-          dataAnimes.push(
-            new Anime(
-              {
-                name: item.name,
-                nextSeason: item.nextSeason,
-                previousSeason: item.previousSeason,
-                note: item.note,
-                qtdEpisodes: item.qtdEpisodes,
-                releaseYear: item.releaseYear,
-                status: item.status,
-                synopsis: item.synopsis,
-                watched: item.watched,
-                urlImg: item.urlImg,
-              },
-              item.id,
-              item.genres
-            )
-          );
-        });
-
-        return dataAnimes;
+    
+        return OrganizingData.organizingItemList(resultRequest);
       } else {
         return null;
       }

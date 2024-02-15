@@ -1,6 +1,8 @@
 import clienteDbMongo from "../../database/mongoDbConfig.ts";
 import { Anime } from "../../entities/Anime.ts";
 import { Filme } from "../../entities/Filme.ts";
+import { ListItem } from "../../interfaces/listItem.ts";
+import OrganizingData from "../../utils/OrganizingData.ts";
 import { IDashboardRepository } from "../IDashboardRepository.ts";
 
 export class MongoDashboardRepository implements IDashboardRepository {
@@ -28,7 +30,7 @@ export class MongoDashboardRepository implements IDashboardRepository {
     let allData = [...resultRequestAnime, ...resultRequestFilmes];
     const totalRecords = resultRequestAnime.length + resultRequestFilmes.length;
     const paginationData = allData.slice((page - 1) * limit, page * limit);
-    return { total: totalRecords, itens: paginationData };
+    return { total: totalRecords, itens: OrganizingData.organizingItemList(paginationData) };
   }
 
   async searchByGenre(
@@ -72,9 +74,9 @@ export class MongoDashboardRepository implements IDashboardRepository {
       }
 
       if (recommendations.length > 4) {
-        return recommendations.slice(0, 4);
+        return OrganizingData.organizingItemList(recommendations.slice(0, 4));
       } else {
-        return recommendations;
+        return OrganizingData.organizingItemList(recommendations);
       }
     } catch (error) {
       throw new Error("erro ao recuperar um anime: " + error);
@@ -124,7 +126,7 @@ export class MongoDashboardRepository implements IDashboardRepository {
     let allData = [...resulAnimes, ...resulFilmes];
     const totalRecords = resulAnimes.length + resulFilmes.length;
     const paginationData = allData.slice((page - 1) * limit, page * limit);
-    return { total: totalRecords, itens: paginationData };
+    return { total: totalRecords, itens: OrganizingData.organizingItemList(paginationData) };
   }
 
   async returnDataListingByYear(
@@ -134,6 +136,7 @@ export class MongoDashboardRepository implements IDashboardRepository {
   ): Promise<{ total: number; itens: any }> {
     try {
       const refDb = clienteDbMongo();
+
       const resulAnimes = await refDb
         .collection("animes")
         .find({ releaseYear: year })
@@ -148,7 +151,7 @@ export class MongoDashboardRepository implements IDashboardRepository {
       const totalRecords = resulAnimes.length + resultFilmes.length;
       const paginationData = allData.slice((page - 1) * limit, page * limit);
 
-      return { total: totalRecords, itens: paginationData };
+      return { total: totalRecords, itens: OrganizingData.organizingItemList(paginationData)};
     } catch (error: any) {
       throw new Error("Falha ao buscar um anime: " + error.message);
     }
@@ -172,13 +175,11 @@ export class MongoDashboardRepository implements IDashboardRepository {
         .limit(10)
         .toArray();
 
-      const result = [...resultAnimes, ...resultFilmes];
+      let resultAll = [...resultAnimes, ...resultFilmes];
 
-      result.sort((a, b) => b.note - a.note);
+      resultAll = resultAll.sort((a, b) => b.note - a.note).slice(0, 10);
 
-      const popular = result.slice(0, 10);
-
-      return popular;
+      return OrganizingData.organizingItemList(resultAll);
     } catch (error) {
       throw new Error("Falha ao obter os dados dos animes: " + error);
     }
@@ -198,19 +199,21 @@ export class MongoDashboardRepository implements IDashboardRepository {
         .aggregate([{ $sort: { data: -1 } }])
         .toArray();
 
-      const result = [...resultAnimes, ...resultFilmes];
+      let allResult = [...resultAnimes, ...resultFilmes];
 
-      result.sort((a, b) => b.updateDate - a.updateDate);
+      allResult = allResult
+        .sort((a, b) => b.updateDate - a.updateDate)
+        .slice(0, 24);
 
-      const recentylAdded = result.slice(0, 24);
-
-      return recentylAdded;
+      return OrganizingData.organizingItemList(allResult);
     } catch (error) {
       throw new Error("Falha ao obter os dados dos animes: " + error);
     }
   }
 
-  async returnDataRecentlyAddedAnimes(limit: number): Promise<Anime[] | null> {
+  async returnDataRecentlyAddedAnimes(
+    limit: number
+  ): Promise<ListItem[] | null> {
     try {
       const refDb = clienteDbMongo();
       const collectionAnimes = refDb.collection("animes");
@@ -221,30 +224,7 @@ export class MongoDashboardRepository implements IDashboardRepository {
         .toArray();
 
       if (resultRequest.length !== 0) {
-        let dataAnimes: Anime[] = [];
-        resultRequest.map((item) => {
-          let id = item.id;
-          dataAnimes.push(
-            new Anime(
-              {
-                name: item.name,
-                genres: item.genres,
-                nextSeason: item.nextSeason,
-                previousSeason: item.previousSeason,
-                note: item.note,
-                qtdEpisodes: item.qtdEpisodes,
-                releaseYear: item.releaseYear,
-                status: item.status,
-                synopsis: item.synopsis,
-                watched: item.watched,
-                urlImg: item.urlImg,
-              },
-              id
-            )
-          );
-        });
-
-        return dataAnimes;
+        return OrganizingData.organizingItemList(resultRequest);
       } else {
         return null;
       }
@@ -253,7 +233,9 @@ export class MongoDashboardRepository implements IDashboardRepository {
     }
   }
 
-  async returnDataRecentlyAddedFilmes(limit: number): Promise<Filme[] | null> {
+  async returnDataRecentlyAddedFilmes(
+    limit: number
+  ): Promise<ListItem[] | null> {
     try {
       const refDb = clienteDbMongo();
       const collectionFilmes = refDb.collection("filmes");
@@ -264,27 +246,7 @@ export class MongoDashboardRepository implements IDashboardRepository {
         .toArray();
 
       if (resultRequest.length !== 0) {
-        let dataFilmes: Filme[] = [];
-        resultRequest.map((item) => {
-          let id = item.id;
-          dataFilmes.push(
-            new Filme(
-              {
-                name: item.name,
-                duration: item.duration,
-                note: item.note,
-                releaseYear: item.releaseYear,
-                synopsis: item.synopsis,
-                visa: item.visa,
-                genres: item.genres,
-                urlImg: item.urlImg,
-              },
-              id
-            )
-          );
-        });
-
-        return dataFilmes;
+        return OrganizingData.organizingItemList(resultRequest);
       } else {
         return null;
       }

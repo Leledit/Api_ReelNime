@@ -1,10 +1,11 @@
 import { Anime } from "../entities/Anime.ts";
+import { ListItem } from "../interfaces/listItem.ts";
 
 export interface IAnimeRepository {
   save(anime: Anime): Promise<void>;
   listOne(id: string): Promise<Anime | null>;
   findByName(name: string): Promise<boolean>;
-  findAll(): Promise<Anime[] | null>;
+  findAll(): Promise<ListItem[] | null>;
   delete(id: string): Promise<void>;
   paginationList(
     initialValue: number,

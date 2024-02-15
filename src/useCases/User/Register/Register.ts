@@ -1,5 +1,5 @@
 import { User } from "../../../entities/User.ts";
-import { resultOperation } from "../../../interfaces/resultOperation.ts";
+import { ResultOperation } from "../../../interfaces/resultOperation.ts";
 import { MongoUserRepository } from "../../../repositories/implementations/MongoUserRepository.ts";
 import TokenService from "../../../security/tokenService.ts";
 import { UserRegisterDTO } from "./RegisterDTO.ts";
@@ -10,7 +10,7 @@ export class UserRegisterUseCase {
     private mongoUserRepository: MongoUserRepository,
     private tokenService = new TokenService(process.env.TOLKEN_SECRET_KEY || "")
   ) {}
-  async execute(data: UserRegisterDTO): Promise<resultOperation> {
+  async execute(data: UserRegisterDTO): Promise<ResultOperation> {
     try {
       //verificando se o email ja estava cadastrado no sistema
       const isRegistered = await this.mongoUserRepository.searchingByEmail(

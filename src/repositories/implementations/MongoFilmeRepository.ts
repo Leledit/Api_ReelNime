@@ -1,5 +1,7 @@
 import clienteDbMongo from "../../database/mongoDbConfig.ts";
 import { Filme } from "../../entities/Filme.ts";
+import { ListItem } from "../../interfaces/listItem.ts";
+import OrganizingData from "../../utils/OrganizingData.ts";
 import { IFilmeRepository } from "../IFilmeRepository.ts";
 
 export class MongoFilmeRepository implements IFilmeRepository {
@@ -176,32 +178,14 @@ export class MongoFilmeRepository implements IFilmeRepository {
       throw new Error("erro ao atualizar um filme: " + error);
     }
   }
-  async findAll(): Promise<Filme[] | null> {
+  async findAll(): Promise<ListItem[] | null> {
     try {
       const refDb = clienteDbMongo();
       const resultRequest = await refDb.collection("filmes").find({}).toArray();
 
       if (resultRequest.length !== 0) {
-        let dataFilmes: Filme[] = [];
-        resultRequest.map((item) => {
-          dataFilmes.push(
-            new Filme(
-              {
-                name: item.name,
-                duration: item.duration,
-                note: item.note,
-                synopsis: item.synopsis,
-                releaseYear: item.releaseYear,
-                visa: item.visa,
-                urlImg: item.urlImg,
-              },
-              item.id,
-              item.genres
-            )
-          );
-        });
 
-        return dataFilmes;
+        return OrganizingData.organizingItemList(resultRequest);
       } else {
         return null;
       }
