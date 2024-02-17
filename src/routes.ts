@@ -247,8 +247,6 @@ router.delete(
   }
 );
 
-//
-
 router.get("/dashboard/releases/", (request, response) => {
   return dashboardReleasesController.handle(request, response);
 });
@@ -257,9 +255,14 @@ router.get("/dashboard/recentylAdded/", (request, response) => {
   return dasboardRecentlyAddedController.handle(request, response);
 });
 
-router.get("/dashboard/popular/", (request, response) => {
-  return dasboardPopularController.handle(request, response);
-});
+router.get(
+  "/dashboard/popular/",
+  dasboardPopularController.validateRequest,
+  (request, response) => {
+    return dasboardPopularController.handle(request, response);
+  }
+);
+
 router.get(
   "/dashboard/year/",
   dasboardListByYearController.validateRequest,
@@ -267,6 +270,7 @@ router.get(
     return dasboardListByYearController.handle(request, response);
   }
 );
+
 router.get(
   "/dashboard/search",
   dashboardSearchController.validateRequest,
@@ -274,6 +278,7 @@ router.get(
     return dashboardSearchController.handle(request, response);
   }
 );
+
 router.get(
   "/dashboard/item",
   dasboardItemController.validateRequest,

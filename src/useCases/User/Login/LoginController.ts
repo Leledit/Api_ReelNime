@@ -34,7 +34,7 @@ export class UserLoginController {
         });
       } else {
         return res.status(500).json({
-          message: "Problemas ao realizar o login",
+          message: "Usuario não encontrado!",
           details: result.mensagem,
         });
       }

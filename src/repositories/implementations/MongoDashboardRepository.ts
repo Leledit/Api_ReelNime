@@ -30,7 +30,10 @@ export class MongoDashboardRepository implements IDashboardRepository {
     let allData = [...resultRequestAnime, ...resultRequestFilmes];
     const totalRecords = resultRequestAnime.length + resultRequestFilmes.length;
     const paginationData = allData.slice((page - 1) * limit, page * limit);
-    return { total: totalRecords, itens: OrganizingData.organizingItemList(paginationData) };
+    return {
+      total: totalRecords,
+      itens: OrganizingData.organizingItemList(paginationData),
+    };
   }
 
   async searchByGenre(
@@ -126,7 +129,10 @@ export class MongoDashboardRepository implements IDashboardRepository {
     let allData = [...resulAnimes, ...resulFilmes];
     const totalRecords = resulAnimes.length + resulFilmes.length;
     const paginationData = allData.slice((page - 1) * limit, page * limit);
-    return { total: totalRecords, itens: OrganizingData.organizingItemList(paginationData) };
+    return {
+      total: totalRecords,
+      itens: OrganizingData.organizingItemList(paginationData),
+    };
   }
 
   async returnDataListingByYear(
@@ -151,13 +157,16 @@ export class MongoDashboardRepository implements IDashboardRepository {
       const totalRecords = resulAnimes.length + resultFilmes.length;
       const paginationData = allData.slice((page - 1) * limit, page * limit);
 
-      return { total: totalRecords, itens: OrganizingData.organizingItemList(paginationData)};
+      return {
+        total: totalRecords,
+        itens: OrganizingData.organizingItemList(paginationData),
+      };
     } catch (error: any) {
       throw new Error("Falha ao buscar um anime: " + error.message);
     }
   }
 
-  async returnDataPopular(): Promise<object> {
+  async returnDataPopular(limit: number): Promise<object> {
     try {
       const refDb = clienteDbMongo();
 
@@ -177,9 +186,9 @@ export class MongoDashboardRepository implements IDashboardRepository {
 
       let resultAll = [...resultAnimes, ...resultFilmes];
 
-      resultAll = resultAll.sort((a, b) => b.note - a.note).slice(0, 10);
+      resultAll = resultAll.sort((a, b) => b.note - a.note).slice(0, limit);
 
-      return OrganizingData.organizingItemList(resultAll);
+      return OrganizingData.organizingDashboardPopular(resultAll);
     } catch (error) {
       throw new Error("Falha ao obter os dados dos animes: " + error);
     }
