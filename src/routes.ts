@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, request, response } from "express";
 
 import { generChangingController } from "./useCases/Genre/Changing/index.ts";
 import { generDeleteController } from "./useCases/Genre/Delete/index.ts";
@@ -39,8 +39,10 @@ import { dashboardSearchController } from "./useCases/Dasboard/Search/index.ts";
 
 import { userRegisterController } from "./useCases/User/Register/index.ts";
 import { userLoginController } from "./useCases/User/Login/index.ts";
+import { userListController } from "./useCases/User/List/index.ts";
 
 import authenticateToken from "./middleware/authMiddleware.ts";
+
 
 const router = Router();
 
@@ -308,6 +310,14 @@ router.post(
   userLoginController.validateRequest,
   (request, response) => {
     return userLoginController.handle(request, response);
+  }
+);
+
+router.get(
+  "/user/list/",
+  userListController.validateRequest,
+  (request, response) => {
+    return userListController.handle(request, response);
   }
 );
 
