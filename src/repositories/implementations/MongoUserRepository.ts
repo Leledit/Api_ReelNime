@@ -13,7 +13,12 @@ export class MongoUserRepository implements IUserRepository {
 
       if (resultRequest) {
         const userData = new User(
-          { email: resultRequest.email,name:resultRequest.name, password: resultRequest.password,type:resultRequest.type },
+          {
+            email: resultRequest.email,
+            name: resultRequest.name,
+            password: resultRequest.password,
+            type: resultRequest.type,
+          },
           resultRequest.id
         );
         return userData;
@@ -27,8 +32,21 @@ export class MongoUserRepository implements IUserRepository {
     }
   }
 
-  async login(user: User): Promise<boolean> {
-    return true;
+  async delete(id: string): Promise<boolean> {
+    try {
+      const refDb = clienteDbMongo();
+      const collectionFilme = refDb.collection("user");
+      const resultRequest = await collectionFilme.deleteOne({ id: id });
+
+      if (resultRequest.deletedCount === 0) {
+        throw new Error("id invalido");
+      } else {
+        return true;
+      }
+
+    } catch (error: any) {
+      throw new Error("erro ao deletar um usuario, " + error.message);
+    }
   }
 
   async register(user: User): Promise<boolean> {

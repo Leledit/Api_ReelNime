@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { FilmeDeleteUseCase } from "./Delete.ts";
-import { FilmeDeleteScheme } from "./scheme.ts";
+import { UserDeleteUseCase } from "./Delete.ts";
+import { UserDeleteScheme } from "./scheme.ts";
 
-export class FilmeDeleteController {
-  constructor(private filmeDeleteUseCase: FilmeDeleteUseCase) {}
+export class UserDeleteController {
+  constructor(private filmeDeleteUseCase: UserDeleteUseCase) {}
 
   validateRequest = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = FilmeDeleteScheme.validate(req.params);
+    const { error } = UserDeleteScheme.validate(req.params);
 
     if (error) {
       return res.status(400).json({
@@ -22,7 +22,7 @@ export class FilmeDeleteController {
       await this.filmeDeleteUseCase.execute({ id: req.params.id });
       return res.status(200).json({
         message: "Exclusão realizada com sucesso",
-        details: "O filme foi excluido do sistema",
+        details: "O usuario foi excluido do sistema",
       });
     } catch (err: any) {
       return res.status(500).json({

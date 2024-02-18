@@ -42,7 +42,7 @@ import { userLoginController } from "./useCases/User/Login/index.ts";
 import { userListController } from "./useCases/User/List/index.ts";
 
 import authenticateToken from "./middleware/authMiddleware.ts";
-
+import { userDeleteController } from "./useCases/User/Delete/index.ts";
 
 const router = Router();
 
@@ -318,6 +318,14 @@ router.get(
   userListController.validateRequest,
   (request, response) => {
     return userListController.handle(request, response);
+  }
+);
+
+router.delete(
+  "/user/:id",
+  userDeleteController.validateRequest,
+  (request, response) => {
+    return userDeleteController.handle(request, response);
   }
 );
 
