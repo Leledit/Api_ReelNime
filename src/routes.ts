@@ -249,6 +249,8 @@ router.delete(
   }
 );
 
+//Routes related to the "dashboard" segment
+
 router.get("/dashboard/releases/", (request, response) => {
   return dashboardReleasesController.handle(request, response);
 });

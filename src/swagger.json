@@ -1600,14 +1600,7 @@
                                     "type": "array",
                                     "items": {
                                         "type": "object",
-                                        "oneOf": [
-                                            {
-                                                "$ref": "#/components/schemas/Anime"
-                                            },
-                                            {
-                                                "$ref": "#/components/schemas/Films"
-                                            }
-                                        ]
+                                        "$ref": "#/components/schemas/ListItem"
                                     }
                                 }
                             }
@@ -1641,6 +1634,176 @@
                                     "type": "array",
                                     "items": {
                                         "type": "object",
+                                        "$ref": "#/components/schemas/ListItem"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard/year/": {
+            "get": {
+                "summary": "Buscando os titulos cadastrados em um determinado ano",
+                "description": "Rota responsavel por retornar um array de objetos, contendo todos os titulos cadastrados em um determinado ano",
+                "tags": [
+                    "Dashboard"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Pagina atual",
+                        "required": true
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit de itens a serem exibidos",
+                        "required": true
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "Ano de cadastro",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/components/schemas/ListItem"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Campo necessario não foi informado"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Nenhum titulo foi encontrado!"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard/search": {
+            "get": {
+                "summary": "Buscando titulos por valor informado",
+                "description": "Rota responsavel por retornar todos os titulos que contenham no nome, o valor informado pelo usuario",
+                "tags": [
+                    "Dashboard"
+                ],
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Valor a ser pesquisado",
+                        "required": true
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit de itens a serem exibidos",
+                        "required": true
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "Ano de cadastro",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/components/schemas/ListItem"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Campo necessario não foi informado"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Nenhum titulo foi encontrado!"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard/item": {
+            "get": {
+                "summary": "Buscando um unico titulo cadastrado",
+                "description": "Rota responsavel por retornar um objeto, contendo um titulo cadastado, pondendo esse ser um anime ou filme",
+                "tags": [
+                    "Dashboard"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Id do item solicitado",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
                                         "oneOf": [
                                             {
                                                 "$ref": "#/components/schemas/Anime"
@@ -1654,12 +1817,86 @@
                             }
                         }
                     },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "É necessario informar o id do item"
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "description": "Recurso não encontrado",
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "mensagem": "O recursos solicitado não foi encontrado ou não esta disponivel no momento"
+                                    "mensagem": "Nenhum titulo foi encontrado!"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard/genre": {
+            "get": {
+                "summary": "Buscando todos os titulos de um determinado genero",
+                "description": "Rota responsavel por retornar um objeto, contendo todos os titulos que tenham um determinado genero",
+                "tags": [
+                    "Dashboard"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Pagina atual",
+                        "required": true
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit de itens a serem exibidos",
+                        "required": true
+                    },
+                    {
+                        "name": "genre",
+                        "in": "query",
+                        "description": "Gero associado",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/components/schemas/ListItem"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "É necessario informar o id do item"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Nenhum titulo foi encontrado!"
                                 }
                             }
                         }
@@ -1800,6 +2037,107 @@
                     }
                 }
             }
+        },
+        "/user/list/": {
+            "get": {
+                "summary": "Buscando os dados de um usuairo",
+                "description": "Rota responsavel por retornar um objeto, contendo os dados de um usuario cadastrado",
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email do usuario a ser pesquisado",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "É necessario informar o email do usuairo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Nenhum titulo foi encontrado!"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/:id": {
+            "delete": {
+                "summary": "Excluindo a conta do usuario do sistema",
+                "description": "Rota responsavel por remover um usuario do sistema",
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do usuario",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exclusão realizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "O usuario foi excluido do sistema"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "É necessario informar o id do usuairo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Recurso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "mensagem": "Nenhum usuario foi encontrado!"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -1904,6 +2242,60 @@
                     "img": {
                         "type": "string",
                         "format": "binary"
+                    }
+                }
+            },
+            "ListItem": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "name",
+                    "urlImg",
+                    "note",
+                    "releaseYear"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "urlImg": {
+                        "type": "string"
+                    },
+                    "note": {
+                        "type": "number"
+                    },
+                    "releaseYear": {
+                        "type": "number"
+                    }
+                }
+            },
+            "User": {
+                "type": "object",
+                "required": [
+                    "email",
+                    "name",
+                    "password",
+                    "type",
+                    "id"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
                     }
                 }
             }
