@@ -1,0 +1,10 @@
+[{
+  "_id": {
+    "$oid": "65caa1606c558b878968e362"
+  },
+  "email": "leandro_ricardo99@outlook.com",
+  "name": "leandro",
+  "password": "$2b$10$WLs9MI22l531/yh5hAKkOeObaFC.s.AnXsO78daRmm.JnMLbuqt2K",
+  "type": "admin",
+  "id": "c601dac0-10df-430e-b276-876ec23553e1"
+}]

@@ -1,0 +1,101 @@
+[{
+  "_id": {
+    "$oid": "65caaa586c558b878968e376"
+  },
+  "name": " Aoki Hagane no Arpeggio: Ars Nova DC",
+  "visa": true,
+  "releaseYear": 2015,
+  "duration": "true",
+  "note": 7,
+  "synopsis": "Resumo da série de TV Aoki Hagane no Arpeggio: Ars Nova , com aproximadamente 40 minutos de material novo. Em 2039, o aquecimento global havia causado o aumento do nível do mar e a perda de grande quantidade de território. Como resposta, um misterioso grupo de navios de guerra vestidos de brumas, \"a Frota da Névoa\", apareceu em todos os cantos do oceano e começou a atacar navios humanos. Apesar da humanidade reunir todas as suas forças, eles foram totalmente derrotados pela força esmagadora da Névoa. Todas as rotas comerciais da humanidade foram bloqueadas pela Frota da Névoa, sua economia política foi destruída e a raça humana foi constantemente derrotada. Sete anos depois, o submarino I-401 da Frota da Névoa aparece diante do cadete Gunzo Chihaya. A forma de vida humanóide que pilota o submarino, que deveria ser seu inimigo, está oferecendo seus serviços à humanidade.",
+  "updateDate": {
+    "$date": "2024-02-12T23:31:36.365Z"
+  },
+  "genres": [
+    "Ficção Cientifica",
+    "Seinen",
+    "Ação"
+  ],
+  "urlImg": "https://storage.googleapis.com/site-de-animes.appspot.com/filmes/%20Aoki%20Hagane%20no%20Arpeggio%3A%20Ars%20Nova%20DC.jpg?GoogleAccessId=firebase-adminsdk-tgznh%40site-de-animes.iam.gserviceaccount.com&Expires=4070919600&Signature=UDs%2Fx7dfZsW1HN4HMf9RYp4WoabX2hlc6NadzlSY6H8j8Y61gQ147mgSZfqhIkxIb2vE0L0XhwaH1gZ5frvCmiSwVKSD%2Fdmilg7DGhI11SNv8gWeta%2FrBycqryZTiT7hfODuKv570tbfo%2BRcDENX1A1%2Fn3eFHOci8AA6UXjsVk8CVcSLxp5ayrUFY6Rk0P7psqVtLhXh0tADXuHmy8xOptuTdmyJBA%2F12AEmSWdXfH9fmR4JOolsU204P%2BWX1hMldo5J%2Bf%2BwyuW%2FUsCtN8Oikh%2Br5GyW8mvKswFjsh%2BDg5fAKHL%2B7AZsWpW4v%2BkH8NNw%2FZ65rSj9bZtlAtO%2FdAld8w%3D%3D",
+  "id": "4cf177ec-6efc-4806-bbb5-f44b48531a8e"
+},
+{
+  "_id": {
+    "$oid": "65caaab66c558b878968e377"
+  },
+  "name": "Aoki Hagane no Arpeggio: Ars Nova Cadenza",
+  "visa": true,
+  "releaseYear": 2015,
+  "duration": "true",
+  "note": 8,
+  "synopsis": "O grupo de corsários conhecido como Blue Steel continua sua missão de entregar projetos do Torpedo de Ogiva de Vibração - uma arma que pode virar a maré da guerra a seu favor - para os Estados Unidos. No entanto, uma nova ameaça surge de seu inimigo, a esmagadora Frota de Nevoeiro, na forma de \"O Conselho Estudantil.\" o imprevisível capitão do Blue Steel, Gunzou Chihaya. À medida que o Blue Steel se aproxima da compreensão das origens da autoridade que controla o inimigo, o passado de Iona começa a revelar por que a guerra começou e sua razão de se aliar à humanidade.",
+  "updateDate": {
+    "$date": "2024-02-12T23:33:10.189Z"
+  },
+  "genres": [
+    "Ação",
+    "Ficção Cientifica",
+    "Seinen"
+  ],
+  "urlImg": "https://storage.googleapis.com/site-de-animes.appspot.com/filmes/Aoki%20Hagane%20no%20Arpeggio%3A%20Ars%20Nova%20Cadenza.jpg?GoogleAccessId=firebase-adminsdk-tgznh%40site-de-animes.iam.gserviceaccount.com&Expires=4070919600&Signature=jr301Xm5s6ZfUkbsyE2yaAOKK%2FQJblUjaD5Aia55nDHAy7Izk0%2BVZDNAD%2FPW00q8%2FUy5sKRbIs3qiNXnruab1C2b0DpMiCKgxwbolzcaFwVYhpsCNaTv9H9WgzQA6ofAeeDWECe2UHDKNd9%2FdwvY3BtTOV5qXNr7losGDVGiIHr1yedlsTT3F8ZBAbMHQfvdIhccwfBqRlDp3pmhNtu%2Fwrbywv88TCU9KnIWv%2BdtkeCyCyYC8M7VO%2BHSW1Fllp0JM4Lvuzm2pkGaRTIQF0bo282Hsdq7zSHM5wxN77J7Gjkl4fH0lT3szTjhtXv5IZDUscdc2V41El3MlvHZ4iAK1w%3D%3D",
+  "id": "f236e6cc-85f4-4aa0-8477-3f0517e51859"
+},
+{
+  "_id": {
+    "$oid": "65cab5536c558b878968e38f"
+  },
+  "name": "Date A Bullet: Dead or Bullet",
+  "visa": true,
+  "releaseYear": 2020,
+  "duration": "false",
+  "note": 7,
+  "synopsis": "Esta é a história de Tokisaki Kurumi que não deveria ter sido contada—— A jovem amnésica, Vazia, que acordou no mundo vizinho, encontra Tokisaki Kurumi. Liderada por ela, o lugar ao qual chegou foi a sala de aula da escola. Para se matar, as meninas conhecidas como semi-espíritos se reuniram. Agora então —— Vamos começar nossa batalha .",
+  "updateDate": {
+    "$date": "2024-02-13T00:18:27.316Z"
+  },
+  "genres": [
+    "Ficção Cientifica"
+  ],
+  "urlImg": "https://storage.googleapis.com/site-de-animes.appspot.com/filmes/Date%20A%20Bullet%3A%20Dead%20or%20Bullet.jpg?GoogleAccessId=firebase-adminsdk-tgznh%40site-de-animes.iam.gserviceaccount.com&Expires=4070919600&Signature=XFf9As3FBpHzOZ8cgAKTCV2rP2toK%2B5EAFNnRZqaOWJ%2FivtKugkktRzpiYvVZ%2FF0qQ16tNCf6OfZaWoSUbXQNXi2G3rdQoMPaTyKeHF7C30F2WAqMyO8fiaIq9HayJWg4nczdtGP%2BsuCawHBUcZMvye0%2F9z1ic7mwDdmkfJDJ1zY9dVY7kdpt%2FO6q7mORyJEmxrUMYmAeQXo1YfatUuClxhhMCx1Al1VGTE4br4eXQIT2ivGAbJ2JXth9UcHLkfE4f6C0%2F1%2F9EuedRr5uXrdFucfAS4zQA2W%2BD%2FC9ldrdU2Yu30d1IgrNvgVHqii3wSxOCARuUV4tseFKUvYsb8XgA%3D%3D",
+  "id": "5740df10-a5c5-4d90-a2c5-5a83c8283e8f"
+},
+{
+  "_id": {
+    "$oid": "65cab5966c558b878968e390"
+  },
+  "name": "Date A Bullet: Nightmare or Queen",
+  "visa": true,
+  "releaseYear": 2020,
+  "duration": "false",
+  "note": 7,
+  "synopsis": "Segunda parte dos filmes Date A Bullet .",
+  "updateDate": {
+    "$date": "2024-02-13T00:19:34.620Z"
+  },
+  "genres": [
+    "Ficção Cientifica"
+  ],
+  "urlImg": "https://storage.googleapis.com/site-de-animes.appspot.com/filmes/Date%20A%20Bullet%3A%20Nightmare%20or%20Queen.jpg?GoogleAccessId=firebase-adminsdk-tgznh%40site-de-animes.iam.gserviceaccount.com&Expires=4070919600&Signature=e7XR36Vg9wpM2TUdE46tczZNMW8b80F%2F5nJmGfcAQQCSSx5e0EShAbjShEAgpneHsb72D2Aix52uiHe6VcDIhRqlaJ9FUzJVxYtnw3Sd9ucVsmZ8AC5kQ5liwYHgmt4wvkrq46ctjgTZvduL7ILHAGdGIcnyfTb0CTSZXevopm9qySEbLTu4BOK18KUAiq8t9lfoCXtlCMXJ8stuVhgZpUKZ0mu6e3fShrfHoDjEZHctQ5bCpf9lo4o6Y6uZLU2iTxlppPiKW2vgKRO1Dxp%2BnDd1qY11Vy1l7vJd2D7hGT%2BZAJArWcVTJ1iSxwKmOJnmfnRZEwRQxUGqaFmcZsfJOg%3D%3D",
+  "id": "8627a48b-744b-4968-9380-51f52278a9e4"
+},
+{
+  "_id": {
+    "$oid": "65cab5d96c558b878968e391"
+  },
+  "name": " Date A Live Movie: Mayuri Judgment",
+  "visa": true,
+  "releaseYear": 2015,
+  "duration": "false",
+  "note": 7,
+  "synopsis": "Guerra , retoma. Os dias pacíficos de Itsuka Shidou retornaram sem ter que salvar os espíritos dos implacáveis ​​dias de batalha. Mas, os dias pacíficos foram interrompidos pelo surgimento de uma esfera misteriosa emitindo ondas espirituais - assim como de uma garota misteriosa que se mostrou ao mesmo tempo. Qual é o propósito dela de ficar de olho em Shidou ……? A missão que foi confiada a Shidou sob a situação tensa era: “Namore todos os espíritos e faça-os se apaixonar ?!” ――Com o destino da humanidade em jogo, a guerra recomeça!",
+  "updateDate": {
+    "$date": "2024-02-13T00:20:41.816Z"
+  },
+  "genres": [
+    "Harém",
+    "Romance",
+    "Ficção Cientifica"
+  ],
+  "urlImg": "https://storage.googleapis.com/site-de-animes.appspot.com/filmes/%20Date%20A%20Live%20Movie%3A%20Mayuri%20Judgment.jpg?GoogleAccessId=firebase-adminsdk-tgznh%40site-de-animes.iam.gserviceaccount.com&Expires=4070919600&Signature=mb3EnQtWkKFA7aFXvlVMqyIvUo%2FgiCLEN1uhoALv31UNouJEjGEDP%2FSiM8I2Z6S2PjT%2Fz%2B8N5HEftPBn7CEQLfIsBxntG9J9VqaPBDy6ZO2CYZFKNsY9A%2BigtJw%2BMQ8apj5VYTwCcO5POJf3o0pE%2BpX1P7evdfQbwGfBR7Z3pKX3flOGDEuhtdyMSEHDltdyVM%2FQyAbZYUtQ6kBQxk1xNdDBVRZkjYfGmP3B4eqfUK1nY56qgb0uvQG1pDf4NxRVvWrD4aqUS2soKytIH6nzDMwk2BZ%2Bq8aLubLUaLy6aVCa%2F%2BJF5%2BcfXgJTiDLD4YxOvrdIKNtbm9kdpGe72RWreA%3D%3D",
+  "id": "47d982ce-9f3b-40f2-9c17-bccecee75da2"
+}]

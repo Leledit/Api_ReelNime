@@ -1,0 +1,200 @@
+[{
+  "_id": {
+    "$oid": "65caa32e6c558b878968e364"
+  },
+  "name": "Ação",
+  "registrationDate": {
+    "$date": "2024-02-12T23:01:02.670Z"
+  },
+  "id": "d260caa2-3894-4870-a2dd-fd8b520dad7c"
+},
+{
+  "_id": {
+    "$oid": "65caa3416c558b878968e365"
+  },
+  "name": "Aventura",
+  "registrationDate": {
+    "$date": "2024-02-12T23:01:21.738Z"
+  },
+  "id": "4148eb2e-516f-4525-ad25-ceb4b0fe61ee"
+},
+{
+  "_id": {
+    "$oid": "65caa34a6c558b878968e366"
+  },
+  "name": "Drama",
+  "registrationDate": {
+    "$date": "2024-02-12T23:01:30.665Z"
+  },
+  "id": "698c928a-04c9-4d40-9665-8be60e19f177"
+},
+{
+  "_id": {
+    "$oid": "65caa3506c558b878968e367"
+  },
+  "name": "Fantasia",
+  "registrationDate": {
+    "$date": "2024-02-12T23:01:36.153Z"
+  },
+  "id": "00d5f7ca-81ac-4485-b6ef-7af7e398186a"
+},
+{
+  "_id": {
+    "$oid": "65caa3576c558b878968e368"
+  },
+  "name": "Shounen",
+  "registrationDate": {
+    "$date": "2024-02-12T23:01:43.838Z"
+  },
+  "id": "60466fcd-a232-4c93-92e0-7fcdd685da64"
+},
+{
+  "_id": {
+    "$oid": "65caa7626c558b878968e36e"
+  },
+  "name": "Comedia",
+  "registrationDate": {
+    "$date": "2024-02-12T23:18:58.674Z"
+  },
+  "id": "75ecc5a7-1513-415b-9ef0-4925cd99da2f"
+},
+{
+  "_id": {
+    "$oid": "65caa7746c558b878968e36f"
+  },
+  "name": "Vida Escolar",
+  "registrationDate": {
+    "$date": "2024-02-12T23:19:16.099Z"
+  },
+  "id": "2fa64e7a-9474-4995-aed2-98ccaadd89cd"
+},
+{
+  "_id": {
+    "$oid": "65caa77d6c558b878968e370"
+  },
+  "name": "Sobrenatural",
+  "registrationDate": {
+    "$date": "2024-02-12T23:19:25.357Z"
+  },
+  "id": "a39004a8-4589-4071-9f93-1c8896c5cb34"
+},
+{
+  "_id": {
+    "$oid": "65caa8046c558b878968e371"
+  },
+  "name": "Misterio",
+  "registrationDate": {
+    "$date": "2024-02-12T23:21:40.916Z"
+  },
+  "id": "c9f71d4d-2515-4330-a545-021ef5272b55"
+},
+{
+  "_id": {
+    "$oid": "65caa80f6c558b878968e372"
+  },
+  "name": "Suspense",
+  "registrationDate": {
+    "$date": "2024-02-12T23:21:51.509Z"
+  },
+  "id": "b5ae7e84-7996-4bc7-8a61-0b862f573df0"
+},
+{
+  "_id": {
+    "$oid": "65caa9706c558b878968e374"
+  },
+  "name": "Ficção Cientifica",
+  "registrationDate": {
+    "$date": "2024-02-12T23:27:44.925Z"
+  },
+  "id": "0d8144ad-1922-47a4-836b-ea70e9e09091"
+},
+{
+  "_id": {
+    "$oid": "65caa9756c558b878968e375"
+  },
+  "name": "Seinen",
+  "registrationDate": {
+    "$date": "2024-02-12T23:27:49.774Z"
+  },
+  "id": "2be954a4-f016-420a-9a86-9675bf5a8c96"
+},
+{
+  "_id": {
+    "$oid": "65caad8b6c558b878968e37d"
+  },
+  "name": "Slice of Life",
+  "registrationDate": {
+    "$date": "2024-02-12T23:45:15.050Z"
+  },
+  "id": "7889149b-eb9c-41e9-98ef-da737f722839"
+},
+{
+  "_id": {
+    "$oid": "65caad926c558b878968e37e"
+  },
+  "name": "Artes Marciais",
+  "registrationDate": {
+    "$date": "2024-02-12T23:45:22.976Z"
+  },
+  "id": "5fc48db9-a6ac-4f07-a9c2-cb8caf9c4cdc"
+},
+{
+  "_id": {
+    "$oid": "65caaf0b6c558b878968e382"
+  },
+  "name": "Militar",
+  "registrationDate": {
+    "$date": "2024-02-12T23:51:39.038Z"
+  },
+  "id": "1a7e23d9-b0d2-494d-96a6-28f9cb420e55"
+},
+{
+  "_id": {
+    "$oid": "65caaf146c558b878968e383"
+  },
+  "name": "Superpoder",
+  "registrationDate": {
+    "$date": "2024-02-12T23:51:48.090Z"
+  },
+  "id": "cd65b420-cb6b-4da2-b897-07a2cd56636c"
+},
+{
+  "_id": {
+    "$oid": "65caaf176c558b878968e384"
+  },
+  "name": "Mecha",
+  "registrationDate": {
+    "$date": "2024-02-12T23:51:51.209Z"
+  },
+  "id": "f04c7dde-88fe-41fa-911c-db0599d1758b"
+},
+{
+  "_id": {
+    "$oid": "65cab5f46c558b878968e392"
+  },
+  "name": "Harém",
+  "registrationDate": {
+    "$date": "2024-02-13T00:21:08.287Z"
+  },
+  "id": "7da6ffbf-7070-423e-8d82-8914faf84acc"
+},
+{
+  "_id": {
+    "$oid": "65cab5f96c558b878968e393"
+  },
+  "name": "Romance",
+  "registrationDate": {
+    "$date": "2024-02-13T00:21:13.102Z"
+  },
+  "id": "71d2ba76-a775-4475-a595-0b279f6cdea5"
+},
+{
+  "_id": {
+    "$oid": "65cab9ab6c558b878968e39a"
+  },
+  "name": "Ecchi",
+  "registrationDate": {
+    "$date": "2024-02-13T00:36:59.912Z"
+  },
+  "id": "11c08e2d-77fc-49fe-8c21-7c9b9e98dfe8"
+}]

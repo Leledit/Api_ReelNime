@@ -5,53 +5,53 @@
 ![Lincense](https://img.shields.io/github/license/Leledit/Api_ReelNime)
 ![Tamanho do projeto](https://img.shields.io/github/languages/code-size/Leledit/Api_ReelNime)
 
-# Descrição do projeto
+# Project description
 
-Este projeto visa o desenvolvimento de uma API RESTful dedicada ao gerenciamento de registros relacionados a filmes e séries. Minha principal motivação para este empreendimento é a oportunidade de aprimorar minhas habilidades na construção de APIs REST e de me familiarizar com a utilização do Node.js em conjunto com o framework Express.
+This project aims to develop a RESTful API dedicated to managing records related to films and series. My main motivation for this venture is the opportunity to improve my skills in building REST APIs and to familiarize myself with using Node.js in conjunction with the Express framework.
 
-Além disso, uma outra motivação significativa para este projeto foi a oportunidade de aprender a criar documentações utilizando a ferramenta "Swagger", amplamente reconhecida e utilizada em diversas aplicações. Adicionalmente, este projeto proporcionou minha primeira experiência prática com testes, um aspecto do desenvolvimento de software com o qual ainda não havia tido contato
+Furthermore, another significant motivation for this project was the opportunity to learn how to create documentation using the "Swagger" tool, widely recognized and used in various applications. Additionally, this project provided my first practical experience with testing, an aspect of software development with which I had not yet had contact.
 
-# Iniciando o projeto
+# Starting the project
 
-Para iniciar o projeto, devemos executar o script "dev"
+To start the project, we must run the "dev" script
 
     npm run dev
 
-agora a aplicação ja pode ser testa, para isso pode ser usada a ferramenta "postman"
+Now the application can be tested, for this you can use the "postman" tool
 
-# Abrindo a documentação (swagger)
+# Opening documentation (swagger)
 
-Para abrir a documentação do projeto, devemos executar o mesmo. depois deve ser aberto um navegador e digitado a url abaixo.
+To open the project documentation, we must execute the same. Then a browser must be opened and the URL below entered.
 
     http://localhost:8080/api-docs/#/
 
-# Variaveis de ambiente
+# Environment variables
 
-para executar o projeto, deve ser criado um arquivo de variaveis de ambientes(locais), contendo as variavies abaixo
+To execute the project, an environment (local) variables file must be created, containing the variations below
 
     $env:GOOGLE_APPLICATION_CREDENTIALS="C:\Users\User\Documents\Chaves de acesso\firebase\siteAnimes.json"
 
-# Banco de dados
+# Database
 
-Se desejar testar a aplicação com dados já cadastrados, siga os passos abaixo:
+If you wish to test the application with data already registered, follow the steps below:
 
-- Crie um banco de dados MongoDB chamado "ReelNime".
-- Crie as coleções "animes", "filmes", "genres" e "user" no banco de dados.
-- Vá até a pasta "bd" do projeto e importe os arquivos JSON que contêm os dados iniciais para as respectivas \* \* coleções no banco de dados MongoDB.
+- Create a MongoDB database called "ReelNime".
+- Create the "animes", "movies", "genres" and "user" collections in the database.
+- Go to the project's "bd" folder and import the JSON files that contain the initial data into the respective \* \* collections in the MongoDB database.
 
-# Tecnicas e tecnologias usadas
+# Techniques and technologies used
 
-- bcrypt
-- body-parser
-- cors
-- dotenv
-- express
-- firebase-admin
-- joi
-- jsonwebtoken
-- mongodb
-- mongoose
-- multer
-- swagger-ui-express
-- ts-node
-- uuidv4
+- bcrypt: "^5.1.1"
+- body-parser: "^1.20.2"
+- cors: "^2.8.5",
+- dotenv: "^16.3.1",
+- express: "^4.18.2",
+- firebase-admin: "^11.10.1",
+- joi: "^17.9.2",
+- jsonwebtoken: "^9.0.2",
+- mongodb: "5.7",
+- mongoose: "^7.4.0",
+- multer: "^1.4.5-lts.1",
+- swagger-ui-express: "^5.0.0",
+- ts-node: "^10.9.1",
+- uuidv4: "^6.2.13"
